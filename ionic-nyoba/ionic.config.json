@@ -1,0 +1,7 @@
+{
+  "name": "ionic nyoba",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
