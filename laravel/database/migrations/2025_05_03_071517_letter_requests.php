@@ -24,7 +24,6 @@ return new class extends Migration
             $table->foreign('request_by')->references('user_id')->on('users')->onDelete('cascade');
             $table->foreign('template_id')->references('template_id')->on('letter_templates')->onDelete('cascade');
             $table->foreign('validated_by')->references('user_id')->on('users')->onDelete('cascade');
-
         });
     }
 
