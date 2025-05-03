@@ -18,7 +18,7 @@ Sistem ini dibuat untuk:
 | Komponen     | Teknologi                    |
 |--------------|-------------------------------|
 | Frontend     | Ionic + Angular (mobile app)  |
-| Backend      | Laravel / Django REST Framework (DRF) |
+| Backend      | Laravel                       |
 | Database     | MySQL                         |
 | Autentikasi  | Token-based & Role-based      |
 
