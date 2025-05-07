@@ -1,0 +1,51 @@
+<ion-header [translucent]="true"> </ion-header>
+
+<ion-content>
+  <div class="blue-shape"></div>
+  <div class="login-container">
+    <!-- Blue curved shape at top -->
+
+    <!-- Login form -->
+    <div class="login-card">
+      <div class="login-header">
+        <h1>LOGIN HERE</h1>
+        <p>Welcome To</p>
+      </div>
+
+      <div class="form-container">
+        <!-- <ion-item class="custom-input"> -->
+        <ion-input
+          type="email"
+          fill="outline"
+          label="Email"
+          labelPlacement="floating"
+          helperText="Enter a valid email"
+          errorText="Invalid email"
+          ngModel
+          email
+        ></ion-input>
+        <!-- </ion-item> -->
+        <br />
+        <!-- <ion-item class="custom-input"> -->
+        <ion-input
+          type="password"
+          label="Password"
+          fill="outline"
+          labelPlacement="floating"
+        >
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+        <!-- </ion-item> -->
+
+        <div class="forgot-password">
+          <ion-text color="danger">forgot password?</ion-text>
+        </div>
+
+        <ion-button expand="block" class="sign-in-button"> SIGN IN </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blue diagonal shape at bottom -->
+  <div class="blue-shape-bottom"></div>
+</ion-content>
