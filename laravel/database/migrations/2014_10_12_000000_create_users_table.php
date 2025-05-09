@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('name', 255);
             $table->date('date_of_birth');
             $table->string('address', 255);
-            $table->bigInteger('no_kk');
-            $table->bigInteger('nik');
+            $table->string('no_kk', 100);
+            $table->string('nik', 100);
             $table->enum('role', ['admin', 'karyawan']);
             $table->string('token_reset')->nullable();
             $table->dateTime('reset_expired_token')->nullable();
