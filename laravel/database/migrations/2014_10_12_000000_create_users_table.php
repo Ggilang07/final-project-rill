@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('no_kk', 100);
             $table->string('nik', 100);
             $table->enum('role', ['admin', 'karyawan']);
-            $table->string('token_reset')->nullable();
-            $table->dateTime('reset_expired_token')->nullable();
+            $table->string('otp', 6)->nullable();
+            $table->dateTime('otp_expires_at')->nullable();
             $table->timestamps();
         });
     }
