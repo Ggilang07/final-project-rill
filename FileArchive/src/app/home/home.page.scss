@@ -1,27 +1,215 @@
-#container {
-  text-align: center;
+/* Profile Header Styles */
+ion-content {
+  --background: #f5f5f5;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
 
+.profile-header {
+  padding-top: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-bg {
   position: absolute;
+  top: 0;
   left: 0;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  height: 120px;
+  background-color: #5180DB;
+  border-radius: 0 0 50% 50%;
+  box-shadow: 4px 4px 10px gray;
+  z-index: 0;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.profile-avatar {
+  margin-top: 60px;
+  z-index: 1;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
+.avatar-placeholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  border: 1px solid rgb(0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
 
-  color: #8c8c8c;
+.avatar-placeholder ion-icon {
+  font-size: 40px;
+  color: #bebebe;
+}
 
+.profile-info {
+  text-align: center;
+  z-index: 1;
+  padding-top: 10px;
+}
+
+.profile-info h2 {
+  font-size: 18px;
+  font-weight: 600;
   margin: 0;
+  color: #333;
 }
 
-#container a {
-  text-decoration: none;
+.profile-info p {
+  font-size: 14px;
+  color: #555;
+  margin: 6px 0 0;
 }
+
+/* Document Preview Styles */
+.document-preview {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.document-container {
+  width: 100%;
+  max-width: 200px;
+  height: 300px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.document-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.document-header {
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #eaeaea;
+  text-align: center;
+}
+
+.doc-header-text {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+}
+
+.document-body {
+  flex: 1;
+  padding: 15px;
+  font-size: 12px;
+}
+
+.letter-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.letter-subject {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.letter-date {
+  text-align: right;
+  margin-bottom: 15px;
+}
+
+.letter-recipient,
+.letter-text,
+.letter-content-text,
+.letter-name,
+.letter-position {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.page-indicator {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  gap: 5px;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #d0d0d0;
+}
+
+.indicator.active {
+  background-color: #4286f4;
+}
+
+/* Divider Styles */
+.divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 20px 16px;
+}
+
+/* Navigation Menu Styles */
+.navigation-menu {
+  padding: 0 16px;
+}
+
+.menu-item {
+  --background: white;
+  --border-radius: 10px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.menu-item ion-label {
+  font-size: 15px;
+  font-weight: 400;
+  color: #333;
+  margin: 12px 0;
+}
+
+/* Tab Bar Styles */
+.custom-tabs {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  --background: white;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+  padding: 5px 0;
+}
+
+ion-tab-bar {
+  height: 56px;
+}
+
+ion-tab-button {
+  --color: #999;
+  --color-selected: #4286f4;
+}
+
+ion-tab-button ion-icon {
+  font-size: 22px;
+}
+
+ion-tab-button[selected] {
+  --color: #4286f4;
+}
+

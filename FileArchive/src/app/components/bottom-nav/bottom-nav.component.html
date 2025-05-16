@@ -1,0 +1,23 @@
+<ion-tabs *ngIf="notLogin">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button (click)="navigateTo('home')" [class.tab-selected]="activeTab === 'home'">
+      <ion-icon name="home-outline"></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button (click)="navigateTo('letter-status')" [class.tab-selected]="activeTab === 'letter-status'">
+      <ion-icon name="notifications-circle-outline"></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button (click)="navigateTo('documents')" [class.tab-selected]="activeTab === 'documents'">
+      <ion-icon name="document-text-outline"></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button (click)="navigateTo('tasks')" [class.tab-selected]="activeTab === 'tasks'">
+      <ion-icon name="clipboard-outline"></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button (click)="navigateTo('profile')" [class.tab-selected]="activeTab === 'profile'">
+      <ion-icon name="person-outline"></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
