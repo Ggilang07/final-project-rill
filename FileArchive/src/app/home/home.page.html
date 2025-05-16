@@ -1,20 +1,84 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Kosong
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <!-- Header Profile dengan Background Biru -->
+  <div class="profile-header">
+    <div class="profile-bg"></div>
+    <div class="profile-avatar">
+      <div class="avatar-placeholder">
+        <ion-icon name="person-outline"></ion-icon>
+      </div>
+    </div>
+    <div class="profile-info">
+      <h2>Muhammad Gilang Khaliq Nur Rahman</h2>
+      <p>Operator Produksi</p>
+    </div>
   </div>
+
+  <!-- Pratinjau Dokumen -->
+  <div class="document-preview">
+    <div class="document-container">
+      <div class="document-content">
+        <div class="document-header">
+          <p class="doc-header-text">KETERANGAN</p>
+        </div>
+        <div class="document-body">
+          <div class="letter-content">
+            <p class="letter-subject">Surat Keterangan Kerja</p>
+            <p class="letter-date">Jakarta, 10 Mei 2025</p>
+            <p class="letter-recipient">Kepada Yth,</p>
+            <p class="letter-text">Yang bertanda tangan di bawah ini:</p>
+            <p class="letter-content-text">Dengan ini menerangkan bahwa:</p>
+            <p class="letter-name">Nama: Muhammad Gilang Khaliq Nur Rahman</p>
+            <p class="letter-position">Jabatan: Operator Produksi</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Indikator Halaman -->
+    <div class="page-indicator">
+      <span class="indicator active"></span>
+      <span class="indicator"></span>
+      <span class="indicator"></span>
+    </div>
+  </div>
+
+  <!-- Garis Pembatas -->
+  <div class="divider"></div>
+
+  <!-- Menu Navigasi -->
+  <div class="navigation-menu">
+    <ion-item button detail="true" class="menu-item">
+      <ion-label>riwayat surat terakhir</ion-label>
+      <ion-icon name="chevron-forward" slot="end"></ion-icon>
+    </ion-item>
+    
+    <ion-item button detail="true" class="menu-item">
+      <ion-label>status pengajuan surat terakhir</ion-label>
+      <ion-icon name="chevron-forward" slot="end"></ion-icon>
+    </ion-item>
+  </div>
+
+  <!-- Tab Bar -->
+  <ion-tab-bar slot="bottom" class="custom-tabs">
+    <ion-tab-button tab="home">
+      <ion-icon name="home-outline"></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button tab="notifications">
+      <ion-icon name="notifications-outline"></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button tab="documents">
+      <ion-icon name="document-text-outline"></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button tab="calendar">
+      <ion-icon name="calendar-outline"></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button tab="profile" selected>
+      <ion-icon name="person-outline"></ion-icon>
+    </ion-tab-button> 
+  </ion-tab-bar>
+  
 </ion-content>
