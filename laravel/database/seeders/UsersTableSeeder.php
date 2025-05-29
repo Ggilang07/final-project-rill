@@ -21,8 +21,8 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Admin 1',
                 'date_of_birth' => '2000-05-12',
                 'address' => 'Jl. Surotokuntu no.52 Karawang, Jawa Barat',
-                'no_kk' => '00663886439903',
-                'nik' => '00044434028878',
+                'no_kk' => '0003492344329843',
+                'nik' => '0003492344329843',
                 'role' => 'admin',
                 'created_at' => now(),
                 'updated_at' => now()
@@ -46,7 +46,7 @@ class UsersTableSeeder extends Seeder
                 'date_of_birth' => '2000-10-12',
                 'address' => 'Jl. Jeruk Manis no.52',
                 'no_kk' => '0003492344329843',
-                'nik' => '000024324433',
+                'nik' => '0003492344329843',
                 'role' => 'admin',
                 'created_at' => now(),
                 'updated_at' => now()
@@ -57,8 +57,8 @@ class UsersTableSeeder extends Seeder
                 'name' => 'karyawan',
                 'date_of_birth' => '2000-05-12',
                 'address' => 'Jl. Syeh Quro no.521',
-                'no_kk' => '000834289343',
-                'nik' => '003849299234',
+                'no_kk' => '0003492344329843',
+                'nik' => '0003492344329843',
                 'role' => 'karyawan',
                 'created_at' => now(),
                 'updated_at' => now()
