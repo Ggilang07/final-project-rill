@@ -7,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./letter-request.page.scss'],
 })
 export class LetterRequestPage implements OnInit {
-
+  isInformasiOpen = true;
   constructor() { }
 
   ngOnInit() {
   }
-
+   toggleInformasi() {
+    this.isInformasiOpen = !this.isInformasiOpen;
+  }
+  
 }

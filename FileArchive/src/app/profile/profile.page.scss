@@ -1,0 +1,125 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: white;
+  font-family: Arial, sans-serif;
+}
+
+.profile-container {
+  position: relative;
+  max-width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.profile-header {
+  background-color: #6495ED;
+  height: 150px;
+  border-radius: 0 0 50% 50%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 35px;
+  box-shadow: #333;
+}
+
+.profile-header h1 {
+  color: rgb(255, 255, 255);
+  font-size: 25px;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.avatar-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  top: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ddd;
+}
+
+.avatar-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #d8e1fb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-fields {
+  margin-top: 60px;
+  padding: 0 20px;
+}
+
+.field-group {
+  margin-bottom: 15px;
+}
+
+.field-group label {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.field-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.edit-button {
+  background-color: #6495ED;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 250px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #f0f5ff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #ddd;
+}
+
+.nav-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+}
+
+.profile-icon {
+  background-color: #6495ED;
+  border-radius: 50%;
+}
