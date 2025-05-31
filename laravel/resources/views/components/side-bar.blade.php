@@ -22,7 +22,7 @@
                 <li x-data="{ open: false }">
                     <button @click="open = !open"
                         class="flex items-center justify-between px-6 py-2 border-b border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white font-semibold focus:outline-none transition rounded-xl ml-3"
-                        :class="{ 'bg-white text-blue-900': open }">
+                        :class="{ 'bg-white text-blue-800': open }">
                         <span class="pr-12">Template Surat</span>
                         <svg :class="open ? 'rotate-90' : ''" class="w-4 h-4 ml-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
