@@ -28,8 +28,8 @@ export class BottomNavComponent implements OnInit {
       this.activeTab = 'letter-request';
     } else if (currentUrl.includes('/letter-status')) {
       this.activeTab = 'letter-status';
-    } else if (currentUrl.includes('/tasks')) {
-      this.activeTab = 'tasks';
+    } else if (currentUrl.includes('/letter-request')) {
+      this.activeTab = 'letter-request';
     } else if (currentUrl.includes('/profile')) {
       this.activeTab = 'profile';
     }

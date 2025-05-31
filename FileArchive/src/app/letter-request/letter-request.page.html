@@ -1,13 +1,75 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>letter-request</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Buat Surat</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">letter-request</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="content-background">
+  <div class="form-container">
+    
+    <!-- Data Diri Select -->
+    <ion-item class="form-item">
+      <ion-icon name="person" slot="start" class="form-icon"></ion-icon>
+      <ion-select placeholder="Data diri" interface="popover">
+        <ion-select-option value="profile1">Profile 1</ion-select-option>
+        <ion-select-option value="profile2">Profile 2</ion-select-option>
+        <ion-select-option value="profile3">Profile 3</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Template Surat Select -->
+    <ion-item class="form-item">
+      <ion-icon name="document-text" slot="start" class="form-icon"></ion-icon>
+      <ion-select placeholder="Template surat" interface="popover">
+        <ion-select-option value="pengunduran">Surat Pengunduran Diri</ion-select-option>
+        <ion-select-option value="izin">Surat Izin</ion-select-option>
+        <ion-select-option value="keterangan">Surat Keterangan</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Informasi Surat Select -->
+    <ion-item class="form-item">
+      <ion-icon name="information-circle" slot="start" class="form-icon"></ion-icon>
+      <ion-select placeholder="Informasi surat" interface="popover">
+        <ion-select-option value="formal">Formal</ion-select-option>
+        <ion-select-option value="semi-formal">Semi Formal</ion-select-option>
+        <ion-select-option value="informal">Informal</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Penerima Surat Input -->
+    <ion-item class="form-item">
+      <ion-input placeholder="HRD Gilang tampan" type="text"></ion-input>
+      <ion-note slot="helper">Penerima Surat <span class="required-mark">*</span></ion-note>
+    </ion-item>
+
+    <!-- Tanggal Surat DateTime -->
+    <ion-item class="form-item">
+      <ion-icon name="calendar" slot="start" class="form-icon"></ion-icon>
+      <ion-datetime 
+        presentation="date" 
+        placeholder="17 Juli 2500"
+        size="compact"
+        class="compact-datetime">
+      </ion-datetime>
+      <ion-note slot="helper">Tanggal Surat <span class="required-mark">*</span></ion-note>
+    </ion-item>
+
+    <!-- Buttons -->
+    <div class="button-container">
+      <div class="button-row">
+        <ion-button expand="block" color="primary" class="create-button">
+          Buat Surat
+        </ion-button>
+        
+        <ion-button expand="block" fill="outline" color="medium" class="delete-button">
+          Hapus
+        </ion-button>
+      </div>
+    </div>
+
+  </div>
 </ion-content>
