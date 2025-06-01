@@ -10,11 +10,11 @@
 </head>
 
 <body>
-    <div x-data="{ open: false }" class="min-h-screen flex bg-gray-100">
-        <x-side-bar></x-side-bar>
-        <main class="p-6">
-            {{ $slot }}
-        </main>
+    <x-side-bar>
+        <x-slot:heading>{{ $heading ?? '' }}</x-slot:heading>
+        {{ $slot }}
+    </x-side-bar>
+
 </body>
 
 </html>

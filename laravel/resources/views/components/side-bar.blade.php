@@ -1,3 +1,6 @@
+@php
+    $templateActive = request()->is('letter-templates/*');
+@endphp
 <div x-data="{ open: false }" class="min-h-screen flex bg-gray-100">
     <!-- Sidebar -->
     <div :class="open ? 'block' : 'hidden md:block'" class="fixed inset-y-0 left-0 bg-[#5180DB] shadow-md z-30 md:relative md:block transition-all w-full md:w-64">
@@ -13,16 +16,16 @@
             <ul class="space-y-3">
                 <li>
                     <a href="/"
-                       class="block px-6 py-2 border-b border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white font-semibold transition rounded-xl m-3"
-                       :class="{ 'bg-white text-black': $el === document.activeElement }"
-                       @click="$el.blur()">
+                       class="block px-6 py-2 border-b transition rounded-xl m-3 font-semibold
+                              {{ request()->is('/') ? 'border-white bg-white text-black' : 'border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white' }}">
+
                         Dashboard
                     </a>
                 </li>
                 <li x-data="{ open: false }">
                     <button @click="open = !open"
-                        class="flex items-center justify-between px-6 py-2 border-b border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white font-semibold focus:outline-none transition rounded-xl ml-3"
-                        :class="{ 'bg-white text-blue-800': open }">
+                        class="flex items-center justify-between px-6 py-2 border-b transition rounded-xl ml-3 font-semibold
+                               {{ $templateActive ? 'border-white bg-white text-black' : 'border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white' }}">
                         <span class="pr-12">Template Surat</span>
                         <svg :class="open ? 'rotate-90' : ''" class="w-4 h-4 ml-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -48,25 +51,22 @@
                 </li>
                 <li>
                     <a href="/letter-submission"
-                       class="block px-6 py-2 border-b border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white font-semibold transition rounded-xl m-3"
-                       :class="{ 'bg-white text-black': $el === document.activeElement }"
-                       @click="$el.blur()">
+                       class="block px-6 py-2 border-b transition rounded-xl m-3 font-semibold
+                              {{ request()->is('letter-submission') ? 'border-white bg-white text-black' : 'border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white' }}">
                         Pengajuan Surat
                     </a>
                 </li>
                 <li>
                     <a href="/accounts"
-                       class="block px-6 py-2 border-b border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white font-semibold transition rounded-xl m-3"
-                       :class="{ 'bg-white text-black': $el === document.activeElement }"
-                       @click="$el.blur()">
+                       class="block px-6 py-2 border-b transition rounded-xl m-3 font-semibold
+                              {{ request()->is('accounts') ? 'border-white bg-white text-black' : 'border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white' }}">
                         Buat Akun
                     </a>
                 </li>
                 <li>
                     <a href="/profile"
-                       class="block px-6 py-2 border-b border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white font-semibold transition rounded-xl m-3"
-                       :class="{ 'bg-white text-black': $el === document.activeElement }"
-                       @click="$el.blur()">
+                       class="block px-6 py-2 border-b transition rounded-xl m-3 font-semibold
+                              {{ request()->is('profile') ? 'border-white bg-white text-black' : 'border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white' }}">
                         Profile
                     </a>
                 </li>
@@ -96,5 +96,10 @@
             </button>
             <span class="font-bold text-lg text-[#2950A4]">E-Surat</span>
         </header>
+        <main class="p-6">
+            <!-- Konten utama di sini -->
+            <h1 class="text-2xl font-bold mb-4">{{ $heading }}</h1>
+            {{ $slot }}
+        </main>
     </div>
 </div>
