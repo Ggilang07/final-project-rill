@@ -13,17 +13,16 @@ return new class extends Migration
     {
         Schema::create('letter_requests', function (Blueprint $table) {
             $table->id('request_id');
+            // permintaan dari users/karyawan
             $table->unsignedBigInteger('request_by');
-            $table->unsignedBigInteger('template_id');
-            $table->enum('status', ['pending', 'approved', 'rejected', 'printed']);
-            $table->dateTime('request_at');
-            $table->unsignedBigInteger('validated_by');
-            $table->string('letter_number', 255);
-            $table->string('file_output', 255);
-            $table->timestamps();
             $table->foreign('request_by')->references('user_id')->on('users')->onDelete('cascade');
-            $table->foreign('template_id')->references('template_id')->on('letter_templates')->onDelete('cascade');
-            $table->foreign('validated_by')->references('user_id')->on('users')->onDelete('cascade');
+            $table->enum('status', ['pending', 'approved', 'rejected', 'cancelled']);
+            $table->enum('category', ['izin', 'sakit', 'cuti', 'lainnya']);
+            // alasan pengajuan surat
+            $table->string('reason');
+            // penomoran surat
+            $table->string('letter_number', 255);
+            $table->timestamps();
         });
     }
 

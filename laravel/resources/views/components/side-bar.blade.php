@@ -22,33 +22,6 @@
                         Dashboard
                     </a>
                 </li>
-                <li x-data="{ open: false }">
-                    <button @click="open = !open"
-                        class="flex items-center justify-between px-6 py-2 border-b transition rounded-xl ml-3 font-semibold
-                               {{ $templateActive ? 'border-white bg-white text-black' : 'border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white' }}">
-                        <span class="pr-12">Template Surat</span>
-                        <svg :class="open ? 'rotate-90' : ''" class="w-4 h-4 ml-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </button>
-                    <ul x-show="open" x-transition class="pl-8 space-y-2 mt-2">
-                        <li>
-                            <a href="/letter-templates/create" class="block px-4 py-2 border-b border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white transition rounded-xl m-3"
-                               :class="{ 'bg-white text-black': $el === document.activeElement }"
-                               @click="$el.blur()">Tambah Template</a>
-                        </li>
-                        <li>
-                            <a href="/letter-templates/edit" class="block px-4 py-2 border-b border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white transition rounded-xl m-3"
-                               :class="{ 'bg-white text-black': $el === document.activeElement }"
-                               @click="$el.blur()">Ubah Template</a>
-                        </li>
-                        <li>
-                            <a href="/letter-templates/delete" class="block px-4 py-2 border-b border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white transition rounded-xl m-3"
-                               :class="{ 'bg-white text-black': $el === document.activeElement }"
-                               @click="$el.blur()">Hapus Template</a>
-                        </li>
-                    </ul>
-                </li>
                 <li>
                     <a href="/letter-submission"
                        class="block px-6 py-2 border-b transition rounded-xl m-3 font-semibold

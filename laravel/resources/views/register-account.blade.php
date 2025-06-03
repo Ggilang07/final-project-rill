@@ -3,121 +3,130 @@
     <x-slot:heading>{{ $heading }}</x-slot:heading>
 
     <div x-data="{ open: false }">
-        <a href="#"  @click="open = true" class="text-4xl inline-block transform transition-transform duration-300 ease-in-out hover:rotate-45 hover:text-blue-500">
+        <a href="#" @click="modalUser.openAdd()"
+            class="text-4xl inline-block transform transition-transform duration-300 ease-in-out hover:rotate-45 hover:text-blue-500">
             +
         </a>
 
+        <!-- MOBILE VERSION (List View) -->
+        <div class="md:hidden space-y-4">
+            @foreach ($accounts as $account)
+                <div class="border rounded-lg p-4 bg-white shadow-sm">
+                    <p><span class="font-semibold">Nama:</span> {{ $account->name }}</p>
+                    <p><span class="font-semibold">Email:</span> {{ $account->email }}</p>
+                    <p><span class="font-semibold">Tanggal Lahir:</span> {{ $account->date_of_birth }}</p>
+                    <p><span class="font-semibold">Alamat:</span> {{ $account->address }}</p>
+                    <p><span class="font-semibold">No KK:</span> {{ $account->no_kk }}</p>
+                    <p><span class="font-semibold">NIK:</span> {{ $account->nik }}</p>
+                    <p><span class="font-semibold">Role:</span> {{ $account->role }}</p>
+                    <div class="mt-3 flex justify-end gap-2">
+                        <a href="#" @click="modalUser.openEdit({
+                           id: '{{ $account->id }}',
+                           nama: '{{ $account->name }}',
+                           email: '{{ $account->email }}',
+                           {{-- password: '', --}}
+                           date: '{{ $account->date_of_birth }}',
+                           address: '{{ $account->address }}',
+                           nik: '{{ $account->nik }}',
+                           no_kk: '{{ $account->no_kk }}',
+                           role: '{{ $account->role }}'
+                       })" class="text-blue-600 hover:underline">Ubah</a>
 
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                <thead>
-                    <tr class="bg-gray-100 text-left">
-                        <th class="py-2 px-4 border-b">Nama</th>
-                        <th class="py-2 px-4 border-b">Email</th>
-                        <th class="py-2 px-4 border-b">Tanggal Lahir</th>
-                        <th class="py-2 px-4 border-b">Alamat</th>
-                        <th class="py-2 px-4 border-b">No KK</th>
-                        <th class="py-2 px-4 border-b">NIK</th>
-                        <th class="py-2 px-4 border-b">Role</th>
-                        <th class="py-2 px-4 border-b">Aksi</th>
+                        <a href="#" class="text-red-600 hover:underline">Hapus</a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <!-- DESKTOP VERSION (Table View) -->
+        <div class="hidden md:block overflow-x-auto border rounded-lg shadow-sm">
+            <table class="min-w-full bg-white divide-y divide-gray-200">
+                <thead class="bg-gray-100 text-sm text-gray-700">
+                    <tr>
+                        <th class="px-4 py-3 text-left">Nama</th>
+                        <th class="px-4 py-3 text-left">Email</th>
+                        <th class="px-4 py-3 text-left">Tanggal Lahir</th>
+                        <th class="px-4 py-3 text-left">Alamat</th>
+                        <th class="px-4 py-3 text-left">No KK</th>
+                        <th class="px-4 py-3 text-left">NIK</th>
+                        <th class="px-4 py-3 text-left">Role</th>
+                        <th class="px-4 py-3 text-left">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-sm divide-y divide-gray-100 text-gray-700">
                     @foreach ($accounts as $account)
                         <tr class="hover:bg-gray-50">
-                            <td class="py-2 px-4 border-b">{{ $account->name }}</td>
-                            <td class="py-2 px-4 border-b">{{ $account->email }}</td>
-                            <td class="py-2 px-4 border-b">{{ $account->date_of_birth }}</td>
-                            <td class="py-2 px-4 border-b">{{ $account->address }}</td>
-                            <td class="py-2 px-4 border-b">{{ $account->no_kk }}</td>
-                            <td class="py-2 px-4 border-b">{{ $account->nik }}</td>
-                            <td class="py-2 px-4 border-b">{{ $account->role }}</td>
-                            <td class="py-2 px-4 border-b">
-                                <a href="#" @click="open = true" class="text-blue-600 hover:underline mr-2">Ubah</a>
+                            <td class="px-4 py-2">{{ $account->name }}</td>
+                            <td class="px-4 py-2">{{ $account->email }}</td>
+                            <td class="px-4 py-2">{{ $account->date_of_birth }}</td>
+                            <td class="px-4 py-2">{{ $account->address }}</td>
+                            <td class="px-4 py-2">{{ $account->no_kk }}</td>
+                            <td class="px-4 py-2">{{ $account->nik }}</td>
+                            <td class="px-4 py-2">{{ $account->role }}</td>
+                            <td class="px-4 py-2 whitespace-nowrap">
+                                <a href="#" @click="modalUser.openEdit({
+                                       id: '{{ $account->id }}',
+                                       nama: '{{ $account->name }}',
+                                       email: '{{ $account->email }}',
+                                       password: '',
+                                       date: '{{ $account->date_of_birth }}',
+                                       address: '{{ $account->address }}',
+                                       nik: '{{ $account->nik }}',
+                                       no_kk: '{{ $account->no_kk }}',
+                                       role: '{{ $account->role }}'
+                                   })" class="text-blue-600 hover:underline mr-2">Ubah</a>
+
                                 <a href="#" class="text-red-600 hover:underline">Hapus</a>
                             </td>
                         </tr>
                     @endforeach
+
                 </tbody>
             </table>
         </div>
-
-        <!-- Modal -->
-        <div x-show="open" x-transition class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div @click.outside="open = false" class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md relative">
-                <!-- Modal Header -->
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold">Buat Dinamis</h2>
-                    <button @click="open = false" class="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
-                </div>
-
-                <!-- Modal Form Content -->
-                <form>
-                    <input type="hidden" id="id" name="id" value="<?= $account['id']; ?>">
-                    <!-- Input Nama -->
-                    <div class="mb-4">
-                        <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
-                        <input type="text" id="nama" name="nama"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" />
-                    </div>
-
-                    <!-- Input Email -->
-                    <div class="mb-4">
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" id="email" name="email"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" />
-                    </div>
-                    <!-- Input Password -->
-                    <div class="mb-4">
-                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input type="password" id="password" name="password"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" />
-                    </div>
-                    <!-- Input Tanggal Lahir -->
-                    <div class="mb-4">
-                        <label for="date" class="block text-sm font-medium text-gray-700">Tanggal Lahir</label>
-                        <input type="date" id="date" name="date"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" />
-                    </div>
-                    <!-- Input Alamat -->
-                    <div class="mb-4">
-                        <label for="address" class="block text-sm font-medium text-gray-700">Alamat</label>
-                        <input type="text" id="address" name="address"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" />
-                    </div>
-                    <!-- Input No KK -->
-                    <div class="mb-4">
-                        <label for="nik" class="block text-sm font-medium text-gray-700">Nomor Kartu Keluarga</label>
-                        <input type="number" id="nik" name="nik"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
-                            required maxlength="16" />
-                    </div>
-                    <!-- Input No KK -->
-                    <div class="mb-4">
-                        <label for="no_kk" class="block text-sm font-medium text-gray-700">Nomor Induk Keluarga</label>
-                        <input type="number" id="no_kk" name="no_kk"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
-                            required maxlength="16" />
-                    </div>
-                    <!-- Role -->
-                    <div class="mb-4">
-                        <label for="Role" class="block text-sm font-medium text-gray-700">Role Pengguna</label>
-                        <select id="role" name="role"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
-                            required>
-                            <option value="Karyawan">Karyawan</option>
-                            <option value="Admin">Admin</option>
-                    </div>
-
-                    <!-- Tombol Submit -->
-                    <div class="flex justify-end">
-                        <button type="submit"
-                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mr-2">Simpan</button>
-                        <button type="button" @click="open = false"
-                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">Batal</button>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
+    <x-user-modal></x-user-modal>
+    <script>
+        function userFormModal() {
+            return {
+                open: false,
+                formMode: 'add',
+                form: {
+                    id: '', nama: '', email: '', password: '', date: '', address: '', nik: '', no_kk: '', role: ''
+                },
+                fields: [
+                    { id: 'nama', label: 'Nama', model: 'nama', type: 'text' },
+                    { id: 'email', label: 'Email', model: 'email', type: 'email' },
+                    { id: 'password', label: 'Password', model: 'password', type: 'password' },
+                    { id: 'date', label: 'Tanggal Lahir', model: 'date', type: 'date' },
+                    { id: 'address', label: 'Alamat', model: 'address', type: 'text' },
+                    { id: 'nik', label: 'Nomor Kartu Keluarga', model: 'nik', type: 'number' },
+                    { id: 'no_kk', label: 'Nomor Induk Keluarga', model: 'no_kk', type: 'number' },
+                    { id: 'role', label: 'Role Pengguna', model: 'role', type: 'select', options: ['Karyawan', 'Admin'] }
+                ],
+
+                openAdd() {
+                    this.formMode = 'add';
+                    this.form = { id: '', nama: '', email: '', password: '', date: '', address: '', nik: '', no_kk: '', role: '' };
+                    this.open = true;
+                },
+
+                openEdit(data) {
+                    this.formMode = 'edit';
+                    this.form = { ...data };
+                    this.open = true;
+                },
+
+                close() {
+                    this.open = false;
+                },
+
+                submitForm() {
+                    // Replace with actual logic
+                    alert(`${this.formMode === 'add' ? 'Menambahkan' : 'Mengedit'} akun: ${this.form.nama}`);
+                    this.close();
+                }
+            };
+        }
+    </script>
 </x-layout>

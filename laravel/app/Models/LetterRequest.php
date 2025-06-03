@@ -12,10 +12,10 @@ class LetterRequest extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'request_by', 'user_id');
+        return $this->belongsTo(User::class, 'request_by');
     }
-    public function template(): BelongsTo
+    public function uploaded(): BelongsTo
     {
-        return $this->belongsTo(LetterTemplate::class, 'template_id', 'template_id');
+        return $this->belongsTo(UploadedLetter::class, 'request_id');
     }
 }

@@ -21,27 +21,6 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/letter-templates/create', function () {
-    return view('letter-template.create', [
-        'title' => 'Create Letter Template',
-        'heading' => 'Buat Template Surat'
-    ]);
-});
-
-Route::get('/letter-templates/edit', function () {
-    return view('letter-template.edit', [
-        'title' => 'Edit Letter Template',
-        'heading' => 'Ubah Template Surat'
-    ]);
-});
-
-Route::get('/letter-templates/delete', function () {
-    return view('letter-template.delete', [
-        'title' => 'Delete Letter Template',
-        'heading' => 'Hapus Template Surat'
-    ]);
-});
-
 Route::get('/letter-submission', function () {
     return view('letter-submission', [
         'title' => 'letter Submission',
