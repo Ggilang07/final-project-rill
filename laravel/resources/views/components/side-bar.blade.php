@@ -4,8 +4,15 @@
 <div x-data="{ open: false }" class="min-h-screen flex bg-gray-100">
     <!-- Sidebar -->
     <div :class="open ? 'block' : 'hidden md:block'" class="fixed inset-y-0 left-0 bg-[#5180DB] shadow-md z-30 md:relative md:block transition-all w-full md:w-64">
-        <div class="flex items-center justify-between px-6 py-4 border-b border-black">
-            <span class="font-bold text-lg text-white">Logo custom | E-Surat</span>
+        <div class="flex items-center justify-between px-3 py-4 border-b border-black">
+            <div class="relative w-20 h-20 flex items-center justify-center">
+            <!-- Heksagon dengan border -->
+            <div class="absolute w-full h-full clip-hexagon border-4 bg-blue-900"></div>
+
+            <!-- Ikon di tengah -->
+            <span class="iconify w-8 h-8 text-white z-10" data-icon="solar:letter-linear"></span>
+            </div>
+            <span class="font-quicksand font-bold text-4xl text-white">E-SURAT</span>
             <button @click="open = false" class="md:hidden text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
