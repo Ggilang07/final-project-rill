@@ -77,6 +77,8 @@
             <span class="font-bold text-lg text-[#2950A4]">E-Surat</span>
         </header>
         <main class="p-6">
+        <x-profile-header></x-profile-header>
+
             <!-- Konten utama di sini -->
             <h1 class="text-2xl font-bold mb-4">{{ $heading }}</h1>
             {{ $slot }}
