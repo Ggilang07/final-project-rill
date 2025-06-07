@@ -83,5 +83,6 @@
             <h1 class="text-2xl font-bold mb-4">{{ $heading }}</h1>
             {{ $slot }}
         </main>
+        <x-footer></x-footer>
     </div>
 </div>
