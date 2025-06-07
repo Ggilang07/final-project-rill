@@ -77,7 +77,7 @@
                                                no_kk: '{{ $account->no_kk }}',
                                                role: '{{ $account->role }}'
                                            })" class="text-blue-600 hover:underline mr-2">Ubah</a>
-                                {{-- <form action="{{ route('accounts.destroy', $account->id) }}" method="POST"> --}}
+                                <form action="{{ route('accounts.destroy', $account->user_id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button onclick="return confirm('Are you sure?')" class="text-red-500">Hapus</button>

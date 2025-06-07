@@ -38,6 +38,7 @@ Route::get('/letter-submission', function () {
 // });
 
 Route::resource('accounts', UserController::class);
+Route::get('accounts/{user_id}', [UserController::class, 'destroy'])->name('accounts.destroy');
 
 Route::get('/profile', function () {
     return view('profile', [

@@ -89,7 +89,6 @@ class UserController extends Controller
     public function destroy(User $account)
     {
         $account->delete();
-
         return redirect()->route('accounts.index')->with('success', 'Akun berhasil dihapus.');
     }
 }
