@@ -12,7 +12,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return view('register-account', [
+            'title' => 'Accounts',
+            'heading' => 'Akun Pengguna',
+            'accounts' => User::all()
+        ]);
     }
 
     /**
@@ -20,7 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('accounts.create');
     }
 
     /**
@@ -28,7 +32,31 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+            // 'password' => 'required|string|min:8|max:255|confirmed',
+            'name' => 'required|string|max:255',
+            'date_of_birth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'no_kk' => 'required|string|min:16|max:16',
+            'nik' => 'required|string|min:16|max:16',
+            'role' => 'required|in:admin,karyawan'
+        ]);
+
+        $user = new User();
+        $user->email = $request->email;
+        // $user->password = bcrypt($request->password);
+        $user->password = bcrypt('filearchive2025'); // set default password
+        $user->name = $request->name;
+        $user->date_of_birth = $request->date_of_birth;
+        $user->address = $request->address;
+        $user->no_kk = $request->no_kk;
+        $user->nik = $request->nik;
+        $user->role = $request->role;
+        $user->save();
+
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -44,7 +72,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        // return view('accounts.edit', compact('accounts'));
     }
 
     /**
@@ -58,8 +86,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $account)
     {
-        //
+        $account->delete();
+
+        return redirect()->route('accounts.index')->with('success', 'Akun berhasil dihapus.');
     }
 }

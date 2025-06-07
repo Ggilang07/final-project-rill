@@ -12,7 +12,7 @@
         </div>
 
         <!-- Modal Form Content -->
-        <form class="space-y-6" @submit.prevent="submitForm">
+        <form action="{{ route('accounts.store') }}" method="post" class="space-y-6" @submit.prevent="submitForm">
             <input type="hidden" x-model="form.id">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -41,9 +41,9 @@
                             x-text="field.label"></label>
                         <template x-if="field.type === 'select'">
                             <select :id="field . id" x-model="form[field.model]"
-                                class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500">
-                                <template x-for="option in field.options" :key="option">
-                                    <option x-text="option"></option>
+                                class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer">
+                                <template x-for="option in field.options" :key="option . value">
+                                    <option :value="option . value" x-text="option.label"></option>
                                 </template>
                             </select>
                         </template>

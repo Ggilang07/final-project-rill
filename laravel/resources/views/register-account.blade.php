@@ -1,6 +1,7 @@
 <x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
-    <x-slot:heading>{{ $heading }}</x-slot:heading>
+    {{-- <x-slot:heading>{{ $heading }}</x-slot:heading> --}}
+    <x-slot:heading>Akun Pengguna.blade</x-slot:heading>
 
     <div x-data="{ open: false }">
         <a href="#" @click="modalUser.openAdd()"
@@ -21,16 +22,16 @@
                     <p><span class="font-semibold">Role:</span> {{ $account->role }}</p>
                     <div class="mt-3 flex justify-end gap-2">
                         <a href="#" @click="modalUser.openEdit({
-                           id: '{{ $account->id }}',
-                           nama: '{{ $account->name }}',
-                           email: '{{ $account->email }}',
-                           {{-- password: '', --}}
-                           date: '{{ $account->date_of_birth }}',
-                           address: '{{ $account->address }}',
-                           nik: '{{ $account->nik }}',
-                           no_kk: '{{ $account->no_kk }}',
-                           role: '{{ $account->role }}'
-                       })" class="text-blue-600 hover:underline">Ubah</a>
+                                   id: '{{ $account->id }}',
+                                   nama: '{{ $account->name }}',
+                                   email: '{{ $account->email }}',
+                                   {{-- password: '', --}}
+                                   date: '{{ $account->date_of_birth }}',
+                                   address: '{{ $account->address }}',
+                                   nik: '{{ $account->nik }}',
+                                   no_kk: '{{ $account->no_kk }}',
+                                   role: '{{ $account->role }}'
+                               })" class="text-blue-600 hover:underline">Ubah</a>
 
                         <a href="#" class="text-red-600 hover:underline">Hapus</a>
                     </div>
@@ -55,6 +56,7 @@
                 </thead>
                 <tbody class="text-sm divide-y divide-gray-100 text-gray-700">
                     @foreach ($accounts as $account)
+{{-- {{ dd(get_class($account)) }} --}}
                         <tr class="hover:bg-gray-50">
                             <td class="px-4 py-2">{{ $account->name }}</td>
                             <td class="px-4 py-2">{{ $account->email }}</td>
@@ -65,18 +67,21 @@
                             <td class="px-4 py-2">{{ $account->role }}</td>
                             <td class="px-4 py-2 whitespace-nowrap">
                                 <a href="#" @click="modalUser.openEdit({
-                                       id: '{{ $account->id }}',
-                                       nama: '{{ $account->name }}',
-                                       email: '{{ $account->email }}',
-                                       password: '',
-                                       date: '{{ $account->date_of_birth }}',
-                                       address: '{{ $account->address }}',
-                                       nik: '{{ $account->nik }}',
-                                       no_kk: '{{ $account->no_kk }}',
-                                       role: '{{ $account->role }}'
-                                   })" class="text-blue-600 hover:underline mr-2">Ubah</a>
-
-                                <a href="#" class="text-red-600 hover:underline">Hapus</a>
+                                               id: '{{ $account->id }}',
+                                               nama: '{{ $account->name }}',
+                                               email: '{{ $account->email }}',
+                                               password: '',
+                                               date: '{{ $account->date_of_birth }}',
+                                               address: '{{ $account->address }}',
+                                               nik: '{{ $account->nik }}',
+                                               no_kk: '{{ $account->no_kk }}',
+                                               role: '{{ $account->role }}'
+                                           })" class="text-blue-600 hover:underline mr-2">Ubah</a>
+                                {{-- <form action="{{ route('accounts.destroy', $account->id) }}" method="POST"> --}}
+                                    @csrf
+                                    @method('DELETE')
+                                    <button onclick="return confirm('Are you sure?')" class="text-red-500">Hapus</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
