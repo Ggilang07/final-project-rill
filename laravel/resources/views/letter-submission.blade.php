@@ -1,6 +1,7 @@
 <x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:heading>{{ $heading }}</x-slot:heading>
+    <div x-data="modalValidate()">
             {{-- DESKTOP VERSION --}}
         <div class="hidden md:block overflow-x-auto border rounded-lg shadow-sm">
             <table class="min-w-full bg-white divide-y divide-gray-200">
@@ -46,10 +47,11 @@
                                     @endswitch
                                 </td>
                                 <td class="px-4 py-2 whitespace-nowrap text-center">
-                                    <a href="#"
-                                    class="text-blue-600 hover:underline mr-2">Lihat</a>
-                                    <a href="#"
-                                    class="text-blue-600 hover:underline mr-2">Ubah Status</a>
+                                    <a href="#" @click.prevent="open({{ $request->request_id }})"
+                                        class="text-blue-600 hover:underline mr-2">
+                                        Ubah Status
+                                    </a>
+
                                 </td>
                             </tr>
                         @endforeach
@@ -64,4 +66,87 @@
                 {{ $accountsDesktop->links() }}
             </div> --}}
         </div>
+        <!-- Modal Komponen -->
+         <div 
+    x-show="isOpen"
+    x-cloak
+    class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50"
+>
+
+            <div class="bg-white rounded-2xl p-6 w-full max-w-md">
+                <h2 class="text-xl font-bold mb-4">Validasi Surat</h2>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1">Link Surat</label>
+                    <input type="text" x-model="linkSurat" class="w-full border rounded px-3 py-2" placeholder="Masukkan link PDF">
+                    <template x-if="error">
+                        <p class="text-red-500 text-sm mt-1" x-text="error"></p>
+                    </template>
+                </div>
+
+                <div class="flex justify-end space-x-2">
+                    <button @click="submit('rejected')" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Ditolak</button>
+                    <button @click="submit('approved')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Diterima</button>
+                    <button @click="close" class="px-4 py-2 rounded border">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+        function modalValidate() {
+    return {
+        isOpen: false,
+        requestId: null,
+        linkSurat: '',
+        error: '',
+
+        open(id) {
+            this.isOpen = true;
+            this.requestId = id;
+            this.linkSurat = '';
+            this.error = '';
+        },
+
+        close() {
+            this.isOpen = false;
+            this.requestId = null;
+            this.linkSurat = '';
+            this.error = '';
+        },
+
+        async submit(status) {
+            if (status === 'approved' && !this.linkSurat) {
+                this.error = 'Link surat harus diisi terlebih dahulu.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/validate-request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        request_id: this.requestId,
+                        status: status,
+                        link_pdf: this.linkSurat
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    window.location.reload();
+                } else {
+                    this.error = result.message || 'Terjadi kesalahan.';
+                }
+            } catch (e) {
+                this.error = 'Gagal mengirim data ke server.';
+            }
+        }
+    };
+}
+        </script>
+
 </x-layout>

@@ -10,6 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 class UploadedLetter extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'request_id',
+        'link_pdf',
+        'validated_by',
+    ];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'validated_by');

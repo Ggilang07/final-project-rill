@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\DashboardController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,12 +20,12 @@ use App\Http\Controllers\RequestController;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard', [
-        'title' => 'Admin Dashboard',
-        'heading' => 'Dashboard'
-    ]);
-});
+// Route::get('/', function () {
+//     return view('dashboard', [
+//         'title' => 'Admin Dashboard',
+//         'heading' => 'Dashboard'
+//     ]);
+// });
 
 // Halaman yang tidak butuh login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
@@ -31,14 +33,18 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 // Halaman yang butuh login
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('dashboard', [
-            'title' => 'Admin Dashboard',
-            'heading' => 'Dashboard'
-        ]);
-    })->name('dashboard');
+    // Route::get('/', function () {
+    //     return view('dashboard', [
+    //         'title' => 'Admin Dashboard',
+    //         'heading' => 'Dashboard'
+    //     ]);
+    // })->name('dashboard');
+
+    Route::resource('/', DashboardController::class);
 
     Route::resource('letter-submissions', RequestController::class);
+    
+    Route::post('/validate-request', [RequestController::class, 'validateRequest']);
 
     Route::resource('accounts', UserController::class);
 

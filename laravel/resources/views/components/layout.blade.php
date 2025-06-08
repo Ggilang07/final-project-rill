@@ -10,8 +10,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
     <title>{{ $title }}</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -23,7 +25,7 @@
     @else
         {{ $slot }}
     @endif
-
+    @stack('scripts')
 </body>
 
 </html>
