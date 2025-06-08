@@ -1,39 +1,66 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref=""></ion-back-button>
-    </ion-buttons>
     <ion-title>Status Pengajuan Surat</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="content">
-  <ion-list>
-    <ion-item class="list-item">
-      <ion-icon name="document" slot="start" class="icon"></ion-icon>
-      <ion-label class="content">
-        <h2 class="title">Template surat 1</h2>
-        <p class="status">Tolak</p>
-      </ion-label>
-      <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
-    </ion-item>
+<ion-content [fullscreen]="true">
+  <div class="search-container">
+    <div class="search-wrapper">
+      <ion-searchbar 
+        placeholder="Cari..." 
+        [(ngModel)]="searchTerm"
+        (ionInput)="filterRequests($event)"
+        (ionClear)="clearSearch()"
+        show-clear-button="focus">
+      </ion-searchbar>
+    </div>
+    
+    <div class="add-button-wrapper">
+      <ion-button fill="clear" class="add-button" (click)="buatSurat()">
+        <ion-icon name="add-circle" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
 
-    <ion-item class="list-item">
-      <ion-icon name="document" slot="start" class="icon"></ion-icon>
-      <ion-label class="content">
-        <h2 class="title">Template surat 2</h2>
-        <p class="status">Tolak</p>
-      </ion-label>
-      <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
-    </ion-item>
+  <div class="table-container">
+    <!-- Header Table -->
+    <div class="table-header">
+      <div class="header-cell nomor-tanggal">Nomor & Tanggal surat</div>
+      <div class="header-cell jenis-surat">Jenis Surat</div>
+      <div class="header-cell nama">Nama</div>
+      <div class="header-cell status">Status</div>
+    </div>
 
-    <ion-item class="list-item">
-      <ion-icon name="document" slot="start" class="icon"></ion-icon>
-      <ion-label class="content">
-        <h2 class="title">Template surat 3</h2>
-        <p class="status">Tolak</p>
-      </ion-label>
-      <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
-    </ion-item>
-  </ion-list>
+    <!-- Table Rows -->
+    <div class="table-row" *ngIf="getFilteredRequests().length === 0">
+      <div class="no-data">
+        <ion-text color="medium">
+          <p>Tidak ada data yang ditemukan</p>
+        </ion-text>
+      </div>
+    </div>
+
+    <div class="table-row" *ngFor="let request of getFilteredRequests()">
+      <div class="row-cell nomor-tanggal">
+        <div class="nomor-surat">{{ request.nomorSurat }}</div>
+        <div class="tanggal-surat">{{ request.tanggalSurat }}</div>
+      </div>
+      
+      <div class="row-cell jenis-surat">
+        {{ request.jenisSurat }}
+      </div>
+      
+      <div class="row-cell nama">
+        {{ request.nama }}
+      </div>
+      
+      <div class="row-cell status">
+        <ion-icon 
+          [name]="getStatusIcon(request.status)" 
+          [class]="'status-icon ' + request.status">
+        </ion-icon>
+      </div>
+    </div>
+  </div>
 </ion-content>
