@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('request_by');
             $table->foreign('request_by')->references('user_id')->on('users')->onDelete('cascade');
             $table->enum('status', ['pending', 'approved', 'rejected', 'cancelled']);
-            $table->enum('category', ['izin', 'sakit', 'cuti', 'lainnya']);
+            $table->enum('category', ['Izin', 'Sakit', 'Cuti', 'lainnya']);
             // alasan pengajuan surat
             $table->string('reason');
             // penomoran surat

@@ -3,7 +3,7 @@
 @endphp
 <div x-data="{ open: false }" class="min-h-screen flex bg-gray-100">
     <!-- Sidebar -->
-    <div :class="open ? 'block' : 'hidden md:block'" class="fixed inset-y-0 left-0 bg-[#5180DB] shadow-md z-30 md:relative md:block transition-all w-full md:w-64">
+    <div :class="open ? 'block' : 'hidden md:block'" class="fixed inset-y-0 left-0 bg-[#5180DB] shadow-md z-30 md:relative md:block transition-all w-full md:w-64 flex flex-col justify-between">
         <div class="flex items-center justify-between px-3 py-4 border-b border-black">
             <div class="relative w-20 h-20 flex items-center justify-center">
             <!-- Heksagon dengan border -->
@@ -30,9 +30,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/letter-submission"
+                    <a href="/letter-submissions"
                        class="block px-6 py-2 border-b transition rounded-xl m-3 font-semibold
-                              {{ request()->is('letter-submission') ? 'border-white bg-white text-black' : 'border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white' }}">
+                              {{ request()->is('letter-submissions') ? 'border-white bg-white text-black' : 'border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white' }}">
                         Pengajuan Surat
                     </a>
                 </li>
@@ -51,12 +51,15 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
-                       class="block px-6 py-2 border-b border-black bg-[#2950A4] text-white hover:bg-[#355AA9] hover:text-white font-semibold transition rounded-xl m-3"
-                       :class="{ 'bg-white text-black': $el === document.activeElement }"
-                       @click="$el.blur()">
-                        Logout
-                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button href="/logout" type="submit"
+                        class="block mt-80 px-6 py-2 border-b border-black bg-red-600 hover:bg-red-700 text-white font-semibold transition rounded-xl m-3"
+                        :class="{ 'bg-white text-black': $el === document.activeElement }"
+                        @click="$el.blur()">
+                            Logout
+                        </button>
+                    </form>
                 </li>
             </ul>
         </nav>
@@ -83,6 +86,6 @@
             <h1 class="text-2xl font-bold mb-4">{{ $heading }}</h1>
             {{ $slot }}
         </main>
-    <x-footer></x-footer>
+        <x-footer></x-footer>
     </div>
 </div>

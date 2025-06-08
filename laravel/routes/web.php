@@ -1,8 +1,11 @@
 <?php
 
 use App\Models\User;
+use App\Models\LetterRequest;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +25,42 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/letter-submission', function () {
-    return view('letter-submission', [
-        'title' => 'letter Submission',
-        'heading' => 'Pengajuan Surat'
-    ]);
+// Halaman yang tidak butuh login
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+// Halaman yang butuh login
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return view('dashboard', [
+            'title' => 'Admin Dashboard',
+            'heading' => 'Dashboard'
+        ]);
+    })->name('dashboard');
+
+    Route::resource('letter-submissions', RequestController::class);
+
+    Route::resource('accounts', UserController::class);
+
+    Route::get('/profile', function () {
+        return view('profile', [
+            'title' => 'Profile',
+            'heading' => 'Profil Pengguna'
+        ]);
+    })->name('profile');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+
+
+// Route::resource('letter-submissions', RequestController::class);
+// Route::get('/letter-submission', function () {
+//     return view('letter-submission', [
+//         'title' => 'letter Submission',
+//         'heading' => 'Pengajuan Surat'
+//     ]);
+// });
 
 // Route::get('/accounts', function () {
 //     return view('register-account', [
@@ -37,14 +70,14 @@ Route::get('/letter-submission', function () {
 //     ]);
 // });
 
-Route::resource('accounts', UserController::class);
+// Route::resource('accounts', UserController::class);
 // Route::get('accounts/{user_id}', [UserController::class, 'edit'])->name('accounts.edit');
 // Route::put('accounts/{user_id}', [UserController::class, 'update'])->name('accounts.update');
 // Route::get('accounts/{user_id}', [UserController::class, 'destroy'])->name('accounts.destroy');
 
-Route::get('/profile', function () {
-    return view('profile', [
-        'title' => 'Profile',
-        'heading' => 'Profil Pengguna'
-    ]);
-});
+// Route::get('/profile', function () {
+//     return view('profile', [
+//         'title' => 'Profile',
+//         'heading' => 'Profil Pengguna'
+//     ]);
+// });

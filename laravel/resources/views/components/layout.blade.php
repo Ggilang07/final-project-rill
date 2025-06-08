@@ -1,3 +1,5 @@
+@props(['title' => 'Laravel App', 'noSidebar' => false, 'heading' => ''])
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,10 +15,14 @@
 </head>
 
 <body>
-    <x-side-bar>
-        <x-slot:heading>{{ $heading ?? '' }}</x-slot:heading>
+    @if (!($noSidebar ?? false))
+        <x-side-bar>
+            <x-slot:heading>{{ $heading ?? '' }}</x-slot:heading>
+            {{ $slot }}
+        </x-side-bar>
+    @else
         {{ $slot }}
-    </x-side-bar>
+    @endif
 
 </body>
 
