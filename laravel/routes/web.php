@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,13 +29,18 @@ Route::get('/letter-submission', function () {
     ]);
 });
 
-Route::get('/accounts', function () {
-    return view('register-account', [
-        'title' => 'Accounts',
-        'heading' => 'Akun Pengguna',
-        'accounts' => User::all() // Tambahkan baris ini
-    ]);
-});
+// Route::get('/accounts', function () {
+//     return view('register-account', [
+//         'title' => 'Accounts',
+//         'heading' => 'Akun Pengguna',
+//         'accounts' => User::all() 
+//     ]);
+// });
+
+Route::resource('accounts', UserController::class);
+// Route::get('accounts/{user_id}', [UserController::class, 'edit'])->name('accounts.edit');
+// Route::put('accounts/{user_id}', [UserController::class, 'update'])->name('accounts.update');
+// Route::get('accounts/{user_id}', [UserController::class, 'destroy'])->name('accounts.destroy');
 
 Route::get('/profile', function () {
     return view('profile', [

@@ -7,7 +7,7 @@ export default function userFormModal() {
             id: "",
             nama: "",
             email: "",
-            password: "",
+            // password: "",
             date: "",
             address: "",
             nik: "",
@@ -17,12 +17,12 @@ export default function userFormModal() {
         fields: [
             { id: "nama", label: "Nama", model: "nama", type: "text" },
             { id: "email", label: "Email", model: "email", type: "email" },
-            {
-                id: "password",
-                label: "Password",
-                model: "password",
-                type: "password",
-            },
+            // {
+            //     id: "password",
+            //     label: "Password",
+            //     model: "password",
+            //     type: "password",
+            // },
             { id: "date", label: "Tanggal Lahir", model: "date", type: "date" },
             { id: "address", label: "Alamat", model: "address", type: "text" },
             {
@@ -42,7 +42,14 @@ export default function userFormModal() {
                 label: "Role Pengguna",
                 model: "role",
                 type: "select",
-                options: ["Karyawan", "Admin"],
+                options: [
+                    {
+                        value: "",
+                        label: "Pilih Peran Pengguna",
+                    },
+                    { value: "karyawan", label: "Karyawan" },
+                    { value: "admin", label: "Admin" },
+                ],
             },
         ],
 
@@ -52,31 +59,82 @@ export default function userFormModal() {
                 id: "",
                 nama: "",
                 email: "",
-                password: "",
                 date: "",
                 address: "",
                 nik: "",
                 no_kk: "",
-                role: "",
+                role: "", // WAJIB string kosong
             };
-            this.open = true;
+            console.log("Form role saat openAdd:", this.form.role); // 👈 Tambahkan ini
+            this.open = false;
+            this.$nextTick(() => {
+                this.open = true;
+            });
         },
 
         openEdit(data) {
             this.formMode = "edit";
             this.form = { ...data };
             this.open = true;
+            // console.log("ID yang dikirim:", this.form.id);
         },
 
         close() {
             this.open = false;
+            this.form.role = ""; // reset ke kosong saat modal ditutup
         },
 
         submitForm() {
-            alert(
-                `${this.formMode === "add" ? "Menambahkan" : "Mengedit"} akun: ${this.form.nama}`,
+            if (this.form.role === "") {
+                alert("Role Pengguna harus dipilih.");
+                return;
+            }
+            let url =
+                this.formMode === "add"
+                    ? "/accounts"
+                    : `/accounts/${this.form.id}`;
+                    // console.log("URL tujuan:", url); // 👈 Debug
+            let method = this.formMode === "add" ? "POST" : "POST";
+            let formData = new FormData();
+            formData.append(
+                "_token",
+                document.querySelector('meta[name="csrf-token"]').content,
             );
-            this.close();
+            if (this.formMode === "edit") formData.append("_method", "PUT");
+            formData.append("name", this.form.nama);
+            formData.append("email", this.form.email);
+            // formData.append("password", this.form.password);
+            formData.append("date_of_birth", this.form.date);
+            formData.append("address", this.form.address);
+            formData.append("nik", this.form.nik);
+            formData.append("no_kk", this.form.no_kk);
+            formData.append("role", this.form.role);
+
+            fetch(url, {
+                method: method,
+                body: formData,
+                headers: {
+                    Accept: "application/json",
+                },
+            })
+                .then(async (res) => {
+                    if (res.ok) {
+                        window.location.reload();
+                    } else {
+                        let data = await res.json();
+                        let msg = "Gagal menyimpan data!";
+                        if (data && data.errors) {
+                            msg +=
+                                "\n" +
+                                Object.values(data.errors).flat().join("\n");
+                        }
+                        alert(msg);
+                    }
+                })
+                .catch((err) => {
+                    alert("Terjadi error jaringan atau server!");
+                    console.error(err);
+                });
         },
     };
 }
