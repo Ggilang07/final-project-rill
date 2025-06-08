@@ -10,12 +10,37 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = User::query();
+
+        // Search
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('email', 'like', '%' . $request->search . '%')
+                  ->orWhere('nik', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Filter Role
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
+        }
+
+        // Filter Urutan
+        $order = $request->input('order', 'desc'); // default terbaru
+        $query->orderBy('created_at', $order);
+
+        // Untuk mobile dan desktop, tetap gunakan pagination berbeda
         return view('register-account', [
             'title' => 'Accounts',
             'heading' => 'Akun Pengguna',
-            'accounts' => User::all()
+            'accountsMobile' => $query->clone()->paginate(5)->appends($request->all()),
+            'accountsDesktop' => $query->paginate(10)->appends($request->all()),
+            'search' => $request->search,
+            'role' => $request->role,
+            'order' => $order,
         ]);
     }
 
