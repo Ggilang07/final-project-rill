@@ -76,6 +76,7 @@ export default function userFormModal() {
             this.formMode = "edit";
             this.form = { ...data };
             this.open = true;
+            // console.log("ID yang dikirim:", this.form.id);
         },
 
         close() {
@@ -92,6 +93,7 @@ export default function userFormModal() {
                 this.formMode === "add"
                     ? "/accounts"
                     : `/accounts/${this.form.id}`;
+                    // console.log("URL tujuan:", url); // 👈 Debug
             let method = this.formMode === "add" ? "POST" : "POST";
             let formData = new FormData();
             formData.append(

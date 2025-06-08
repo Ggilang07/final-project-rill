@@ -70,17 +70,38 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(User $account)
     {
-        // return view('accounts.edit', compact('accounts'));
+        return view('accounts.edit', compact('accounts'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $account)
     {
-        //
+        logger($account);
+
+        $request->validate([
+            'email' => 'required|email|unique:users,email,' . $account->user_id . ',user_id',
+            'name' => 'required|string|max:255',
+            'date_of_birth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'no_kk' => 'required|string|min:16|max:16',
+            'nik' => 'required|string|min:16|max:16',
+            'role' => 'required|in:admin,karyawan'
+        ]);
+
+        $account->email = $request->email;
+        $account->name = $request->name;
+        $account->date_of_birth = $request->date_of_birth;
+        $account->address = $request->address;
+        $account->no_kk = $request->no_kk;
+        $account->nik = $request->nik;
+        $account->role = $request->role;
+        $account->save();
+
+        return redirect()->route('accounts.index')->with('success', 'Akun berhasil diperbarui.');
     }
 
     /**

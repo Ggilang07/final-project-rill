@@ -38,7 +38,9 @@ Route::get('/letter-submission', function () {
 // });
 
 Route::resource('accounts', UserController::class);
-Route::get('accounts/{user_id}', [UserController::class, 'destroy'])->name('accounts.destroy');
+// Route::get('accounts/{user_id}', [UserController::class, 'edit'])->name('accounts.edit');
+// Route::put('accounts/{user_id}', [UserController::class, 'update'])->name('accounts.update');
+// Route::get('accounts/{user_id}', [UserController::class, 'destroy'])->name('accounts.destroy');
 
 Route::get('/profile', function () {
     return view('profile', [

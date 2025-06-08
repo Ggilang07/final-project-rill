@@ -46,6 +46,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'user_id';
+    }
+
     public function letterRequests(): HasMany
     {
         return $this->hasMany(LetterRequest::class, 'request_by');
