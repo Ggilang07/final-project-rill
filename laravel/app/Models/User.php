@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -24,6 +25,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'otp',
+        'otp_expires_at'  // sesuaikan dengan nama kolom di migration
     ];
 
     /**
@@ -58,5 +61,11 @@ class User extends Authenticatable
     public function UploadLetter(): HasOne
     {
         return $this->hasOne(LetterRequest::class, 'validated_by');
+    }
+
+    public function isUsingDefaultPassword()
+    {
+        // Ganti 'filearchive2025' dengan password default kamu
+        return Hash::check('filearchive2025', $this->password);
     }
 }

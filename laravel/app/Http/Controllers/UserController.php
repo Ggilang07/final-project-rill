@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -136,5 +138,77 @@ class UserController extends Controller
     {
         $account->delete();
         return redirect()->route('accounts.index')->with('success', 'Akun berhasil dihapus.');
+    }
+
+    /**
+     * Update the authenticated user's profile.
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->user_id . ',user_id',
+            'address' => 'nullable|string|max:255',
+            'photo' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // 2MB
+        ], [
+            'photo.mimes' => 'Format foto harus JPG, JPEG, atau PNG.',
+            'photo.max' => 'Ukuran foto maksimal 2MB.',
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->address = $request->address;
+
+        // Handle upload photo
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = uniqid('profile_') . '.' . $file->getClientOriginalExtension();
+
+            $destination = public_path('images/profiles');
+            if (!file_exists($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            $file->move($destination, $filename);
+
+            // Hapus foto lama jika ada dan bukan default
+            if ($user->p_profile && file_exists($destination . '/' . $user->p_profile)) {
+                @unlink($destination . '/' . $user->p_profile);
+            }
+
+            $user->p_profile = $filename;
+        }
+
+        $user->save();
+
+        return redirect()->route('profile')->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    /**
+     * Change the authenticated user's password.
+     */
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        $user = auth()->user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Password lama salah.']);
+        }
+
+        if (Hash::check($request->new_password, $user->password)) {
+            return back()->withErrors(['new_password' => 'Password baru tidak boleh sama dengan password lama.']);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->route('profile')->with('success', 'Password berhasil diubah.');
     }
 }

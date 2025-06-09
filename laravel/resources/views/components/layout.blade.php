@@ -14,6 +14,12 @@
     <title>{{ $title }}</title>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+
 </head>
 
 <body>

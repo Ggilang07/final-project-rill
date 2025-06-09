@@ -11,12 +11,50 @@ class RequestController extends Controller
 {
     use ValidatesRequests; // ✅ Tambahkan ini
 
-    public function index()
+    public function index(Request $request)
     {
+        $query = LetterRequest::with('user');
+
+        // Search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('letter_number', 'like', "%$search%")
+                  ->orWhereHas('user', function ($u) use ($search) {
+                      $u->where('name', 'like', "%$search%");
+                  })
+                  ->orWhere('category', 'like', "%$search%")
+                  ->orWhere('reason', 'like', "%$search%");
+            });
+        }
+
+        // Filter category
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        // Filter status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Order
+        $order = $request->get('order', 'desc');
+        $query->orderBy('created_at', $order);
+
+        // Ambil data untuk mobile dan desktop (misal 5 dan 10 per halaman)
+        $requestsMobile = (clone $query)->paginate(5, ['*'], 'mobile_page');
+        $requestsDesktop = (clone $query)->paginate(10, ['*'], 'desktop_page');
+
+        // Ambil kategori unik untuk filter
+        $categories = LetterRequest::select('category')->distinct()->pluck('category');
+
         return view('letter-submission', [
             'title' => 'Letter Submission',
             'heading' => 'Pengajuan Surat',
-            'requests' => LetterRequest::all()
+            'requestsMobile' => $requestsMobile,
+            'requestsDesktop' => $requestsDesktop,
+            'categories' => $categories,
         ]);
     }
 

@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id('user_id');
             $table->string('email', 100)->unique();
             $table->string('password');
-            $table->string('name', 255);
+            $table->string('name');
+            $table->string('p_profile')->nullable();
             $table->date('date_of_birth');
             $table->string('address');
             $table->string('no_kk', 16);

@@ -2,28 +2,101 @@
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:heading>{{ $heading }}</x-slot:heading>
     <div x-data="modalValidate()">
-            {{-- DESKTOP VERSION --}}
+
+        {{-- FILTER & SEARCH (Mobile & Desktop) --}}
+        <form method="GET" action="{{ route('submissions.index') }}"
+            class="flex flex-col md:flex-row gap-4 items-center mb-4 mt-4">
+            <input type="text" name="search" value="{{ request('search') }}"
+                placeholder="Cari nomor surat/pemohon/jenis/alasan..." class="w-full md:w-1/3 px-4 py-2 border rounded-lg"
+                autocomplete="off" />
+
+            <select name="category" class="w-auto max-w-xs px-3 py-2 border rounded-lg">
+                <option value="">Semua Jenis Surat</option>
+                @foreach($categories as $cat)
+                    <option value="{{ $cat }}" {{ request('category') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                @endforeach
+            </select>
+
+            <select name="status" class="w-auto max-w-xs px-3 py-2 border rounded-lg">
+                <option value="">Semua Status</option>
+                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Menunggu</option>
+                <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Disetujui</option>
+                <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Ditolak</option>
+                <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Dibatalkan</option>
+            </select>
+
+            <select name="order" class="w-auto max-w-xs px-3 py-2 border rounded-lg">
+                <option value="desc" {{ request('order', 'desc') == 'desc' ? 'selected' : '' }}>Terbaru</option>
+                <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Terlama</option>
+            </select>
+
+            <button type="submit"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full md:w-auto">
+                Cari
+            </button>
+        </form>
+
+        {{-- MOBILE VERSION --}}
+        <div class="md:hidden space-y-4">
+            @if($requestsMobile->count())
+                @foreach ($requestsMobile as $request)
+                    <div class="border rounded-lg p-4 bg-white shadow-sm">
+                        <p><span class="font-semibold">Nomor Surat:</span> {{ $request->letter_number }}</p>
+                        <p><span class="font-semibold">Pemohon:</span> {{ $request->user->name ?? '-' }}</p>
+                        <p><span class="font-semibold">Jenis Surat:</span> {{ $request->category }}</p>
+                        <p><span class="font-semibold">Alasan:</span> {{ $request->reason }}</p>
+                        <p><span class="font-semibold">Status:</span>
+                            @switch($request->status)
+                                @case('cancelled')
+                                    <span class="text-gray-400 font-semibold">Dibatalkan</span>
+                                    @break
+                                @case('approved')
+                                    <span class="text-green-600 font-semibold">Disetujui</span>
+                                    @break
+                                @case('rejected')
+                                    <span class="text-red-600 font-semibold">Ditolak</span>
+                                    @break
+                                @case('pending')
+                                    <span class="text-yellow-500 font-semibold">Menunggu</span>
+                                    @break
+                                @default
+                                    <span class="text-gray-400">{{ ucfirst($request->status) }}</span>
+                            @endswitch
+                        </p>
+                        <div class="mt-3 flex justify-end gap-2">
+                            <a href="#" @click.prevent="open({{ $request->request_id }})" class="text-blue-600 hover:underline">Ubah Status</a>
+                        </div>
+                    </div>
+                @endforeach
+                <div class="mt-4">
+                    {{ $requestsMobile->links() }}
+                </div>
+            @else
+                <div class="text-center text-gray-500 py-8">Data surat tidak ditemukan.</div>
+            @endif
+        </div>
+
+        {{-- DESKTOP VERSION --}}
         <div class="hidden md:block overflow-x-auto border rounded-lg shadow-sm">
             <table class="min-w-full bg-white divide-y divide-gray-200">
                 <thead class="bg-gray-100 text-sm text-gray-700">
                     <tr>
-                        {{-- <th class="px-4 py-3 text-left">No</th> --}}
+                        <th class="px-4 py-3 text-left">No</th>
                         <th class="px-4 py-3 text-left">Nomor Surat</th>
                         <th class="px-4 py-3 text-left">Pemohon</th>
                         <th class="px-4 py-3 text-left">Jenis Surat</th>
                         <th class="px-4 py-3 text-left">Alasan</th>
                         <th class="px-4 py-3 text-left">Status</th>
                         <th class="px-4 py-3 text-center">Aksi</th>
-
                     </tr>
                 </thead>
                 <tbody class="text-sm divide-y divide-gray-100 text-gray-700">
-                    {{-- @if($accountsDesktop->count()) --}}
-                        @foreach ($requests as $request)
+                    @if($requestsDesktop->count())
+                        @foreach ($requestsDesktop as $request)
                             <tr class="hover:bg-gray-50">
-                                {{-- <td class="px-4 py-2">
+                                <td class="px-4 py-2">
                                     {{ ($requestsDesktop->currentPage() - 1) * $requestsDesktop->perPage() + $loop->iteration }}
-                                </td> --}}
+                                </td>
                                 <td class="px-4 py-2">{{ $request->letter_number }}</td>
                                 <td class="px-4 py-2">{{ $request->user->name ?? '-' }}</td>
                                 <td class="px-4 py-2">{{ $request->category }}</td>
@@ -51,21 +124,21 @@
                                         class="text-blue-600 hover:underline mr-2">
                                         Ubah Status
                                     </a>
-
                                 </td>
                             </tr>
                         @endforeach
-                    {{-- @else
+                    @else
                         <tr>
-                            <td colspan="9" class="text-center text-gray-500 py-8">Pengguna tidak ditemukan.</td>
+                            <td colspan="6" class="text-center text-gray-500 py-8">Data surat tidak ditemukan.</td>
                         </tr>
-                    @endif --}}
+                    @endif
                 </tbody>
             </table>
-            {{-- <div class="mt-4">
-                {{ $accountsDesktop->links() }}
-            </div> --}}
+            <div class="mt-4">
+                {{ $requestsDesktop->links() }}
+            </div>
         </div>
+
         <!-- Modal Komponen -->
          <div 
     x-show="isOpen"

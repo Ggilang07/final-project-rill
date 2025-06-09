@@ -39,6 +39,7 @@
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
+     <a href="/forgot-password" class="font-mono text-red-500">Lupa Password?</a>
 
             <!-- Submit -->
             <div>
