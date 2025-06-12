@@ -47,16 +47,13 @@
     </ion-item>
 
     <!-- Tanggal Surat DateTime -->
-    <ion-item class="form-item">
-      <ion-icon name="calendar" slot="start" class="form-icon"></ion-icon>
-      <ion-datetime 
-        presentation="date" 
-        placeholder="17 Juli 2500"
-        size="compact"
-        class="compact-datetime">
-      </ion-datetime>
-      <ion-note slot="helper">Tanggal Surat <span class="required-mark">*</span></ion-note>
-    </ion-item>
+    <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime id="datetime"></ion-datetime>
+      </ng-template>
+    </ion-modal>
 
     <!-- Buttons -->
     <div class="button-container">

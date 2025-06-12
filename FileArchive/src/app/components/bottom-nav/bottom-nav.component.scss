@@ -11,6 +11,11 @@ ion-tab-button {
 .tab-selected {
   color: #ffffff;
   ion-icon {
-    color: #ff0000;
+    color: #fcfcfc;
   }
+}
+
+svg {
+  width: 24px;
+  height: 24px;
 }
