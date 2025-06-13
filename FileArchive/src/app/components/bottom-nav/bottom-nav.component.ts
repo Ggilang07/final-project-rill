@@ -35,6 +35,9 @@ export class BottomNavComponent implements OnInit {
     } else if (url.includes('/profile')) {
       this.activeTab = 'profile';
     }
+    else if (currentUrl.includes('/forgot-password')) {
+      this.activeTab = 'forgot-password';
+    }
   }
 
   navigateTo(route: string) {
