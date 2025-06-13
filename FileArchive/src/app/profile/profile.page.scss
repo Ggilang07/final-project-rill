@@ -11,6 +11,8 @@
   max-width: 100%;
   min-height: 100vh;
   background-color: #ffffff;
+  padding-bottom: 65px;
+  color: #222;
 }
 
 .profile-header {
@@ -78,6 +80,7 @@
   border: 1px solid #ddd;
   border-radius: 10px;
   font-size: 14px;
+  color: #222 !important;
 }
 
 .button-container {

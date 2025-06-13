@@ -11,26 +11,28 @@ import { Router } from '@angular/router';
 })
 export class BottomNavComponent implements OnInit {
   activeTab: string = 'home';
-  notLogin : boolean = true;
+  showNav: boolean = true;
 
-  constructor(public router: Router) {
-  }
+  constructor(public router: Router) {}
 
   ngOnInit() {
-    // Mendeteksi URL saat ini untuk mengatur tab aktif
-    const currentUrl = window.location.href;
-    if (currentUrl.includes('/login')){
-      this.notLogin = false;
-    }
-    if (currentUrl.includes('/home')) {
+    this.updateNavVisibility();
+    // Listen to route changes
+    this.router.events.subscribe(() => {
+      this.updateNavVisibility();
+    });
+  }
+
+  updateNavVisibility() {
+    const url = this.router.url;
+    this.showNav = !url.includes('/login');
+    if (url.includes('/home')) {
       this.activeTab = 'home';
-    } else if (currentUrl.includes('/letter-request')) {
+    } else if (url.includes('/letter-request')) {
       this.activeTab = 'letter-request';
-    } else if (currentUrl.includes('/letter-status')) {
+    } else if (url.includes('/letter-status')) {
       this.activeTab = 'letter-status';
-    } else if (currentUrl.includes('/letter-request')) {
-      this.activeTab = 'letter-request';
-    } else if (currentUrl.includes('/profile')) {
+    } else if (url.includes('/profile')) {
       this.activeTab = 'profile';
     }
   }

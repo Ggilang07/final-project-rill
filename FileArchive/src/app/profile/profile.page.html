@@ -1,51 +1,91 @@
-<div class="profile-container">
-  <!-- Blue curved header -->
-  <div class="profile-header">
-    <h1>Profil Saya</h1>
+<ion-content>
+  <div class="profile-container">
+    <!-- Blue curved header -->
+    <div class="profile-header">
+      <h1>Profil Saya</h1>
+    </div>
+
+    <!-- Avatar circle -->
+    <div class="avatar-circle">
+      <div class="avatar-icon"></div>
+    </div>
+
+    <!-- Form fields -->
+    <div class="form-fields" *ngIf="user">
+      <div class="field-group">
+        <label>Nama</label>
+        <input
+          type="text"
+          [value]="user?.name"
+          placeholder="user?.name"
+          [readonly]="!isEdit"
+          (input)="handleInput('name', $event)"
+        />
+      </div>
+      <div class="field-group">
+        <label>Email</label>
+        <input
+          type="email"
+          [value]="user?.email"
+          [readonly]="!isEdit"
+          (input)="handleInput('email', $event)"
+        />
+      </div>
+      <div class="field-group">
+        <label>Tanggal Lahir</label>
+        <input
+          type="date"
+          [value]="user?.date_of_birth"
+          (input)="handleInput('date_of_birth', $event)"
+          readonly
+        />
+      </div>
+      <div class="field-group">
+        <label>Alamat</label>
+        <input
+          type="text"
+          [value]="user?.address"
+          [readonly]="!isEdit"
+          (input)="handleInput('address', $event)"
+        />
+      </div>
+      <div class="field-group">
+        <label>Password</label>
+        <input type="password" value="user?.password" name="password" readonly />
+      </div>
+      <div class="field-group">
+        <label>NIK</label>
+        <input type="text" [value]="user?.nik" readonly />
+      </div>
+      <div class="field-group">
+        <label>No KK</label>
+        <input type="text" [value]="user?.no_kk" readonly />
+      </div>
+    </div>
+
+    <!-- Edit/Save button -->
+    <div class="button-container">
+      <button
+        class="edit-button"
+        *ngIf="!isEdit"
+        (click)="editProfile()"
+      >
+        Edit Profil
+      </button>
+      <button
+        class="save-button"
+        *ngIf="isEdit"
+        (click)="saveProfile()"
+      >
+        Simpan
+      </button>
+      <button
+        class="cancel-button"
+        *ngIf="isEdit"
+        (click)="cancelEdit()"
+      >
+        Batal
+      </button>
+    </div>
   </div>
-  
-  <!-- Avatar circle -->
-  <div class="avatar-circle">
-    <div class="avatar-icon"></div>
-  </div>
-  
-  <!-- Form fields -->
-  <div class="form-fields">
-    <div class="field-group">
-      <label>Nama Saya</label>
-      <input type="text" value="Muhammad Gilang Khaliq Nur Rahman" readonly>
-    </div>
-    
-    <div class="field-group">
-      <label>Tanggal Lahir</label>
-      <input type="text" value="07 - Juli - 2005" readonly>
-    </div>
-    
-    <div class="field-group">
-      <label>Password</label>
-      <input type="password" value="****************" readonly>
-    </div>
-    
-    <div class="field-group">
-      <label>Alamat</label>
-      <input type="text" value="Jl. Anjunkanoman RT 06 RW 12 Kec. Karawang Barat Kab. Karawang" readonly>
-    </div>
-    
-    <div class="field-group">
-      <label>NIK</label>
-      <input type="text" value="3215014707050002" readonly>
-    </div>
-    
-    <div class="field-group">
-      <label>No KK</label>
-      <input type="text" value="3215014707050002" readonly>
-    </div>
-  </div>
-  
-  <!-- Edit button -->
-  <div class="button-container">
-    <button class="edit-button">Edit Profil</button>
-  </div>
-  
-  <!-- Bottom navigation bar -->
-  
+</ion-content>

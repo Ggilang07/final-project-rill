@@ -8,8 +8,8 @@
       </div>
     </div>
     <div class="profile-info">
-      <h2>Muhammad Gilang Khaliq Nur Rahman</h2>
-      <p>Operator Produksi</p>
+      <h2>{{ user?.name }}</h2>
+      <p>{{ user?.role }}</p>
     </div>
   </div>
 
@@ -80,5 +80,10 @@
       <ion-icon name="person-outline"></ion-icon>
     </ion-tab-button> 
   </ion-tab-bar>
+
+  <!-- Tombol Logout -->
+  <button (click)="logout()" style="margin:16px 0; padding:8px 16px;">
+    Logout
+  </button>
   
 </ion-content>

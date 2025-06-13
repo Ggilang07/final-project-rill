@@ -21,7 +21,14 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/'); // Ganti dengan rute tujuan
+
+            // Cek role user
+            if (Auth::user()->role !== 'admin') {
+                Auth::logout();
+                return back()->with('error', 'Akses ditolak: Jenis akun tidak sesuai dengan halaman login ini');
+            }
+
+            return redirect()->intended('/'); // rute tujuan
         }
 
         return back()->with('error', 'Email atau password salah.');

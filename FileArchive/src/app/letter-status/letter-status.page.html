@@ -7,15 +7,16 @@
 <ion-content [fullscreen]="true">
   <div class="search-container">
     <div class="search-wrapper">
-      <ion-searchbar 
-        placeholder="Cari..." 
+      <ion-searchbar
+        placeholder="Cari..."
         [(ngModel)]="searchTerm"
         (ionInput)="filterRequests($event)"
         (ionClear)="clearSearch()"
-        show-clear-button="focus">
+        show-clear-button="focus"
+      >
       </ion-searchbar>
     </div>
-    
+
     <div class="add-button-wrapper">
       <ion-button fill="clear" class="add-button" (click)="buatSurat()">
         <ion-icon name="add-circle" slot="icon-only"></ion-icon>
@@ -28,7 +29,7 @@
     <div class="table-header">
       <div class="header-cell nomor-tanggal">Nomor & Tanggal surat</div>
       <div class="header-cell jenis-surat">Jenis Surat</div>
-      <div class="header-cell nama">Nama</div>
+      <div class="header-cell alasan">Alasan</div>
       <div class="header-cell status">Status</div>
     </div>
 
@@ -43,22 +44,21 @@
 
     <div class="table-row" *ngFor="let request of getFilteredRequests()">
       <div class="row-cell nomor-tanggal">
-        <div class="nomor-surat">{{ request.nomorSurat }}</div>
-        <div class="tanggal-surat">{{ request.tanggalSurat }}</div>
+        <div class="nomor-surat">{{ request.letter_number }}</div>
+        <div class="tanggal-surat">
+          {{ request.created_at | date:'d MMMM y':'':'id' }}
+        </div>
       </div>
-      
-      <div class="row-cell jenis-surat">
-        {{ request.jenisSurat }}
-      </div>
-      
-      <div class="row-cell nama">
-        {{ request.nama }}
-      </div>
-      
+
+      <div class="row-cell jenis-surat">{{ request.category }}</div>
+
+      <div class="row-cell nama">{{ request.reason }}</div>
+
       <div class="row-cell status">
-        <ion-icon 
-          [name]="getStatusIcon(request.status)" 
-          [class]="'status-icon ' + request.status">
+        <ion-icon
+          [name]="getStatusIcon(request.status)"
+          [class]="'status-icon ' + request.status"
+        >
         </ion-icon>
       </div>
     </div>

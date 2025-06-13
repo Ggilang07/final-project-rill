@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../services/api.service';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,12 +10,20 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
   standalone: false,
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  user: any;
 
-  constructor() {}
+  constructor(private api: ApiService, private auth: AuthService, private router: Router) {}
 
-  ngOnInit(){
-    
+  ngOnInit() {
+    this.api.getProfile().subscribe((res) => {
+      this.user = res;
+    });
   }
 
+  logout() {
+    this.auth.logout();
+    // Jika ingin redirect ke halaman login:
+    this.router.navigate(['/login']);
+  }
 }
