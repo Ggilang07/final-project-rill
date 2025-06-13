@@ -1,4 +1,4 @@
-<ion-header [translucent]="true"> </ion-header>
+<ion-header [translucent]="true"></ion-header>
 
 <ion-content>
   <div class="login-container">
@@ -7,31 +7,58 @@
       <h1>LOGIN HERE</h1>
       <p>Welcome To</p>
     </div>
-    
+
     <!-- Login form -->
     <div class="login-card">
       <div class="form-container">
-        <div class="custom-input">
+        <form (ngSubmit)="login()">
+          <div class="custom-input">
             <div class="input-wrapper">
-              <input type="email" id="email-input" class="custom-input-field" placeholder=" ">
+              <input
+                type="email"
+                id="email-input"
+                class="custom-input-field"
+                placeholder=" "
+                [(ngModel)]="credentials.email"
+                name="email"
+                required
+              />
               <label for="email-input" class="floating-label">EMAIL</label>
             </div>
           </div>
 
           <div class="custom-input">
             <div class="input-wrapper">
-              <input type="password" id="password-input" class="custom-input-field" placeholder=" ">
-              <label for="password-input" class="floating-label">PASSWORD</label>
+              <input
+                [type]="passwordVisible ? 'text' : 'password'"
+                id="password-input"
+                class="custom-input-field"
+                placeholder=" "
+                [(ngModel)]="credentials.password"
+                name="password"
+                required
+              />
+              <label for="password-input" class="floating-label"
+                >PASSWORD</label
+              >
               <div class="password-toggle" (click)="togglePasswordVisibility()">
-                <ion-icon [name]="passwordVisible ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+                <ion-icon
+                  [name]="passwordVisible ? 'eye-outline' : 'eye-off-outline'"
+                ></ion-icon>
               </div>
             </div>
           </div>
-        <div class="forgot-password">
-          <span>forgot password?</span>
-        </div>
+          <div class="forgot-password">
+            <span>forgot password?</span>
+          </div>
 
-        <button class="sign-in-button">SIGN IN</button>
+          <button class="sign-in-button" [disabled]="isLoading" type="submit">
+            {{ isLoading ? 'LOADING...' : 'SIGN IN' }}
+          </button>
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+        </form>
       </div>
     </div>
   </div>

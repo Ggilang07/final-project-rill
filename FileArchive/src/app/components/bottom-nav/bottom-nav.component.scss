@@ -1,6 +1,15 @@
 ion-tab-bar {
-  --background: #4B7BEC;
+  --background: #4b7bec;
   border-top: 1px solid #e6e6e6;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.bottom-nav {
+  width: 100%;
 }
 
 ion-tab-button {
@@ -9,13 +18,25 @@ ion-tab-button {
 }
 
 .tab-selected {
-  color: #ffffff;
+  color: #d61212;
+
   ion-icon {
     color: #fcfcfc;
   }
 }
 
+ion-tab-button ion-icon,
+ion-tab-button svg {
+  color: #BFBBA9; // sebelum dipilih
+  transition: color 0.2s;
+}
+
+ion-tab-button.tab-selected ion-icon,
+ion-tab-button.tab-selected svg {
+  color: #fff; // setelah dipilih
+}
+
 svg {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
+import { ApiService } from '../services/api.service';
 
 @Component({
   standalone: false,
@@ -8,53 +9,33 @@ import { AlertController, NavController } from '@ionic/angular';
   styleUrls: ['./letter-status.page.scss'],
 })
 export class LetterStatusPage implements OnInit {
-
+  requests: any[] = [];
+  isLoading = false;
   searchTerm: string = '';
-  
-  requests = [
-    {
-      nomorSurat: "SKU/034/KSE/DNB/2025",
-      tanggalSurat: "24 April 2025",
-      jenisSurat: "Surat Izin Cuti",
-      nama: "Gilang",
-      status: "pending"
-    },
-    {
-      nomorSurat: "SKU/035/KSE/DNB/2025",
-      tanggalSurat: "25 April 2025",
-      jenisSurat: "Surat Izin Cuti",
-      nama: "Gilang",
-      status: "approved"
-    },
-    {
-      nomorSurat: "SKU/036/KSE/DNB/2025",
-      tanggalSurat: "26 April 2025",
-      jenisSurat: "Surat Izin Cuti",
-      nama: "Gilang",
-      status: "pending"
-    },
-    {
-      nomorSurat: "SKU/037/KSE/DNB/2025",
-      tanggalSurat: "27 April 2025",
-      jenisSurat: "Surat Izin Cuti",
-      nama: "Gilang",
-      status: "rejected"
-    },
-    {
-      nomorSurat: "SKU/038/KSE/DNB/2025",
-      tanggalSurat: "28 April 2025",
-      jenisSurat: "Surat Izin Cuti",
-      nama: "Gilang",
-      status: "pending"
-    }
-  ];
 
   constructor(
     private alertController: AlertController,
-    private navCtrl: NavController
-  ) { }
+    private navCtrl: NavController,
+    private apiService: ApiService,
+  ) {}
 
   ngOnInit() {
+    this.loadRequestLetters();
+  }
+
+  loadRequestLetters() {
+    this.isLoading = true;
+    this.apiService.getRequestLetters().subscribe(
+      (response) => {
+        // Jika response berupa { data: [...] } (Laravel resource), gunakan response.data
+        this.requests = response.data ?? response;
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error('Error fetching letters:', error);
+        this.isLoading = false;
+      },
+    );
   }
 
   // Fungsi untuk filter data berdasarkan pencarian
@@ -64,12 +45,21 @@ export class LetterStatusPage implements OnInit {
     }
 
     const searchLower = this.searchTerm.toLowerCase();
-    return this.requests.filter(request => 
-      request.nomorSurat.toLowerCase().includes(searchLower) ||
-      request.jenisSurat.toLowerCase().includes(searchLower) ||
-      request.nama.toLowerCase().includes(searchLower) ||
-      request.status.toLowerCase().includes(searchLower) ||
-      request.tanggalSurat.toLowerCase().includes(searchLower)
+    return this.requests.filter(
+      (request) =>
+        (request.nomorSurat || request.letter_number || '')
+          .toLowerCase()
+          .includes(searchLower) ||
+        (request.jenisSurat || request.category || '')
+          .toLowerCase()
+          .includes(searchLower) ||
+        (request.nama || request.user?.name || '')
+          .toLowerCase()
+          .includes(searchLower) ||
+        (request.status || '').toLowerCase().includes(searchLower) ||
+        (request.tanggalSurat || request.created_at || '')
+          .toLowerCase()
+          .includes(searchLower),
     );
   }
 
@@ -85,14 +75,14 @@ export class LetterStatusPage implements OnInit {
 
   // Fungsi untuk mendapatkan ikon status
   getStatusIcon(status: string): string {
-    switch(status) {
-      case 'approved': 
+    switch (status) {
+      case 'approved':
         return 'checkmark-circle';
-      case 'rejected': 
+      case 'rejected':
         return 'close-circle';
-      case 'pending': 
+      case 'pending':
         return 'time';
-      default: 
+      default:
         return 'time';
     }
   }
@@ -107,25 +97,25 @@ export class LetterStatusPage implements OnInit {
           text: 'Surat Izin Cuti',
           handler: () => {
             this.navigateToForm('cuti');
-          }
+          },
         },
         {
           text: 'Surat Izin Sakit',
           handler: () => {
             this.navigateToForm('sakit');
-          }
+          },
         },
         {
           text: 'Surat Dinas',
           handler: () => {
             this.navigateToForm('dinas');
-          }
+          },
         },
         {
           text: 'Batal',
-          role: 'cancel'
-        }
-      ]
+          role: 'cancel',
+        },
+      ],
     });
 
     await alert.present();
@@ -136,7 +126,7 @@ export class LetterStatusPage implements OnInit {
     // Navigasi ke halaman form sesuai jenis surat
     // Contoh: this.navCtrl.navigateForward('/form-surat/' + jenisSurat);
     console.log('Navigasi ke form:', jenisSurat);
-    
+
     // Untuk demo, tampilkan alert
     this.showFormAlert(jenisSurat);
   }
@@ -146,7 +136,7 @@ export class LetterStatusPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Form Surat',
       message: `Membuka form untuk ${jenisSurat}...`,
-      buttons: ['OK']
+      buttons: ['OK'],
     });
 
     await alert.present();
