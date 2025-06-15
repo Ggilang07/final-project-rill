@@ -4,7 +4,7 @@
 
     <div x-data class="p-2 space-y-3">
         <!-- Summary Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 cursor-pointer" onclick="window.location.href='/letter-submissions'">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 cursor-pointer" onclick="window.location.href='/submissions'">
             <div class="bg-white p-5 rounded-2xl shadow-md">
                 <h2 class="text-3xl font-bold text-blue-600">{{ $hariIni }}</h2>
                 <p class="text-gray-600 mt-1">Pengajuan Hari Ini</p>
