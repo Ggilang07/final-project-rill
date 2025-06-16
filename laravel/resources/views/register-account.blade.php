@@ -1,6 +1,6 @@
 <x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
-    <x-slot:heading>Akun Pengguna.blade</x-slot:heading>
+    <x-slot:heading>{{ $heading }}</x-slot:heading>
 
     <div x-data="{ open: false }">
         <a href="#" @click="modalUser.openAdd()"
