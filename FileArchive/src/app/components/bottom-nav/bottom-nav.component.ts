@@ -25,7 +25,9 @@ export class BottomNavComponent implements OnInit {
 
   updateNavVisibility() {
     const url = this.router.url;
-    this.showNav = !url.includes('/login');
+    // Hide nav in login and forgot-password pages
+    this.showNav = !url.includes('/login') && !url.includes('/forgot-password');
+
     if (url.includes('/home')) {
       this.activeTab = 'home';
     } else if (url.includes('/letter-request')) {
@@ -34,9 +36,6 @@ export class BottomNavComponent implements OnInit {
       this.activeTab = 'letter-status';
     } else if (url.includes('/profile')) {
       this.activeTab = 'profile';
-    }
-    else if (currentUrl.includes('/forgot-password')) {
-      this.activeTab = 'forgot-password';
     }
   }
 

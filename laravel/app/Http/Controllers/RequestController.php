@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 use App\Models\LetterRequest;
 use App\Models\UploadedLetter;
@@ -9,22 +10,22 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class RequestController extends Controller
 {
-    use ValidatesRequests; // ✅ Tambahkan ini
+    use ValidatesRequests;
 
     public function index(Request $request)
     {
-        $query = LetterRequest::with('user');
+        $query = LetterRequest::with('requestedBy'); // Changed from 'user' to 'requestedBy'
 
         // Search
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('letter_number', 'like', "%$search%")
-                  ->orWhereHas('user', function ($u) use ($search) {
-                      $u->where('name', 'like', "%$search%");
-                  })
-                  ->orWhere('category', 'like', "%$search%")
-                  ->orWhere('reason', 'like', "%$search%");
+                    ->orWhereHas('requestedBy', function ($u) use ($search) { // Changed from 'user' to 'requestedBy'
+                        $u->where('name', 'like', "%$search%");
+                    })
+                    ->orWhere('category', 'like', "%$search%")
+                    ->orWhere('reason', 'like', "%$search%");
             });
         }
 
@@ -61,32 +62,41 @@ class RequestController extends Controller
     public function validateRequest(Request $request)
     {
         try {
-            $validated = $request->validate([
+            // Dynamic validation rules based on status
+            $rules = [
                 'request_id' => 'required|exists:letter_requests,request_id',
                 'status' => 'required|in:approved,rejected',
-                'link_pdf' => 'nullable|url'
-            ]);
+            ];
 
-            if ($validated['status'] === 'approved' && !$validated['link_pdf']) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Link surat harus diisi.'
-                ]);
+            // Add link_pdf validation only if status is approved
+            if ($request->status === 'approved') {
+                $rules['link_pdf'] = 'required|url';
             }
 
-            if ($validated['status'] === 'approved') {
+            $validated = $request->validate($rules);
+
+            // Start transaction
+            DB::beginTransaction();
+
+            // Update status dan validated_by di letter_requests
+            LetterRequest::where('request_id', $validated['request_id'])
+                ->update([
+                    'status' => $validated['status'],
+                    'validated_by' => auth()->user()->user_id
+                ]);
+
+            // Jika approved dan ada link_pdf, tambah record di uploaded_letters
+            if ($validated['status'] === 'approved' && isset($validated['link_pdf'])) {
                 UploadedLetter::create([
                     'request_id' => $validated['request_id'],
-                    'link_pdf' => $validated['link_pdf'],
-                    'validated_by' => auth()->id()
+                    'link_pdf' => $validated['link_pdf']
                 ]);
             }
 
-            LetterRequest::where('request_id', $validated['request_id'])
-                ->update(['status' => $validated['status']]);
-
+            DB::commit();
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => 'Error: ' . $e->getMessage()

@@ -13,15 +13,11 @@ class UploadedLetter extends Model
 
     protected $fillable = [
         'request_id',
-        'link_pdf',
-        'validated_by',
+        'link_pdf'
     ];
-    public function user(): BelongsTo
+
+    public function letterRequest(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'validated_by');
-    }
-    public function letterRequests(): HasOne
-    {
-        return $this->hasOne(LetterRequest::class, 'request_id');
+        return $this->belongsTo(LetterRequest::class, 'request_id', 'request_id');
     }
 }

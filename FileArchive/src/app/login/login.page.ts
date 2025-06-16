@@ -23,6 +23,10 @@ export class LoginPage {
     this.passwordVisible = !this.passwordVisible;
   }
 
+   goToForgotPassword() {
+    this.router.navigate(['/forgot-password']);
+  }
+
   login() {
     this.isLoading = true;
     this.errorMessage = '';

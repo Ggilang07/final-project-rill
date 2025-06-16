@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -54,13 +55,20 @@ class User extends Authenticatable
         return 'user_id';
     }
 
-    public function letterRequests(): HasMany
+    /**
+     * Get letter requests made by this user
+     */
+    public function letterRequests()
     {
-        return $this->hasMany(LetterRequest::class, 'request_by');
+        return $this->hasMany(LetterRequest::class, 'request_by', 'user_id');
     }
-    public function UploadLetter(): HasOne
+
+    /**
+     * Get letters validated by this user
+     */
+    public function validatedLetters()
     {
-        return $this->hasOne(LetterRequest::class, 'validated_by');
+        return $this->hasMany(UploadedLetter::class, 'validated_by', 'user_id');
     }
 
     public function isUsingDefaultPassword()

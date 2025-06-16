@@ -15,41 +15,48 @@ class LetterRequestsTableSeeder extends Seeder
         DB::table('letter_requests')->insert([
             [
                 'request_by'    => 4,
-                'status'        => 'pending',
-                'category'      => 'Izin',
+                'validated_by'  => null,
+                'letter_number' => '001/FAV/IZ-TM/06/2025',
+                'category'      => 'IZIN_TIDAK_MASUK',
                 'reason'        => 'Tidak masuk kerja karena urusan keluarga',
-                'letter_number' => '001/HRD/2025',
+                'status'        => 'pending',
+                'letter_date'   => now()->addDays(3), // 3 hari ke depan
                 'created_at'    => now(),
                 'updated_at'    => now(),
             ],
             [
                 'request_by'    => 8,
-                'status'        => 'approved',
-                'category'      => 'Cuti',
+                'validated_by'  => 2,
+                'letter_number' => '001/FAV/CT-TH/07/2025',
+                'category'      => 'CUTI_TAHUNAN',
                 'reason'        => 'Cuti tahunan',
-                'letter_number' => '002/HRD/2025',
+                'status'        => 'approved',
+                'letter_date'   => now()->addWeek(), // 1 minggu ke depan
                 'created_at'    => now()->subDays(1),
                 'updated_at'    => now()->subDays(1),
             ],
             [
                 'request_by'    => 12,
-                'status'        => 'cancelled',
-                'category'      => 'Sakit',
+                'validated_by'  => 1,
+                'letter_number' => '001/FAV/IZ-SK/05/2025',
+                'category'      => 'IZIN_SAKIT',
                 'reason'        => 'Tidak masuk kerja karena sakit hati',
-                'letter_number' => '003/HRD/2025',
+                'status'        => 'cancelled',
+                'letter_date'   => now()->addDays(5), // 5 hari ke depan
                 'created_at'    => now(),
                 'updated_at'    => now(),
             ],
             [
                 'request_by'    => 11,
+                'validated_by'  => null,
+                'letter_number' => '004/FAV/UND/09/2025',
+                'category'      => 'SURAT_UNDANGAN',
+                'reason'        => 'Undangan bertemu dengan alien',
                 'status'        => 'rejected',
-                'category'      => 'Lainnya',
-                'reason'        => 'Dan Lain-lain',
-                'letter_number' => '004/HRD/2025',
+                'letter_date'   => now()->addDays(10), // 10 hari ke depan
                 'created_at'    => now()->subDays(1),
                 'updated_at'    => now()->subDays(1),
             ]
-
         ]);
     }
 }

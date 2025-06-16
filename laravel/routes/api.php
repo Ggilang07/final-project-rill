@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\RequestController;
 use App\Http\Controllers\Api\StatusController;
 
 /*
@@ -21,5 +22,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
     Route::get('/status-letters', [StatusController::class, 'index']);
+    Route::post('/letter-request', [RequestController::class, 'store']);
+    Route::get('/categories', [RequestController::class, 'getCategories']);
     Route::get('/profile', [AuthController::class, 'user']);
+    Route::put('/profile', [AuthController::class, 'user']);
 });

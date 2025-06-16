@@ -11,9 +11,8 @@
         {{-- FILTER & SEARCH (Mobile & Desktop) --}}
         <form method="GET" action="{{ route('accounts.index') }}"
             class="flex flex-col md:flex-row gap-4 items-center mb-4 mt-4">
-            <input type="text" name="search" value="{{ request('search') }}"
-                placeholder="Cari nama/email/NIK..." class="w-full md:w-1/3 px-4 py-2 border rounded-lg"
-                autocomplete="off" />
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama/email/NIK..."
+                class="w-full md:w-1/3 px-4 py-2 border rounded-lg" autocomplete="off" />
 
             <select name="role" class="w-auto max-w-xs px-3 py-2 border rounded-lg">
                 <option value="">Semua Role</option>
@@ -47,15 +46,15 @@
                         <p><span class="font-semibold">Role:</span> {{ $account->role }}</p>
                         <div class="mt-3 flex justify-end gap-2">
                             <a href="#" @click="modalUser.openEdit({
-                                id: '{{ $account->user_id }}',
-                                nama: '{{ $account->name }}',
-                                email: '{{ $account->email }}',
-                                date: '{{ $account->date_of_birth }}',
-                                address: '{{ $account->address }}',
-                                nik: '{{ $account->nik }}',
-                                no_kk: '{{ $account->no_kk }}',
-                                role: '{{ $account->role }}'
-                            })" class="text-blue-600 hover:underline">Ubah</a>
+                                        id: '{{ $account->user_id }}',
+                                        nama: '{{ $account->name }}',
+                                        email: '{{ $account->email }}',
+                                        date: '{{ $account->date_of_birth }}',
+                                        address: '{{ $account->address }}',
+                                        nik: '{{ $account->nik }}',
+                                        no_kk: '{{ $account->no_kk }}',
+                                        role: '{{ $account->role }}'
+                                    })" class="text-blue-600 hover:underline">Ubah</a>
                             <a href="#" class="text-red-600 hover:underline">Hapus</a>
                         </div>
                     </div>
@@ -100,22 +99,21 @@
                                 <td class="px-4 py-2">{{ $account->role }}</td>
                                 <td class="px-4 py-2 whitespace-nowrap">
                                     <a href="#" @click="modalUser.openEdit({
-                                        id: '{{ $account->user_id }}',
-                                        nama: '{{ $account->name }}',
-                                        email: '{{ $account->email }}',
-                                        password: '',
-                                        date: '{{ $account->date_of_birth }}',
-                                        address: '{{ $account->address }}',
-                                        nik: '{{ $account->nik }}',
-                                        no_kk: '{{ $account->no_kk }}',
-                                        role: '{{ $account->role }}'
-                                    })"
-                                    class="text-blue-600 hover:underline mr-2">Ubah</a>
-                                    <form action="{{ route('accounts.destroy', $account) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button onclick="return confirm('Are you sure?')" class="text-red-500">Hapus</button>
-                                    </form>
+                                                id: '{{ $account->user_id }}',
+                                                nama: '{{ $account->name }}',
+                                                email: '{{ $account->email }}',
+                                                password: '',
+                                                date: '{{ $account->date_of_birth }}',
+                                                address: '{{ $account->address }}',
+                                                nik: '{{ $account->nik }}',
+                                                no_kk: '{{ $account->no_kk }}',
+                                                role: '{{ $account->role }}'
+                                            })" class="text-blue-600 hover:underline mr-2">Ubah</a>
+                                    {{-- Ganti form delete dengan button --}}
+                                    <button onclick="deleteAccount('{{ $account->user_id }}')"
+                                        class="text-red-500 hover:underline">
+                                        Hapus
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -132,4 +130,33 @@
         </div>
     </div>
     <x-user-modal></x-user-modal>
+
+    @push('scripts')
+        <script>
+            function deleteAccount(userId) {
+                if (confirm('Apakah Anda yakin ingin menghapus akun ini?')) {
+                    fetch(`/accounts/${userId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Reload halaman atau update UI
+                                window.location.reload();
+                            } else {
+                                alert('Gagal menghapus akun');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Terjadi kesalahan');
+                        });
+                }
+            }
+        </script>
+    @endpush
 </x-layout>

@@ -13,7 +13,9 @@
             <select name="category" class="w-auto max-w-xs px-3 py-2 border rounded-lg">
                 <option value="">Semua Jenis Surat</option>
                 @foreach($categories as $cat)
-                    <option value="{{ $cat }}" {{ request('category') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                    <option value="{{ $cat }}" {{ request('category') == $cat ? 'selected' : '' }}>
+                        {{ str_replace('_', ' ', $cat) }}
+                    </option>
                 @endforeach
             </select>
 
@@ -42,8 +44,9 @@
                 @foreach ($requestsMobile as $request)
                     <div class="border rounded-lg p-4 bg-white shadow-sm">
                         <p><span class="font-semibold">Nomor Surat:</span> {{ $request->letter_number }}</p>
-                        <p><span class="font-semibold">Pemohon:</span> {{ $request->user->name ?? '-' }}</p>
-                        <p><span class="font-semibold">Jenis Surat:</span> {{ $request->category }}</p>
+                        <p><span class="font-semibold">Tanggal Surat:</span> {{ $request->letter_date }}</p>
+                        <p><span class="font-semibold">Pemohon:</span> {{ $request->requestedBy->name }}</p>
+                        <p><span class="font-semibold">Jenis Surat:</span> {{ str_replace('_', ' ', $request->category) }}</p>
                         <p><span class="font-semibold">Alasan:</span> {{ $request->reason }}</p>
                         <p><span class="font-semibold">Status:</span>
                             @switch($request->status)
@@ -83,6 +86,7 @@
                     <tr>
                         <th class="px-4 py-3 text-left">No</th>
                         <th class="px-4 py-3 text-left">Nomor Surat</th>
+                        <th class="px-4 py-3 text-left">Tanggal Surat</th>
                         <th class="px-4 py-3 text-left">Pemohon</th>
                         <th class="px-4 py-3 text-left">Jenis Surat</th>
                         <th class="px-4 py-3 text-left">Alasan</th>
@@ -98,8 +102,9 @@
                                     {{ ($requestsDesktop->currentPage() - 1) * $requestsDesktop->perPage() + $loop->iteration }}
                                 </td>
                                 <td class="px-4 py-2">{{ $request->letter_number }}</td>
-                                <td class="px-4 py-2">{{ $request->user->name ?? '-' }}</td>
-                                <td class="px-4 py-2">{{ $request->category }}</td>
+                                <td class="px-4 py-2">{{ $request->formatted_date }}</td>
+                                <td class="px-4 py-2">{{ $request->requestedBy->name }}</td>
+                                <td class="px-4 py-2">{{ str_replace('_', ' ', $request->category) }}</td>
                                 <td class="px-4 py-2">{{ $request->reason }}</td>
                                 <td class="px-4 py-2">
                                     @switch($request->status)

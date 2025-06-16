@@ -4,11 +4,11 @@ ion-header {
     --background: #5a7fcf;
     --color: white;
   }
-  
+
   ion-title {
     font-weight: 600;
   }
-  
+
   ion-back-button {
     --color: white;
   }
@@ -39,6 +39,21 @@ ion-header {
   --color: black;
 }
 
+ion-item.form-item {
+  --padding-start: 0;
+  margin-bottom: 8px;
+
+  ion-label {
+    h3 {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    p {
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
 // Icon styling
 .form-icon {
   color: #007bff;
@@ -53,11 +68,20 @@ ion-select {
   font-size: 16px;
 }
 
-// Input styling  
+// Input styling
 ion-input {
   --placeholder-color: #333;
   --color: black;
   font-size: 16px;
+}
+
+ion-input.readonly {
+  --background: #f4f4f4;
+  --color: #666;
+}
+
+.form-item ion-input {
+  --padding-start: 8px;
 }
 
 // DateTime styling
@@ -87,13 +111,27 @@ ion-datetime {
 }
 
 @keyframes colorShift {
-  0% { color: #007bff; }
-  16.66% { color: #ff6b6b; }
-  33.33% { color: #4ecdc4; }
-  50% { color: #45b7d1; }
-  66.66% { color: #96ceb4; }
-  83.33% { color: #feca57; }
-  100% { color: #007bff; }
+  0% {
+    color: #007bff;
+  }
+  16.66% {
+    color: #ff6b6b;
+  }
+  33.33% {
+    color: #4ecdc4;
+  }
+  50% {
+    color: #45b7d1;
+  }
+  66.66% {
+    color: #96ceb4;
+  }
+  83.33% {
+    color: #feca57;
+  }
+  100% {
+    color: #007bff;
+  }
 }
 
 // Helper text styling
@@ -145,22 +183,36 @@ ion-note {
   .form-container {
     padding: 12px;
   }
-  
+
   .form-item {
     margin-bottom: 12px;
   }
-  
+
   .button-container {
     margin-top: 20px;
   }
-  
+
   .button-row {
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .create-button,
   .delete-button {
     flex: 1;
   }
+}
+
+.date-picker-modal {
+  --height: auto;
+  --width: 290px;
+  --border-radius: 8px;
+}
+
+ion-datetime {
+  --background: var(--ion-background-color);
+}
+
+ion-input {
+  cursor: pointer;
 }

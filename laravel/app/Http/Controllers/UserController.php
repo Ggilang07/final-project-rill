@@ -18,10 +18,10 @@ class UserController extends Controller
 
         // Search
         if ($request->filled('search')) {
-            $query->where(function($q) use ($request) {
+            $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('email', 'like', '%' . $request->search . '%')
-                  ->orWhere('nik', 'like', '%' . $request->search . '%');
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                    ->orWhere('nik', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -136,8 +136,18 @@ class UserController extends Controller
      */
     public function destroy(User $account)
     {
-        $account->delete();
-        return redirect()->route('accounts.index')->with('success', 'Akun berhasil dihapus.');
+        try {
+            $account->delete(); // ini akan melakukan soft delete
+            return response()->json([
+                'success' => true,
+                'message' => 'Akun berhasil dihapus'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus akun'
+            ], 500);
+        }
     }
 
     /**

@@ -20,12 +20,26 @@ export class LetterStatusPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadRequestLetters();
+    this.loadStatus();
   }
 
-  loadRequestLetters() {
+  loadStatus() {
     this.isLoading = true;
-    this.apiService.getRequestLetters().subscribe(
+    this.apiService.getStatusLetter().subscribe(
+      (response) => {
+        this.requests = response.data ?? response;
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error('Error fetching letters:', error);
+        this.isLoading = false;
+      },
+    );
+  }
+
+  loadLink() {
+    this.isLoading = true;
+    this.apiService.getLinkNValidator().subscribe(
       (response) => {
         // Jika response berupa { data: [...] } (Laravel resource), gunakan response.data
         this.requests = response.data ?? response;
@@ -61,6 +75,13 @@ export class LetterStatusPage implements OnInit {
           .toLowerCase()
           .includes(searchLower),
     );
+  }
+
+  formatCategory(category: string): string {
+    return category
+      .split('_')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
   }
 
   // Fungsi untuk handle event input pencarian

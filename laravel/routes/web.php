@@ -19,12 +19,6 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
-// Route::get('/', function () {
-//     return view('dashboard', [
-//         'title' => 'Admin Dashboard',
-//         'heading' => 'Dashboard'
-//     ]);
-// });
 
 // Halaman yang tidak butuh login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
@@ -41,12 +35,6 @@ Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'
 
 // Halaman yang butuh login
 Route::middleware('auth')->group(function () {
-    // Route::get('/', function () {
-    //     return view('dashboard', [
-    //         'title' => 'Admin Dashboard',
-    //         'heading' => 'Dashboard'
-    //     ]);
-    // })->name('dashboard');
 
     Route::resource('/', DashboardController::class);
 
@@ -68,33 +56,3 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-
-
-
-// Route::resource('letter-submissions', RequestController::class);
-// Route::get('/letter-submission', function () {
-//     return view('letter-submission', [
-//         'title' => 'letter Submission',
-//         'heading' => 'Pengajuan Surat'
-//     ]);
-// });
-
-// Route::get('/accounts', function () {
-//     return view('register-account', [
-//         'title' => 'Accounts',
-//         'heading' => 'Akun Pengguna',
-//         'accounts' => User::all() 
-//     ]);
-// });
-
-// Route::resource('accounts', UserController::class);
-// Route::get('accounts/{user_id}', [UserController::class, 'edit'])->name('accounts.edit');
-// Route::put('accounts/{user_id}', [UserController::class, 'update'])->name('accounts.update');
-// Route::get('accounts/{user_id}', [UserController::class, 'destroy'])->name('accounts.destroy');
-
-// Route::get('/profile', function () {
-//     return view('profile', [
-//         'title' => 'Profile',
-//         'heading' => 'Profil Pengguna'
-//     ]);
-// });
