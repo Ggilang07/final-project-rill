@@ -1,3 +1,11 @@
+{{-- Tambahkan di paling atas --}}
+<style>
+    html, body {
+        overflow: hidden !important;
+        height: 100%;
+    }
+</style>
+{{-- ...existing code... --}}
 <x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:heading>{{ $heading }}</x-slot:heading>
@@ -85,47 +93,68 @@
                     <button type="button" @click="editMode = false"
                         class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">Batal</button>
                 </div>
-                <button type="button" @click="changePassword = !changePassword"
+                <!-- Tombol Ganti Password -->
+                <button type="button" @click="changePassword = true"
                     class="text-sm text-blue-600 underline">Ganti Password</button>
             </div>
         </form>
 
-        <!-- Ganti Password -->
-        <form x-show="changePassword" x-transition method="POST" action="{{ route('profile.change-password') }}"
-            class="mt-6 border-t pt-4 space-y-4"
-            x-data="{ showCurrent: false, showNew: false, showConfirm: false }">
-            @csrf
-            @method('PUT')
+        <!-- Modal Ganti Password -->
+        <div
+            x-show="changePassword"
+            x-transition
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40"
+            style="display: none;"
+        >
+            <div @click.away="changePassword = false"
+                class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
+                <button type="button" @click="changePassword = false"
+                    class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-xl">&times;</button>
+                <h3 class="text-lg font-semibold mb-4 text-center">Ganti Password</h3>
+                <form method="POST" action="{{ route('profile.change-password') }}"
+                    x-data="{ showCurrent: false, showNew: false, showConfirm: false }">
+                    @csrf
+                    @method('PUT')
 
-            <div class="relative">
-                <label class="block text-sm font-medium text-gray-700">Password Lama</label>
-                <input :type="showCurrent ? 'text' : 'password'" name="current_password" class="w-full border px-3 py-2 rounded" required>
-                <button type="button" @click="showCurrent = !showCurrent"
-                    class="absolute right-3 top-8 text-sm text-gray-600">
-                    <span x-text="showCurrent ? 'Hide' : 'Show'"></span>
-                </button>
+                    <div class="mb-4 relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Password Lama</label>
+                        <input :type="showCurrent ? 'text' : 'password'" name="current_password"
+                            class="w-full border px-3 py-2 rounded focus:ring focus:border-blue-400" required>
+                        <button type="button" @click="showCurrent = !showCurrent"
+                            class="absolute right-3 top-8 text-xs text-gray-600">
+                            <span x-text="showCurrent ? 'Hide' : 'Show'"></span>
+                        </button>
+                    </div>
+
+                    <div class="mb-4 relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Password Baru</label>
+                        <input :type="showNew ? 'text' : 'password'" name="new_password"
+                            class="w-full border px-3 py-2 rounded focus:ring focus:border-blue-400" required>
+                        <button type="button" @click="showNew = !showNew"
+                            class="absolute right-3 top-8 text-xs text-gray-600">
+                            <span x-text="showNew ? 'Hide' : 'Show'"></span>
+                        </button>
+                    </div>
+
+                    <div class="mb-6 relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password Baru</label>
+                        <input :type="showConfirm ? 'text' : 'password'" name="new_password_confirmation"
+                            class="w-full border px-3 py-2 rounded focus:ring focus:border-blue-400" required>
+                        <button type="button" @click="showConfirm = !showConfirm"
+                            class="absolute right-3 top-8 text-xs text-gray-600">
+                            <span x-text="showConfirm ? 'Hide' : 'Show'"></span>
+                        </button>
+                    </div>
+
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" @click="changePassword = false"
+                            class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Batal</button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700">Simpan Password</button>
+                    </div>
+                </form>
             </div>
-
-            <div class="relative">
-                <label class="block text-sm font-medium text-gray-700">Password Baru</label>
-                <input :type="showNew ? 'text' : 'password'" name="new_password" class="w-full border px-3 py-2 rounded" required>
-                <button type="button" @click="showNew = !showNew"
-                    class="absolute right-3 top-8 text-sm text-gray-600">
-                    <span x-text="showNew ? 'Hide' : 'Show'"></span>
-                </button>
-            </div>
-
-            <div class="relative">
-                <label class="block text-sm font-medium text-gray-700">Konfirmasi Password Baru</label>
-                <input :type="showConfirm ? 'text' : 'password'" name="new_password_confirmation" class="w-full border px-3 py-2 rounded" required>
-                <button type="button" @click="showConfirm = !showConfirm"
-                    class="absolute right-3 top-8 text-sm text-gray-600">
-                    <span x-text="showConfirm ? 'Hide' : 'Show'"></span>
-                </button>
-            </div>
-
-            <button type="submit" class="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700">Simpan Password</button>
-        </form>
+        </div>
 
         @if(auth()->user()->isUsingDefaultPassword())
             <div class="mb-4 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 rounded">
