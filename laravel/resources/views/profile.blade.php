@@ -1,11 +1,3 @@
-{{-- Tambahkan di paling atas --}}
-<style>
-    html, body {
-        overflow: hidden !important;
-        height: 100%;
-    }
-</style>
-{{-- ...existing code... --}}
 <x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:heading>{{ $heading }}</x-slot:heading>
