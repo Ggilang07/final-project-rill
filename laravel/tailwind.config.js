@@ -11,7 +11,17 @@ module.exports = {
       fontFamily: {
         quicksand: ['Quicksand', 'sans-serif'],
       },
-    },
+      keyframes: {
+        'border-rgb': {
+          '0%, 100%': { borderColor: '#ff0000' },
+          '33%': { borderColor: '#00ff00' },
+          '66%': { borderColor: '#0000ff' }
+        }
+      },
+      animation: {
+        'border-rgb': 'border-rgb 3s linear infinite'
+      }
+    }
   },
   plugins: [],
 }

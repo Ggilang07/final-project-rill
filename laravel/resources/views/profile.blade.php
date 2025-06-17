@@ -3,7 +3,8 @@
     <x-slot:heading>{{ $heading }}</x-slot:heading>
 
     <div x-cloak x-data="{ editMode: false, changePassword: false, photoPreview: null }"
-        class="max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow">
+        class="max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow border-2 transition-colors duration-500"
+        :class="editMode ? 'animate-border-rgb' : ''">
         <!-- Foto Profil -->
         <div class="flex items-center space-x-4 mb-6">
             <div class="relative">
