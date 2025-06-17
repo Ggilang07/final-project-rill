@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class RequestController extends Controller
 {
-    public function numberToRoman($number) 
+    public function numberToRoman($number)
     {
         $romans = [
             1 => "I",
@@ -35,25 +35,25 @@ class RequestController extends Controller
         $romanMonth = $this->numberToRoman($month);
         $year = Carbon::parse($letterDate)->year;
         $categoryCodes = [
-            'IZIN_TIDAK_MASUK' => 'IZ-TM',
-            'IZIN_TERLAMBAT' => 'IZ-TB',
-            'IZIN_PULANG_AWAL' => 'IZ-PA',
-            'IZIN_SAKIT' => 'IZ-SK',
-            'CUTI_TAHUNAN' => 'CT-TH',
-            'CUTI_MELAHIRKAN' => 'CT-ML',
-            'CUTI_MENIKAH' => 'CT-MN',
-            'CUTI_KEMATIAN' => 'CT-KM',
-            'CUTI_IBADAH' => 'CT-IB',
-            'CUTI_BESAR' => 'CT-BR',
-            'DINAS_LUAR' => 'DN-LR',
-            'WORK_FROM_HOME' => 'WFH',
-            'SURAT_KETERANGAN_KERJA' => 'SK-KJ',
-            'SURAT_KETERANGAN_PENGHASILAN' => 'SK-PG',
-            'SURAT_KETERANGAN_AKTIF' => 'SK-AK',
-            'SURAT_TUGAS' => 'ST',
-            'SURAT_REKOMENDASI' => 'SR',
-            'SURAT_UNDANGAN' => 'UND',
-            'SURAT_PENGUNDURAN_DIRI' => 'SPD'
+            'Izin_Tidak_Masuk' => 'IZ-TM',
+            'Izin_Terlambat' => 'IZ-TB',
+            'Izin_Pulang_Awal' => 'IZ-PA',
+            'Izin_Sakit' => 'IZ-SK',
+            'Cuti_Tahunan' => 'CT-TH',
+            'Cuti_Melahirkan' => 'CT-ML',
+            'Cuti_Menikah' => 'CT-MN',
+            'Cuti_Kematian' => 'CT-KM',
+            'Cuti_Ibadah' => 'CT-IB',
+            'Cuti_Besar' => 'CT-BR',
+            'Dinas_Luar' => 'DN-LR',
+            'Work_From_Home' => 'WFH',
+            'Surat_Keterangan_Kerja' => 'SK-KJ',
+            'Surat_Keterangan_Penghasilan' => 'SK-PG',
+            'Surat_Keterangan_Aktif' => 'SK-AK',
+            'Surat_Tugas' => 'ST',
+            'Surat_Rekomendasi' => 'SR',
+            'Surat_Undangan' => 'UND',
+            'Surat_Pengunduran_Diri' => 'SPD'
         ];
 
         $code = $categoryCodes[$category] ?? strtoupper(substr($category, 0, 3));
@@ -70,25 +70,25 @@ class RequestController extends Controller
     public function getCategories()
     {
         $categories = [
-            'IZIN_TIDAK_MASUK',
-            'IZIN_TERLAMBAT',
-            'IZIN_PULANG_AWAL',
-            'IZIN_SAKIT',
-            'CUTI_TAHUNAN',
-            'CUTI_MELAHIRKAN',
-            'CUTI_MENIKAH',
-            'CUTI_KEMATIAN',
-            'CUTI_IBADAH',
-            'CUTI_BESAR',
-            'DINAS_LUAR',
-            'WORK_FROM_HOME',
-            'SURAT_KETERANGAN_KERJA',
-            'SURAT_KETERANGAN_PENGHASILAN',
-            'SURAT_KETERANGAN_AKTIF',
-            'SURAT_TUGAS',
-            'SURAT_REKOMENDASI',
-            'SURAT_UNDANGAN',
-            'SURAT_PENGUNDURAN_DIRI'
+            'Izin_Tidak_Masuk',
+            'Izin_Terlambat',
+            'Izin_Pulang_Awal',
+            'Izin_Sakit',
+            'Cuti_Tahunan',
+            'Cuti_Melahirkan',
+            'Cuti_Menikah',
+            'Cuti_Kematian',
+            'Cuti_Ibadah',
+            'Cuti_Besar',
+            'Dinas_Luar',
+            'Work_From_Home',
+            'Surat_Keterangan_Kerja',
+            'Surat_Keterangan_Penghasilan',
+            'Surat_Keterangan_Aktif',
+            'Surat_Tugas',
+            'Surat_Rekomendasi',
+            'Surat_Undangan',
+            'Surat_Pengunduran_Diri'
         ];
         return response()->json(['data' => $categories]);
     }

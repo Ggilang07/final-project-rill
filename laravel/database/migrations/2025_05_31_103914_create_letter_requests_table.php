@@ -17,34 +17,34 @@ return new class extends Migration
             $table->unsignedBigInteger('request_by');
             $table->foreign('request_by')->references('user_id')->on('users')->onDelete('cascade');
             // validasi user yang mengupload surat
-            $table->unsignedBigInteger('validated_by')->nullable();;
+            $table->unsignedBigInteger('validated_by')->nullable();
             $table->foreign('validated_by')->references('user_id')->on('users')->onDelete('cascade');
             // penomoran surat
             $table->string('letter_number', 255);
             $table->enum('category', [
-                'IZIN_TIDAK_MASUK',
-                'IZIN_TERLAMBAT',
-                'IZIN_PULANG_AWAL',
-                'IZIN_SAKIT',
+                'Izin_Tidak_Masuk',
+                'Izin_Terlambat',
+                'Izin_Pulang_Awal',
+                'Izin_Sakit',
 
-                'CUTI_TAHUNAN',
-                'CUTI_MELAHIRKAN',
-                'CUTI_MENIKAH',
-                'CUTI_KEMATIAN',
-                'CUTI_IBADAH',
-                'CUTI_BESAR',
+                'Cuti_Tahunan',
+                'Cuti_Melahirkan',
+                'Cuti_Menikah',
+                'Cuti_Kematian',
+                'Cuti_Ibadah',
+                'Cuti_Besar',
 
-                'DINAS_LUAR',
-                'WORK_FROM_HOME',
+                'Dinas_Luar',
+                'Work_From_Home',
 
-                'SURAT_KETERANGAN_KERJA',
-                'SURAT_KETERANGAN_PENGHASILAN',
-                'SURAT_KETERANGAN_AKTIF',
+                'Surat_Keterangan_Kerja',
+                'Surat_Keterangan_Penghasilan',
+                'Surat_Keterangan_Aktif',
 
-                'SURAT_TUGAS',
-                'SURAT_REKOMENDASI',
-                'SURAT_UNDANGAN',
-                'SURAT_PENGUNDURAN_DIRI'
+                'Surat_Tugas',
+                'Surat_Rekomendasi',
+                'Surat_Undangan',
+                'Surat_Pengunduran_Diri'
             ]);
             // alasan pengajuan surat
             $table->string('reason');

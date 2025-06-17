@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/', DashboardController::class);
 
     Route::resource('submissions', RequestController::class);
+
+    Route::get('/letter-detail/{id}', [RequestController::class, 'getDetail'])->name('letter.detail');
     
     Route::post('/validate-request', [RequestController::class, 'validateRequest']);
 

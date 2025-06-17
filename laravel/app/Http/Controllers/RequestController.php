@@ -24,8 +24,7 @@ class RequestController extends Controller
                     ->orWhereHas('requestedBy', function ($u) use ($search) { // Changed from 'user' to 'requestedBy'
                         $u->where('name', 'like', "%$search%");
                     })
-                    ->orWhere('category', 'like', "%$search%")
-                    ->orWhere('reason', 'like', "%$search%");
+                    ->orWhere('category', 'like', "%$search%");
             });
         }
 
@@ -102,5 +101,24 @@ class RequestController extends Controller
                 'message' => 'Error: ' . $e->getMessage()
             ], 500);
         }
+    }
+    public function getDetail($id)
+    {
+        $letter = LetterRequest::with(['requestedBy', 'validator', 'uploadedLetter'])
+            ->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'letter_number' => $letter->letter_number,
+                'letter_date' => $letter->formatted_date,
+                'category' => str_replace('_', ' ', $letter->category),
+                'reason' => $letter->reason,
+                'status' => $letter->status,
+                'requested_by' => $letter->requestedBy->name,
+                'validated_by' => $letter->validator ? $letter->validator->name : '-',
+                'link_pdf' => $letter->uploadedLetter ? $letter->uploadedLetter->link_pdf : '-'
+            ]
+        ]);
     }
 }
