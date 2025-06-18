@@ -3,8 +3,7 @@
     <x-slot:heading>{{ $heading }}</x-slot:heading>
 
     <div x-cloak x-data="{ editMode: false, changePassword: false, photoPreview: null }"
-        class="max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow border-2 transition-colors duration-500"
-        :class="editMode ? 'animate-border-rgb' : ''">
+        class="max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow border-2">
         <!-- Foto Profil -->
         <div class="flex items-center space-x-4 mb-6">
             <div class="relative">
@@ -29,7 +28,7 @@
             </div>
         </div>
 
-        <!-- Form Profil -->
+        <!-- Form Profil dengan style yang lebih sederhana -->
         <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -39,55 +38,71 @@
                 class="hidden"
                 @change="photoPreview = URL.createObjectURL($event.target.files[0])">
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Nama</label>
-                <input name="name" type="text" class="w-full border px-3 py-2 rounded" :readonly="!editMode"
-                    value="{{ auth()->user()->name }}">
+            <!-- Input fields dengan style yang lebih sederhana -->
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama</label>
+                    <input name="name" type="text" 
+                        class="w-full border px-3 py-2 rounded transition-colors" 
+                        :class="editMode ? 'bg-white' : 'bg-gray-50'"
+                        :readonly="!editMode"
+                        value="{{ auth()->user()->name }}">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input name="email" type="email" 
+                        class="w-full border px-3 py-2 rounded transition-colors"
+                        :class="editMode ? 'bg-white' : 'bg-gray-50'"
+                        :readonly="!editMode"
+                        value="{{ auth()->user()->email }}">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Tanggal Lahir</label>
+                    <input type="text" class="w-full border px-3 py-2 rounded bg-gray-100" readonly
+                        value="{{ \Carbon\Carbon::parse(auth()->user()->date_of_birth)->translatedFormat('j F Y') }}">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
+                    <textarea name="address" class="w-full border px-3 py-2 rounded"
+                        :readonly="!editMode">{{ auth()->user()->address }}</textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Kartu Keluarga</label>
+                    <input type="text" class="w-full border px-3 py-2 rounded bg-gray-100" readonly
+                        value="{{ auth()->user()->no_kk }}">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Induk Keluarga</label>
+                    <input type="text" class="w-full border px-3 py-2 rounded bg-gray-100" readonly
+                        value="{{ auth()->user()->nik }}">
+                </div>
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Email</label>
-                <input name="email" type="email" class="w-full border px-3 py-2 rounded" :readonly="!editMode"
-                    value="{{ auth()->user()->email }}">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Tanggal Lahir</label>
-                <input type="text" class="w-full border px-3 py-2 rounded bg-gray-100" readonly
-                    value="{{ \Carbon\Carbon::parse(auth()->user()->date_of_birth)->translatedFormat('j F Y') }}">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Alamat</label>
-                <textarea name="address" class="w-full border px-3 py-2 rounded"
-                    :readonly="!editMode">{{ auth()->user()->address }}</textarea>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Nomor Kartu Keluarga</label>
-                <input type="text" class="w-full border px-3 py-2 rounded bg-gray-100" readonly
-                    value="{{ auth()->user()->no_kk }}">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Nomor Induk Keluarga</label>
-                <input type="text" class="w-full border px-3 py-2 rounded bg-gray-100" readonly
-                    value="{{ auth()->user()->nik }}">
-            </div>
-
-            <!-- Tombol Edit dan Simpan -->
+            <!-- Tombol Edit dan Simpan dengan style yang lebih sederhana -->
             <div class="flex justify-between items-center mt-6">
                 <button type="button" x-show="!editMode" @click="editMode = true"
-                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Edit Profil</button>
+                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                    Edit Profil
+                </button>
                 <div x-show="editMode" class="space-x-2">
                     <button type="submit"
-                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Simpan</button>
+                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
+                        Simpan
+                    </button>
                     <button type="button" @click="editMode = false"
-                        class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">Batal</button>
+                        class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition-colors">
+                        Batal
+                    </button>
                 </div>
-                <!-- Tombol Ganti Password -->
                 <button type="button" @click="changePassword = true"
-                    class="text-sm text-blue-600 underline">Ganti Password</button>
+                    class="text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                    Ganti Password
+                </button>
             </div>
         </form>
 
