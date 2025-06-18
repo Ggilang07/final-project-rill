@@ -14,17 +14,11 @@ class UploadedLettersTableSeeder extends Seeder
     {
         DB::table('uploaded_letters')->insert([
             [
-                'request_id' => 1,
-                'link_pdf' => 'surat_izin_user4.pdf',
+                'request_id' => 3,
+                'link_pdf' => 'https://drive.google.com/drive/home',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-            [
-                'request_id' => 2,
-                'link_pdf' => 'surat_cuti_user4.pdf',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+            ]
         ]);
     }
 }

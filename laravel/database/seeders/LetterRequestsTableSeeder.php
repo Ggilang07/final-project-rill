@@ -16,7 +16,7 @@ class LetterRequestsTableSeeder extends Seeder
             [
                 'request_by'    => 4,
                 'validated_by'  => null,
-                'letter_number' => '001/FAV/IZ-TM/06/2025',
+                'letter_number' => '001/FAV/IZ-TM/VI/2025',
                 'category'      => 'Izin_Tidak_Masuk',
                 'reason'        => 'Tidak masuk kerja karena urusan keluarga',
                 'letter_date'   => now()->addDays(3),
@@ -28,7 +28,7 @@ class LetterRequestsTableSeeder extends Seeder
             [
                 'request_by'    => 4,
                 'validated_by'  => null,
-                'letter_number' => '002/FAV/IZ-TM/06/2025',
+                'letter_number' => '002/FAV/IZ-TM/VI/2025',
                 'category'      => 'Izin_Tidak_Masuk',
                 'reason'        => 'Tidak masuk kerja karena urusan mancing',
                 'letter_date'   => now()->addDays(10),
@@ -40,7 +40,7 @@ class LetterRequestsTableSeeder extends Seeder
             [
                 'request_by'    => 8,
                 'validated_by'  => 2,
-                'letter_number' => '001/FAV/CT-TH/07/2025',
+                'letter_number' => '001/FAV/CT-TH/VII/2025',
                 'category'      => 'Cuti_Tahunan',
                 'reason'        => 'Cuti tahunan',
                 'letter_date'   => now()->addWeek(),
@@ -51,8 +51,8 @@ class LetterRequestsTableSeeder extends Seeder
             ],
             [
                 'request_by'    => 12,
-                'validated_by'  => 1,
-                'letter_number' => '001/FAV/IZ-SK/05/2025',
+                'validated_by'  => null,
+                'letter_number' => '001/FAV/IZ-SK/V/2025',
                 'category'      => 'Izin_Sakit',
                 'reason'        => 'Tidak masuk kerja karena sakit hati',
                 'letter_date'   => now()->addDays(5),
@@ -63,8 +63,8 @@ class LetterRequestsTableSeeder extends Seeder
             ],
             [
                 'request_by'    => 11,
-                'validated_by'  => null,
-                'letter_number' => '004/FAV/UND/09/2025',
+                'validated_by'  => 15,
+                'letter_number' => '004/FAV/UND/IX/2025',
                 'category'      => 'Surat_Undangan',
                 'reason'        => 'Undangan bertemu dengan alien',
                 'letter_date'   => now()->addDays(10),
