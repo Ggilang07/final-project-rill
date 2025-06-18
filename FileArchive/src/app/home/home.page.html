@@ -21,15 +21,19 @@
           <p class="doc-header-text">KETERANGAN</p>
         </div>
         <div class="document-body">
-          <div class="letter-content">
-            <p class="letter-subject">Surat Keterangan Kerja</p>
-            <p class="letter-date">Jakarta, 10 Mei 2025</p>
+          <div class="letter-content" *ngIf="lastLetter; else noLetter">
+            <p class="letter-subject">{{ lastLetter.category | titlecase }}</p>
+            <p class="letter-date">{{ lastLetter.letter_date | date:'d MMMM y':'':'id' }}</p>
             <p class="letter-recipient">Kepada Yth,</p>
             <p class="letter-text">Yang bertanda tangan di bawah ini:</p>
             <p class="letter-content-text">Dengan ini menerangkan bahwa:</p>
-            <p class="letter-name">Nama: Muhammad Gilang Khaliq Nur Rahman</p>
-            <p class="letter-position">Jabatan: Operator Produksi</p>
+            <p class="letter-name">Nama: {{ user?.name }}</p>
+            <p class="letter-position" *ngIf="lastLetter.position">Jabatan: {{ lastLetter.position }}</p>
+            <p class="letter-status">Status: {{ lastLetter.status | titlecase }}</p>
           </div>
+          <ng-template #noLetter>
+            <p style="text-align:center; color:#888;">Belum ada surat diajukan.</p>
+          </ng-template>
         </div>
       </div>
     </div>

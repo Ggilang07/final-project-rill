@@ -102,6 +102,33 @@
   cursor: pointer;
 }
 
+.save-button {
+  background-color: #4CAF50; /* Warna hijau untuk save */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 250px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.cancel-button {
+  background-color: #f44336; /* Warna merah untuk cancel */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 250px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .bottom-nav {
   position: fixed;
   bottom: 0;

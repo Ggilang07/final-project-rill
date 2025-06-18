@@ -172,6 +172,15 @@ ion-content {
   letter-spacing: 1px;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  /* Tambahan agar teks selalu di tengah */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 48px;
+  font-size: 16px;
 }
 
 /* Tambahkan hover effect untuk tombol */

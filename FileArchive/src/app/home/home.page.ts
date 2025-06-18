@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
   user: any;
+  lastLetter: any = null;
 
   constructor(private api: ApiService, private auth: AuthService, private router: Router) {}
 
@@ -19,11 +20,17 @@ export class HomePage implements OnInit {
     this.api.getProfile().subscribe((res) => {
       this.user = res;
     });
+
+    this.api.getStatusLetter().subscribe((res) => {
+      if (Array.isArray(res) && res.length > 0) {
+        // Ambil surat terakhir (misal: data pertama)
+        this.lastLetter = res[0];
+      }
+    });
   }
 
   logout() {
     this.auth.logout();
-    // Jika ingin redirect ke halaman login:
     this.router.navigate(['/login']);
   }
 }
