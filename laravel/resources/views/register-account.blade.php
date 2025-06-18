@@ -155,43 +155,43 @@
         </div>
 
         {{-- Desktop Table --}}
-        <div class="hidden md:block overflow-hidden rounded-xl border border-gray-100 shadow-sm">
-            <table class="min-w-full bg-white divide-y divide-gray-200">
+        <div class="hidden md:block overflow-x-auto rounded-xl border border-gray-100 shadow-sm">
+            <table class="min-w-full table-fixed bg-white divide-y divide-gray-200">
                 <thead class="bg-gray-100 text-sm text-gray-700">
                     <tr>
-                        <th class="px-4 py-3 text-left">No</th>
-                        <th class="px-4 py-3 text-left">Nama</th>
-                        <th class="px-4 py-3 text-left">Email</th>
-                        <th class="px-4 py-3 text-left">Tanggal Lahir</th>
-                        <th class="px-4 py-3 text-left">Alamat</th>
-                        <th class="px-4 py-3 text-left">No KK</th>
-                        <th class="px-4 py-3 text-left">NIK</th>
-                        <th class="px-4 py-3 text-left">Role</th>
-                        <th class="px-4 py-3 text-left"></th>
+                        <th class="px-2 py-3 text-left w-10">No</th>
+                        <th class="px-2 py-3 text-left w-32">Nama</th>
+                        <th class="px-2 py-3 text-left w-40">Email</th>
+                        <th class="px-2 py-3 text-left w-28">Tanggal Lahir</th>
+                        <th class="px-2 py-3 text-left w-48">Alamat</th>
+                        <th class="px-2 py-3 text-left w-32">No KK</th>
+                        <th class="px-2 py-3 text-left w-32">NIK</th>
+                        <th class="px-2 py-3 text-left w-24">Role</th>
+                        <th class="px-2 py-3 text-left w-32"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @if($accountsDesktop->count())
                         @foreach ($accountsDesktop as $account)
                             <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td class="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
                                     {{ ($accountsDesktop->currentPage() - 1) * $accountsDesktop->perPage() + $loop->iteration }}
                                 </td>
-                                <td class="px-3 py-4 whitespace-nowrap">
+                                <td class="px-2 py-4 whitespace-nowrap max-w-[8rem] truncate">
                                     <div class="text-sm font-medium text-gray-900">{{ $account->name }}</div>
                                 </td>
-                                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">{{ $account->email }}</td>
-                                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">{{ $account->date_of_birth }}</td>
-                                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">{{ $account->address }}</td>
-                                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">{{ $account->no_kk }}</td>
-                                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">{{ $account->nik }}</td>
-                                <td class="px-3 py-4 whitespace-nowrap">
+                                <td class="px-2 py-4 whitespace-nowrap max-w-[12rem] truncate text-sm text-gray-500">{{ $account->email }}</td>
+                                <td class="px-2 py-4 whitespace-nowrap text-sm text-gray-500">{{ $account->date_of_birth }}</td>
+                                <td class="px-2 py-4 whitespace-nowrap max-w-[14rem] truncate text-sm text-gray-500">{{ $account->address }}</td>
+                                <td class="px-2 py-4 whitespace-nowrap max-w-[10rem] truncate text-sm text-gray-500">{{ $account->no_kk }}</td>
+                                <td class="px-2 py-4 whitespace-nowrap max-w-[10rem] truncate text-sm text-gray-500">{{ $account->nik }}</td>
+                                <td class="px-2 py-4 whitespace-nowrap">
                                     <span
                                         class="px-2.5 py-0.5 rounded-full text-xs font-medium {{ $account->role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
                                         {{ ucfirst($account->role) }}
                                     </span>
                                 </td>
-                                <td class="px-3 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                <td class="px-2 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                                     <button @click="modalUser.openEdit({
                                                                                 id: '{{ $account->user_id }}',
                                                                                 nama: '{{ $account->name }}',
