@@ -1,15 +1,27 @@
 export default function modalValidate() {
     return {
         isOpen: false,
+        isDetailOpen: false,
         requestId: null,
         linkSurat: "",
         error: "",
 
-        open(id) {
+        open(id, isValidated = false) {
+            // Jika sudah divalidasi, tidak melakukan apa-apa
+            if (isValidated) {
+                return;
+            }
+            
+            // Hanya jalankan jika belum divalidasi
             this.isOpen = true;
             this.requestId = id;
             this.linkSurat = "";
             this.error = "";
+        },
+
+        // Tambahkan method untuk cek status validasi
+        canOpen(isValidated) {
+            return !isValidated;
         },
 
         close() {

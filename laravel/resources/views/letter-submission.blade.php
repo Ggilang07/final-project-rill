@@ -154,13 +154,19 @@
                                 </button>
 
                                 <button 
-                                    @click.prevent="open({{ $request->request_id }})"
-                                    class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-700 bg-green-50 rounded-lg hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-300">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                                    </svg>
-                                    Ubah Status
-                                </button>
+                                    @click.prevent="open({{ $request->request_id }}, {{ $request->is_validated ? 'true' : 'false' }})"
+                                    class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-300"
+                                    :class="{{ $request->is_validated }} ? 
+                                        'bg-gray-100 text-gray-400 cursor-not-allowed' : 
+                                        'text-green-700 bg-green-50 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+                                        stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" 
+                                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                </svg>
+                                {{ $request->is_validated ? 'Sudah Divalidasi' : 'Ubah Status' }}
+                            </button>
                             </div>
                         </div>
                     </div>
@@ -247,9 +253,15 @@
                                         </a>
 
                                         <a href="#" 
-                                           @click.prevent="open({{ $request->request_id }})"
-                                           class="group relative inline-flex items-center gap-2 px-4 py-2 border border-green-500 bg-gradient-to-r from-green-500 to-green-400 text-white rounded-lg hover:from-green-600 hover:to-green-500 transition-all duration-300 shadow-md hover:shadow-lg">
-                                            <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-green-600 to-green-500 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                                           @click.prevent="open({{ $request->request_id }}, {{ $request->is_validated ? 'true' : 'false' }})"
+                                           class="group relative inline-flex items-center gap-2 px-4 py-2 border transition-all duration-300"
+                                           :class="{{ $request->is_validated }} ? 
+                                                'border-gray-300 bg-gray-100 text-gray-400 cursor-not-allowed pointer-events-none' : 
+                                                'border-green-500 bg-gradient-to-r from-green-500 to-green-400 text-white hover:from-green-600 hover:to-green-500 shadow-md hover:shadow-lg'"
+                                           {{ $request->is_validated ? 'disabled' : '' }}
+                                        >
+                                            <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-green-600 to-green-500 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                                x-show="!{{ $request->is_validated }}"></span>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
                                                  class="w-5 h-5 relative z-10 transform group-hover:scale-110 transition-transform duration-300">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />

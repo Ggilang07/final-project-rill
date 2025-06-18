@@ -61,30 +61,27 @@ class RequestController extends Controller
     public function validateRequest(Request $request)
     {
         try {
-            // Dynamic validation rules based on status
             $rules = [
                 'request_id' => 'required|exists:letter_requests,request_id',
                 'status' => 'required|in:approved,rejected',
             ];
 
-            // Add link_pdf validation only if status is approved
             if ($request->status === 'approved') {
                 $rules['link_pdf'] = 'required|url';
             }
 
             $validated = $request->validate($rules);
 
-            // Start transaction
             DB::beginTransaction();
 
-            // Update status dan validated_by di letter_requests
+            // Update juga is_validated menjadi true
             LetterRequest::where('request_id', $validated['request_id'])
                 ->update([
                     'status' => $validated['status'],
-                    'validated_by' => auth()->user()->user_id
+                    'validated_by' => auth()->user()->user_id,
+                    'is_validated' => true
                 ]);
 
-            // Jika approved dan ada link_pdf, tambah record di uploaded_letters
             if ($validated['status'] === 'approved' && isset($validated['link_pdf'])) {
                 UploadedLetter::create([
                     'request_id' => $validated['request_id'],
@@ -115,6 +112,7 @@ class RequestController extends Controller
                 'category' => str_replace('_', ' ', $letter->category),
                 'reason' => $letter->reason,
                 'status' => $letter->status,
+                'is_validated' => $letter->is_validated,
                 'requested_by' => $letter->requestedBy->name,
                 'validated_by' => $letter->validator ? $letter->validator->name : '-',
                 'link_pdf' => $letter->uploadedLetter ? $letter->uploadedLetter->link_pdf : '-'

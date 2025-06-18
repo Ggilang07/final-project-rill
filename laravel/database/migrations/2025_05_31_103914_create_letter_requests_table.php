@@ -48,8 +48,10 @@ return new class extends Migration
             ]);
             // alasan pengajuan surat
             $table->string('reason');
+            // tanggal surat yang diajukan
             $table->date('letter_date');
             $table->enum('status', ['pending', 'approved', 'rejected', 'cancelled']);
+            $table->boolean('is_validated')->default(false);
             $table->timestamps();
         });
     }
