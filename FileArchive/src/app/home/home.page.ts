@@ -28,9 +28,4 @@ export class HomePage implements OnInit {
       }
     });
   }
-
-  logout() {
-    this.auth.logout();
-    this.router.navigate(['/login']);
-  }
 }
