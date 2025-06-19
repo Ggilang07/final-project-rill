@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { Router } from '@angular/router'; // Mengimpor Router
 
 @Component({
   selector: 'app-profile',
@@ -12,11 +13,10 @@ export class ProfilePage implements OnInit {
   isEdit = false;
   backupUser: any;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit() {
     this.api.getProfile().subscribe((res) => {
-      // console.log('profile data', res);
       this.user = res;
     });
   }
@@ -27,8 +27,6 @@ export class ProfilePage implements OnInit {
   }
 
   saveProfile() {
-    // Panggil API update profile di sini, misal:
-    // this.api.updateProfile(this.user).subscribe(...)
     this.isEdit = false;
   }
 
@@ -42,5 +40,14 @@ export class ProfilePage implements OnInit {
     if (this.user) {
       this.user[field] = input.value;
     }
+  }
+
+  // Fungsi logout
+  logout() {
+    // Menghapus data sesi, misalnya token autentikasi
+    localStorage.removeItem('authToken');
+
+    // Arahkan pengguna ke halaman login setelah logout
+    this.router.navigate(['/login']);
   }
 }
