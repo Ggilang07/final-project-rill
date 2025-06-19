@@ -113,6 +113,7 @@ class RequestController extends Controller
                 'reason' => $letter->reason,
                 'status' => $letter->status,
                 'is_validated' => $letter->is_validated,
+                'created_at' => $letter->created_at->format('d M Y H:i'),
                 'requested_by' => $letter->requestedBy->name,
                 'validated_by' => $letter->validator ? $letter->validator->name : '-',
                 'link_pdf' => $letter->uploadedLetter ? $letter->uploadedLetter->link_pdf : '-'

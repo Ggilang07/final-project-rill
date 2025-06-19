@@ -413,6 +413,10 @@
                                 <span class="col-span-2" x-text="detailData.letter_date"></span>
                             </div>
                             <div class="grid grid-cols-3 p-4 hover:bg-gray-50 transition-colors">
+                                <span class="font-medium text-gray-700">Tanggal Dibuat</span>
+                                <span class="col-span-2" x-text="detailData.created_at"></span>
+                            </div>
+                            <div class="grid grid-cols-3 p-4 hover:bg-gray-50 transition-colors">
                                 <span class="font-medium text-gray-700">Jenis Surat</span>
                                 <span class="col-span-2" x-text="detailData.category"></span>
                             </div>
