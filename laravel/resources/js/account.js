@@ -1,26 +1,54 @@
 // filepath: c:\laragon\www\final-project-rill\laravel\resources\js\account.js
 window.deleteAccount = function (userId) {
-    if (confirm("Apakah Anda yakin ingin menghapus akun ini?")) {
-        fetch(`/accounts/${userId}`, {
-            method: "DELETE",
-            headers: {
-                "X-CSRF-TOKEN": document.querySelector(
-                    'meta[name="csrf-token"]',
-                ).content,
-                Accept: "application/json",
-            },
-        })
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Akun akan dihapus permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/accounts/${userId}`, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    Accept: "application/json",
+                },
+            })
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    window.location.reload();
+                    Swal.fire({
+                        title: 'Terhapus!',
+                        text: 'Akun berhasil dihapus.',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
                 } else {
-                    alert("Gagal menghapus akun");
+                    Swal.fire({
+                        title: 'Gagal!',
+                        text: 'Gagal menghapus akun',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                    });
                 }
             })
             .catch((error) => {
                 console.error("Error:", error);
-                alert("Terjadi kesalahan");
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Terjadi kesalahan pada server',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                });
             });
-    }
+        }
+    });
 };

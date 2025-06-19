@@ -19,7 +19,7 @@
                         type="text" 
                         name="search" 
                         value="{{ request('search') }}"
-                        placeholder="Cari nomor surat/pemohon/jenis/alasan..." 
+                        placeholder="Cari nomor surat/pemohon/jenis..." 
                         class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200"
                         autocomplete="off"
                     />

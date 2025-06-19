@@ -7,7 +7,7 @@
     <div x-cloak :class="open ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
         class="fixed inset-y-0 left-0 bg-[#5180DB] shadow-md z-30 w-full md:w-64 flex flex-col overflow-hidden transform transition-transform duration-300 ease-in-out md:translate-x-0">
         <!-- Logo dan Header -->
-        <div class="flex-shrink-0">
+        <div class="flex-shrink-0 cursor-pointer" onclick="window.location.href='/'">
             <div class="flex items-center justify-between px-3 py-2 border-b m-3 border-black">
                 <div class="relative w-20 h-20 flex items-center justify-center">
                     <div class="absolute w-full h-full clip-hexagon border-4 bg-blue-900"></div>
@@ -61,9 +61,10 @@
 
         <!-- Logout Button (Always visible at bottom) -->
         <div class="flex-shrink-0 p-3">
-            <form method="POST" action="{{ route('logout') }}">
+            <form id="logout-form" method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit"
+                <button type="button"
+                    onclick="confirmLogout(event)"
                     class="block px-6 py-2 border-b border-black bg-red-600 hover:bg-red-700 text-white font-semibold transition rounded-xl text-left">
                     Logout
                 </button>

@@ -7,7 +7,6 @@ export default function userFormModal() {
             id: "",
             nama: "",
             email: "",
-            // password: "",
             date: "",
             address: "",
             nik: "",
@@ -17,24 +16,18 @@ export default function userFormModal() {
         fields: [
             { id: "nama", label: "Nama", model: "nama", type: "text" },
             { id: "email", label: "Email", model: "email", type: "email" },
-            // {
-            //     id: "password",
-            //     label: "Password",
-            //     model: "password",
-            //     type: "password",
-            // },
             { id: "date", label: "Tanggal Lahir", model: "date", type: "date" },
             { id: "address", label: "Alamat", model: "address", type: "text" },
             {
-                id: "nik",
+                id: "no_kk",
                 label: "Nomor Kartu Keluarga",
-                model: "nik",
+                model: "no_kk",
                 type: "number",
             },
             {
-                id: "no_kk",
+                id: "nik",
                 label: "Nomor Induk Keluarga",
-                model: "no_kk",
+                model: "nik",
                 type: "number",
             },
             {
@@ -43,10 +36,7 @@ export default function userFormModal() {
                 model: "role",
                 type: "select",
                 options: [
-                    {
-                        value: "",
-                        label: "Pilih Peran Pengguna",
-                    },
+                    { value: "", label: "Pilih Peran Pengguna" },
                     { value: "karyawan", label: "Karyawan" },
                     { value: "admin", label: "Admin" },
                 ],
@@ -63,9 +53,8 @@ export default function userFormModal() {
                 address: "",
                 nik: "",
                 no_kk: "",
-                role: "", // WAJIB string kosong
+                role: "",
             };
-            console.log("Form role saat openAdd:", this.form.role); // 👈 Tambahkan ini
             this.open = false;
             this.$nextTick(() => {
                 this.open = true;
@@ -76,24 +65,42 @@ export default function userFormModal() {
             this.formMode = "edit";
             this.form = { ...data };
             this.open = true;
-            // console.log("ID yang dikirim:", this.form.id);
         },
 
         close() {
             this.open = false;
-            this.form.role = ""; // reset ke kosong saat modal ditutup
+            this.form.role = "";
         },
 
         submitForm() {
-            if (this.form.role === "") {
-                alert("Role Pengguna harus dipilih.");
+            // Validasi kolom kosong
+            let emptyFields = [];
+            for (const field of this.fields) {
+                if (
+                    field.model !== undefined &&
+                    (this.form[field.model] === "" ||
+                        this.form[field.model] === null)
+                ) {
+                    emptyFields.push(field.label);
+                }
+            }
+            if (emptyFields.length > 0) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Kolom wajib diisi!",
+                    html:
+                        "Mohon lengkapi kolom berikut:<br><b>" +
+                        emptyFields.join(", ") +
+                        "</b>",
+                    confirmButtonColor: "#3085d6",
+                });
                 return;
             }
+
             let url =
                 this.formMode === "add"
                     ? "/accounts"
                     : `/accounts/${this.form.id}`;
-                    // console.log("URL tujuan:", url); // 👈 Debug
             let method = this.formMode === "add" ? "POST" : "POST";
             let formData = new FormData();
             formData.append(
@@ -103,7 +110,6 @@ export default function userFormModal() {
             if (this.formMode === "edit") formData.append("_method", "PUT");
             formData.append("name", this.form.nama);
             formData.append("email", this.form.email);
-            // formData.append("password", this.form.password);
             formData.append("date_of_birth", this.form.date);
             formData.append("address", this.form.address);
             formData.append("nik", this.form.nik);
@@ -125,14 +131,24 @@ export default function userFormModal() {
                         let msg = "Gagal menyimpan data!";
                         if (data && data.errors) {
                             msg +=
-                                "\n" +
-                                Object.values(data.errors).flat().join("\n");
+                                "<br>" +
+                                Object.values(data.errors).flat().join("<br>");
                         }
-                        alert(msg);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal!",
+                            html: msg,
+                            confirmButtonColor: "#d33",
+                        });
                     }
                 })
                 .catch((err) => {
-                    alert("Terjadi error jaringan atau server!");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi error jaringan atau server!",
+                        text: err.message,
+                        confirmButtonColor: "#d33",
+                    });
                     console.error(err);
                 });
         },
