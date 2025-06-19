@@ -60,9 +60,6 @@ class StatusController extends Controller
                         'category' => $letter->category,
                         'status' => $letter->status,
                         'created_at' => $letter->created_at,
-                        'letter_date' => $letter->letter_date,
-                        'validated_by' => $letter->validator ? $letter->validator->name : null,
-                        'link_pdf' => $letter->uploadedLetter ? $letter->uploadedLetter->link_pdf : null
                     ];
                 });
             } catch (\Exception $e) {
@@ -84,5 +81,38 @@ class StatusController extends Controller
                 'message' => 'Error fetching letters: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    public function show($id)
+    {
+        $letter = LetterRequest::with(['uploadedLetter', 'requestedBy', 'validator'])->findOrFail($id);
+
+        // Mapping agar ada field link_pdf langsung di root data
+        $data = [
+            'request_id'    => $letter->request_id,
+            'letter_number' => $letter->letter_number,
+            'category'      => $letter->category,
+            'status'        => $letter->status,
+            'created_at'    => $letter->created_at,
+            'letter_date'   => $letter->letter_date,
+            'validated_by'  => $letter->validator ? $letter->validator->name : null,
+            'link_pdf'      => $letter->uploadedLetter ? $letter->uploadedLetter->link_pdf : null,
+            'requested_by'  => $letter->requestedBy ? $letter->requestedBy->name : null,
+            'reason'        => $letter->reason,
+        ];
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function cancel($id)
+    {
+        $letter = LetterRequest::findOrFail($id);
+        if ($letter->status === 'pending') {
+            $letter->status = 'cancelled';
+            $letter->is_validated = true;
+            $letter->save();
+            return response()->json(['success' => true, 'message' => 'Surat berhasil dibatalkan']);
+        }
+        return response()->json(['success' => false, 'message' => 'Surat tidak dapat dibatalkan'], 400);
     }
 }

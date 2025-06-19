@@ -1,75 +1,106 @@
-<!-- detail-status.page.html -->
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <!-- Icon panah kembali bawaan Ionic -->
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title class="text-center font-bold">Detail Status</ion-title>
+    <ion-title class="ds-title">Detail Status</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding bg-gray-50">
-  <div class="flex justify-center items-start min-h-full py-4">
-    <div class="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden p-6">
-      <div class="space-y-4">
+<ion-content class="ds-content">
+  <div class="ds-container">
+    <div class="ds-card">
+      <div class="ds-card-header">
+        <div class="ds-icon">
+          <svg width="32" height="32" fill="none" viewBox="0 0 24 24">
+            <rect width="24" height="24" rx="12" fill="#e0e7ff" />
+            <path d="M8 7h8v10H8V7zm1 2v6h6V9H9z" fill="#6366f1" />
+          </svg>
+        </div>
+        <div>
+          <div class="ds-card-title">Pengajuan Surat</div>
+          <div class="ds-card-subtitle">{{ detailStatus.nomorSurat }}</div>
+        </div>
+      </div>
+
+      <div class="ds-fields">
         <!-- Nomor Surat -->
-        <div class="flex flex-col">
-          <span class="text-sm font-medium text-gray-500">Nomor Surat</span>
-          <span class="text-base font-semibold text-gray-900">{{ detailStatus.nomorSurat }}</span>
+        <div class="ds-field">
+          <span class="ds-label">Nomor Surat</span>
+          <span class="ds-value ds-value-bold"
+            >{{ detailStatus.nomorSurat }}</span
+          >
         </div>
-
         <!-- Tanggal Surat -->
-        <div class="flex flex-col">
-          <span class="text-sm font-medium text-gray-500">Tanggal Surat</span>
-          <span class="text-base text-gray-700">{{ detailStatus.tanggalSurat }}</span>
+        <div class="ds-field">
+          <span class="ds-label">Tanggal Surat</span>
+          <span class="ds-value">{{ detailStatus.tanggalSurat }}</span>
         </div>
-
         <!-- Tanggal Dibuat -->
-        <div class="flex flex-col">
-          <span class="text-sm font-medium text-gray-500">Tanggal Dibuat</span>
-          <span class="text-base text-gray-700">{{ detailStatus.tanggalDibuat }}</span>
+        <div class="ds-field">
+          <span class="ds-label">Tanggal Dibuat</span>
+          <span class="ds-value">
+            {{ detailStatus.tanggalDibuat | date:'d MMMM y, HH:mm' : '+0700' :
+            'id' }} WIB
+          </span>
         </div>
-
         <!-- Jenis Surat -->
-        <div class="flex flex-col">
-          <span class="text-sm font-medium text-gray-500">Jenis Surat</span>
-          <span class="text-base text-gray-700">{{ detailStatus.jenisSurat }}</span>
+        <div class="ds-field">
+          <span class="ds-label">Jenis Surat</span>
+          <span class="ds-value">{{ detailStatus.jenisSurat }}</span>
         </div>
-
         <!-- Alasan -->
-        <div class="flex flex-col">
-          <span class="text-sm font-medium text-gray-500">Alasan</span>
-          <span class="text-base text-gray-700">{{ detailStatus.alasan }}</span>
+        <div class="ds-field">
+          <span class="ds-label">Alasan</span>
+          <span class="ds-value">{{ detailStatus.alasan }}</span>
         </div>
-
         <!-- Status -->
-        <div class="flex flex-col">
-          <span class="text-sm font-medium text-gray-500">Status</span>
-          <span [class]="'inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ' + getStatusBadge(detailStatus.status)">
+        <div class="ds-field">
+          <span class="ds-label">Status</span>
+          <span
+            [ngClass]="getStatusBadge(detailStatus.status)"
+            class="ds-badge"
+          >
             {{ detailStatus.status }}
           </span>
         </div>
-
-        <!-- Menunggu Pemohon -->
-        <div class="flex flex-col">
-          <span class="text-sm font-medium text-gray-500">Menunggu Pemohon</span>
-          <span class="text-base text-gray-700">{{ detailStatus.menungguPemohon }}</span>
+        <!-- Link Surat -->
+        <div class="ds-field">
+          <span class="ds-label">Link Surat</span>
+          <ng-container *ngIf="detailStatus.link && detailStatus.link !== '-'">
+            <a
+              [href]="detailStatus.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="ds-link"
+            >
+              {{ detailStatus.link }}
+            </a>
+          </ng-container>
+          <ng-container *ngIf="!detailStatus.link || detailStatus.link === '-'">
+            <span class="ds-unavailable">Belum tersedia</span>
+          </ng-container>
         </div>
-
-        <!-- Karyawan -->
-        <div class="flex flex-col">
-          <span class="text-sm font-medium text-gray-500">Karyawan</span>
-          <span class="text-base text-gray-700">{{ detailStatus.karyawan }}</span>
-        </div>
-
         <!-- Divalidasi Oleh -->
-        <div class="flex flex-col">
-          <span class="text-sm font-medium text-gray-500">Divalidasi Oleh</span>
-          <span class="text-base text-gray-700">{{ detailStatus.divalidasiOleh }}</span>
+        <div class="ds-field">
+          <span class="ds-label">Divalidasi Oleh</span>
+          <span class="ds-value">{{ detailStatus.divalidasiOleh }}</span>
+        </div>
+        <!-- Button Batalkan -->
+        <div
+          class="ds-field"
+          *ngIf="detailStatus.status === 'Pending' || detailStatus.status === 'Menunggu'"
+        >
+          <button
+            class="ds-btn-cancel"
+            (click)="batalkanSurat()"
+            [disabled]="isLoading"
+          >
+            Batalkan Surat
+          </button>
         </div>
       </div>
-      <!-- Tombol "Kembali" di bagian bawah telah dihapus -->
     </div>
   </div>
 </ion-content>

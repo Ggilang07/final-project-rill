@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -14,19 +14,17 @@ import { FormsModule } from '@angular/forms';
 
 registerLocaleData(localeId, 'id');
 @NgModule({
-  declarations: [
-    AppComponent,
-    BottomNavComponent
-  ],
+  declarations: [AppComponent, BottomNavComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: LOCALE_ID, useValue: 'id' },
   ],
   bootstrap: [AppComponent],
 })

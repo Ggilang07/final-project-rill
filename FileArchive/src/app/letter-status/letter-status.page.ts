@@ -12,6 +12,10 @@ export class LetterStatusPage implements OnInit {
   requests: any[] = [];
   isLoading = false;
   searchTerm: string = '';
+  selectedFilter: string = 'terbaru';
+  sortOrder: 'terbaru' | 'terlama' = 'terbaru';
+  statusFilters: string[] = []; // ['pending', 'approved', ...]
+  showFilterPopover = false;
 
   constructor(
     private alertController: AlertController,
@@ -37,44 +41,56 @@ export class LetterStatusPage implements OnInit {
     );
   }
 
-  loadLink() {
-    this.isLoading = true;
-    this.apiService.getLinkNValidator().subscribe(
-      (response) => {
-        // Jika response berupa { data: [...] } (Laravel resource), gunakan response.data
-        this.requests = response.data ?? response;
-        this.isLoading = false;
-      },
-      (error) => {
-        console.error('Error fetching letters:', error);
-        this.isLoading = false;
-      },
-    );
-  }
-
   // Fungsi untuk filter data berdasarkan pencarian
   getFilteredRequests() {
-    if (!this.searchTerm || this.searchTerm.trim() === '') {
-      return this.requests;
+    let filtered = this.requests;
+
+    // Filter pencarian
+    if (this.searchTerm && this.searchTerm.trim() !== '') {
+      const searchLower = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        (request) =>
+          (request.tanggalDibuat || request.created_at || '')
+            .toLowerCase()
+            .includes(searchLower) ||
+          (request.jenisSurat || request.category || '')
+            .toLowerCase()
+            .includes(searchLower) ||
+          (request.nama || request.user?.name || '')
+            .toLowerCase()
+            .includes(searchLower) ||
+          (request.status || '').toLowerCase().includes(searchLower) ||
+          (request.tanggalSurat || request.created_at || '')
+            .toLowerCase()
+            .includes(searchLower),
+      );
     }
 
-    const searchLower = this.searchTerm.toLowerCase();
-    return this.requests.filter(
-      (request) =>
-        (request.nomorSurat || request.letter_number || '')
-          .toLowerCase()
-          .includes(searchLower) ||
-        (request.jenisSurat || request.category || '')
-          .toLowerCase()
-          .includes(searchLower) ||
-        (request.nama || request.user?.name || '')
-          .toLowerCase()
-          .includes(searchLower) ||
-        (request.status || '').toLowerCase().includes(searchLower) ||
-        (request.tanggalSurat || request.created_at || '')
-          .toLowerCase()
-          .includes(searchLower),
-    );
+    // Filter status (bisa multi)
+    if (this.statusFilters.length > 0) {
+      filtered = filtered.filter((request) =>
+        this.statusFilters.includes((request.status || '').toLowerCase()),
+      );
+    }
+
+    // Urutkan
+    if (this.sortOrder === 'terbaru') {
+      filtered = filtered
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+        );
+    } else if (this.sortOrder === 'terlama') {
+      filtered = filtered
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+        );
+    }
+
+    return filtered;
   }
 
   formatCategory(category: string): string {
@@ -108,59 +124,19 @@ export class LetterStatusPage implements OnInit {
     }
   }
 
-  // Fungsi untuk handle tombol buat surat
-  async buatSurat() {
-    const alert = await this.alertController.create({
-      header: 'Buat Surat Baru',
-      message: 'Pilih jenis surat yang ingin dibuat:',
-      buttons: [
-        {
-          text: 'Surat Izin Cuti',
-          handler: () => {
-            this.navigateToForm('cuti');
-          },
-        },
-        {
-          text: 'Surat Izin Sakit',
-          handler: () => {
-            this.navigateToForm('sakit');
-          },
-        },
-        {
-          text: 'Surat Dinas',
-          handler: () => {
-            this.navigateToForm('dinas');
-          },
-        },
-        {
-          text: 'Batal',
-          role: 'cancel',
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-
-  // Fungsi untuk navigasi ke halaman form
-  navigateToForm(jenisSurat: string) {
-    // Navigasi ke halaman form sesuai jenis surat
-    // Contoh: this.navCtrl.navigateForward('/form-surat/' + jenisSurat);
-    console.log('Navigasi ke form:', jenisSurat);
-
-    // Untuk demo, tampilkan alert
-    this.showFormAlert(jenisSurat);
-  }
-
-  // Fungsi demo untuk menampilkan alert form
-  async showFormAlert(jenisSurat: string) {
-    const alert = await this.alertController.create({
-      header: 'Form Surat',
-      message: `Membuka form untuk ${jenisSurat}...`,
-      buttons: ['OK'],
-    });
-
-    await alert.present();
+  getStatusLabel(status: string): string {
+    switch ((status || '').toLowerCase()) {
+      case 'pending':
+        return 'Menunggu';
+      case 'approved':
+        return 'Disetujui';
+      case 'rejected':
+        return 'Ditolak';
+      case 'cancelled':
+        return 'Dibatalkan';
+      default:
+        return status;
+    }
   }
 
   // Fungsi untuk handle klik pada row tabel (opsional)
@@ -171,6 +147,27 @@ export class LetterStatusPage implements OnInit {
 
   goToDetail(request: any) {
     // Misal menggunakan letter_number sebagai parameter, bisa diganti sesuai kebutuhan
-    this.navCtrl.navigateForward(['/letter-status/detail-status', request.letter_number]);
+    this.navCtrl.navigateForward([
+      '/letter-status/detail-status',
+      request.letter_number,
+    ]);
+  }
+
+  // Fungsi untuk toggle status filter
+  toggleStatusFilter(status: string) {
+    if (this.statusFilters.includes(status)) {
+      this.statusFilters = this.statusFilters.filter((s) => s !== status);
+    } else {
+      this.statusFilters = [...this.statusFilters, status];
+    }
+  }
+
+  // Fungsi untuk apply filter (bisa kosong jika hanya trigger change detection)
+  applyFilter() {}
+
+  resetFilter() {
+    this.sortOrder = 'terbaru';
+    this.statusFilters = [];
+    this.applyFilter();
   }
 }

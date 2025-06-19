@@ -1,15 +1,14 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+  <!-- <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Buat Surat</ion-title>
-  </ion-toolbar>
+  </ion-toolbar> -->
 </ion-header>
 
 <ion-content [fullscreen]="true" class="content-background">
   <div class="form-container">
-    
     <!-- Logo Section -->
     <div class="logo-container">
       <div class="logo-wrapper">
@@ -36,9 +35,10 @@
       <ion-icon name="document-text" slot="start" class="form-icon"></ion-icon>
       <ion-select
         [(ngModel)]="letterRequest.category"
-        placeholder="Jenis surat"
+        placeholder="Pilih jenis surat"
         interface="popover"
         required
+        class="category-select"
       >
         <ion-select-option
           *ngFor="let category of categories"
@@ -120,4 +120,3 @@
     </ng-template>
   </ion-modal>
 </ion-content>
-

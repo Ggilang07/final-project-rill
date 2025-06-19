@@ -21,7 +21,9 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
-    Route::get('/status-letters', [StatusController::class, 'index']);
+    Route::get('/status-letters', [StatusController::class, 'index']); // list semua surat
+    Route::put('/status-letters/{id}/cancel', [StatusController::class, 'cancel'])->where('id', '.*');
+    Route::get('/status-letters/{id}', [StatusController::class, 'show'])->where('id', '.*'); // detail surat
     Route::post('/letter-request', [RequestController::class, 'store']);
     Route::get('/categories', [RequestController::class, 'getCategories']);
     Route::get('/profile', [AuthController::class, 'user']);

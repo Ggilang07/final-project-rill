@@ -8,10 +8,10 @@ ion-header {
   ion-title {
     font-weight: 600;
     color: #fff !important;
-    text-align: left;      // Ubah dari center ke left
-    width: auto;           // Ubah dari 100% ke auto
+    text-align: left; // Ubah dari center ke left
+    width: auto; // Ubah dari 100% ke auto
     justify-content: flex-start; // Ubah dari center ke flex-start
-    display: block;        // Ubah dari flex ke block
+    display: block; // Ubah dari flex ke block
   }
 
   ion-back-button {
@@ -95,13 +95,15 @@ ion-header {
   margin-bottom: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border: 1.5px solid #e0e7ef;
-  padding: 14px 18px;           // Padding dalam box
+  padding: 14px 18px; // Padding dalam box
   --color: #222;
   --inner-padding-top: 0;
   --inner-padding-bottom: 0;
   --inner-padding-start: 0;
   --inner-padding-end: 0;
-  transition: box-shadow 0.2s, border-color 0.2s;
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s;
 }
 
 .form-item:focus-within {
@@ -244,6 +246,7 @@ ion-note {
   height: 48px;
   --border-color: #92949c;
   --color: #92949c;
+  padding-bottom: 40px;
 }
 
 .delete-button:hover {
@@ -287,4 +290,62 @@ ion-datetime {
 
 ion-input {
   cursor: pointer;
+}
+
+.custom-category-select {
+  --background: #f4f7fa;
+  --placeholder-color: #6366f1;
+  --color: #222;
+  --border-radius: 10px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  min-height: 44px;
+  box-shadow: 0 1px 4px rgba(99, 102, 241, 0.07);
+
+  &:focus-within {
+    border: 1.5px solid #6366f1;
+    box-shadow: 0 0 0 2px #6366f133;
+  }
+}
+
+ion-select.custom-category-select::part(icon) {
+  color: #6366f1;
+  font-size: 22px;
+}
+
+// Percantik popover kategori surat
+ion-popover {
+  --background: #f8fafc !important;
+  --width: 270px;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 24px rgba(99, 102, 241, 0.12);
+}
+
+ion-select-popover {
+  background: #f8fafc !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 24px rgba(99, 102, 241, 0.12);
+  padding: 0.5rem 0;
+}
+
+ion-select-popover .select-interface-option {
+  font-size: 15px;
+  color: #374151;
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin: 4px 8px;
+  transition: background 0.15s;
+}
+
+ion-select-popover .select-interface-option.ion-focused,
+ion-select-popover .select-interface-option:hover {
+  background: #e0e7ff;
+  color: #4f46e5;
+}
+
+ion-select-popover .select-interface-option[aria-selected="true"] {
+  background: #6366f1;
+  color: #fff;
 }

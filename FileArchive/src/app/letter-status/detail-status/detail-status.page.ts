@@ -17,8 +17,7 @@ export class DetailStatusPage implements OnInit {
     jenisSurat: string;
     alasan: string;
     status: 'Pending' | 'Disetujui' | 'Ditolak' | string;
-    menungguPemohon: string;
-    karyawan: string;
+    link: string;
     divalidasiOleh: string;
   } = {
     nomorSurat: '',
@@ -26,17 +25,17 @@ export class DetailStatusPage implements OnInit {
     tanggalDibuat: '',
     jenisSurat: '',
     alasan: '',
-    status: 'Pending',
-    menungguPemohon: '',
-    karyawan: '',
+    status: '',
+    link: '',
     divalidasiOleh: '',
   };
 
   isLoading = true;
+  requests: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private apiService: ApiService
+    private apiService: ApiService,
   ) {}
 
   ngOnInit() {
@@ -44,24 +43,26 @@ export class DetailStatusPage implements OnInit {
     if (id) {
       this.apiService.getLetterDetail(id).subscribe(
         (data) => {
+          // console.log('API detail:', data);
           // Jika respons API Anda membungkus data di dalam properti "data", gunakan data.data
           const detail = data.data ?? data;
           this.detailStatus = {
             nomorSurat: detail.letter_number || detail.nomorSurat || '-',
             tanggalSurat: detail.letter_date || detail.tanggalSurat || '-',
             tanggalDibuat: detail.created_at || '-',
-            jenisSurat: detail.category ? this.formatCategory(detail.category) : '-',
+            jenisSurat: detail.category
+              ? this.formatCategory(detail.category)
+              : '-',
             alasan: detail.reason || detail.alasan || '-',
             status: this.mapStatus(detail.status),
-            menungguPemohon: detail.menungguPemohon || '-',
-            karyawan: detail.user?.name || detail.karyawan || '-',
+            link: detail.link_pdf || detail.link || '-',
             divalidasiOleh: detail.validated_by || detail.divalidasiOleh || '-',
           };
           this.isLoading = false;
         },
         (err) => {
           this.isLoading = false;
-        }
+        },
       );
     }
   }
@@ -81,6 +82,8 @@ export class DetailStatusPage implements OnInit {
         return 'Pending';
       case 'rejected':
         return 'Ditolak';
+      case 'cancelled':
+        return 'Dibatalkan';
       default:
         return status || '-';
     }
@@ -95,13 +98,46 @@ export class DetailStatusPage implements OnInit {
   getStatusBadge(status: string): string {
     switch (status) {
       case 'Disetujui':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green';
       case 'Pending':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow';
       case 'Ditolak':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray';
+    }
+  }
+
+  loadLink() {
+    this.isLoading = true;
+    this.apiService.getLinkNValidator().subscribe(
+      (response) => {
+        this.requests = response.data ?? response;
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error('Error fetching letters:', error);
+        this.isLoading = false;
+      },
+    );
+  }
+
+  batalkanSurat() {
+    if (!confirm('Yakin ingin membatalkan surat ini?')) return;
+    this.isLoading = true;
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.apiService.cancelLetter(id).subscribe(
+        (res) => {
+          // Update status di tampilan
+          this.detailStatus.status = 'Dibatalkan';
+          this.isLoading = false;
+        },
+        (err) => {
+          alert('Gagal membatalkan surat.');
+          this.isLoading = false;
+        },
+      );
     }
   }
 }

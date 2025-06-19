@@ -21,7 +21,7 @@ export class ApiService {
 
   getLinkNValidator(): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.apiUrl}/status-letters`, {
+    return this.http.get(`${this.apiUrl}/status-letters/detail-status`, {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
@@ -68,6 +68,20 @@ export class ApiService {
         Accept: 'application/json',
       },
     });
+  }
+
+  cancelLetter(id: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      `${this.apiUrl}/status-letters/${id}/cancel`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+        },
+      },
+    );
   }
 }
 
