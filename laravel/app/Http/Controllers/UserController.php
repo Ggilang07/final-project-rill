@@ -59,10 +59,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'email' => 'required|email|unique:users,email',
-            // 'password' => 'required|string|min:8|max:255|confirmed',
             'name' => 'required|string|max:255',
             'date_of_birth' => 'required|date',
             'address' => 'required|string|max:255',
@@ -71,19 +69,29 @@ class UserController extends Controller
             'role' => 'required|in:admin,karyawan'
         ]);
 
-        $user = new User();
-        $user->email = $request->email;
-        // $user->password = bcrypt($request->password);
-        $user->password = bcrypt('filearchive2025'); // set default password
-        $user->name = $request->name;
-        $user->date_of_birth = $request->date_of_birth;
-        $user->address = $request->address;
-        $user->no_kk = $request->no_kk;
-        $user->nik = $request->nik;
-        $user->role = $request->role;
-        $user->save();
+        try {
+            $user = new User();
+            $user->email = $request->email;
+            $user->password = bcrypt('filearchive2025');
+            $user->name = $request->name;
+            $user->date_of_birth = $request->date_of_birth;
+            $user->address = $request->address;
+            $user->no_kk = $request->no_kk;
+            $user->nik = $request->nik;
+            $user->role = $request->role;
+            $user->save();
 
-        return response()->json(['success' => true]);
+            session()->flash('success', 'Akun berhasil ditambahkan');
+            return response()->json([
+                'success' => true,
+                'message' => 'Akun berhasil ditambahkan'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menambahkan akun'
+            ], 500);
+        }
     }
 
     /**
@@ -107,8 +115,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $account)
     {
-        logger($account);
-
         $request->validate([
             'email' => 'required|email|unique:users,email,' . $account->user_id . ',user_id',
             'name' => 'required|string|max:255',
@@ -119,16 +125,27 @@ class UserController extends Controller
             'role' => 'required|in:admin,karyawan'
         ]);
 
-        $account->email = $request->email;
-        $account->name = $request->name;
-        $account->date_of_birth = $request->date_of_birth;
-        $account->address = $request->address;
-        $account->no_kk = $request->no_kk;
-        $account->nik = $request->nik;
-        $account->role = $request->role;
-        $account->save();
+        try {
+            $account->email = $request->email;
+            $account->name = $request->name;
+            $account->date_of_birth = $request->date_of_birth;
+            $account->address = $request->address;
+            $account->no_kk = $request->no_kk;
+            $account->nik = $request->nik;
+            $account->role = $request->role;
+            $account->save();
 
-        return redirect()->route('accounts.index')->with('success', 'Akun berhasil diperbarui.');
+            session()->flash('success', 'Akun berhasil diubah');
+            return response()->json([
+                'success' => true,
+                'message' => 'Akun berhasil diubah'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengubah akun'
+            ], 500);
+        }
     }
 
     /**
@@ -203,20 +220,33 @@ class UserController extends Controller
     {
         $request->validate([
             'current_password' => 'required',
-            'new_password' => 'required|min:6|confirmed',
+            'new_password' => 'required',
+            'new_password_confirmation' => 'required',
         ]);
 
         $user = auth()->user();
 
-        if (!Hash::check($request->current_password, $user->password)) {
+        // Cek password lama
+        if (!\Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'Password lama salah.']);
         }
 
-        if (Hash::check($request->new_password, $user->password)) {
+        // Cek panjang password baru
+        if (strlen($request->new_password) < 6) {
+            return back()->withErrors(['new_password' => 'Password baru minimal 6 karakter.']);
+        }
+
+        // Cek konfirmasi password baru
+        if ($request->new_password !== $request->new_password_confirmation) {
+            return back()->withErrors(['new_password_confirmation' => 'Konfirmasi password baru tidak sesuai.']);
+        }
+
+        // Cek password baru tidak boleh sama dengan lama
+        if (\Hash::check($request->new_password, $user->password)) {
             return back()->withErrors(['new_password' => 'Password baru tidak boleh sama dengan password lama.']);
         }
 
-        $user->password = Hash::make($request->new_password);
+        $user->password = \Hash::make($request->new_password);
         $user->save();
 
         return redirect()->route('profile')->with('success', 'Password berhasil diubah.');

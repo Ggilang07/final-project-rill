@@ -2,17 +2,19 @@
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:heading>{{ $heading }}</x-slot:heading>
 
-    <div x-data="{ open: false }" class="space-y-6">
+    <div x-data="{ open: false, showNotification: false, notificationMessage: '' }" class="space-y-6">
         {{-- Add Account Button --}}
-        <div class="flex justify-between items-center">
-            <button @click="modalUser.openAdd()"
-                class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-                Tambah Akun
-            </button>
+        <div class="flex flex-col gap-4">
+            <div class="flex justify-between items-center">
+                <button @click="modalUser.openAdd()"
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    Tambah Akun
+                </button>
+            </div>
         </div>
 
         {{-- Search & Filter Section --}}
@@ -74,6 +76,32 @@
                 </button>
             </form>
         </div>
+        
+        {{-- Success Notification - Use Laravel Session --}}
+        @if(session()->has('success'))
+            <div class="bg-green-50 text-green-800 rounded-lg p-4 flex items-center justify-between" x-data="{ show: true }"
+                x-show="show" x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 transform -translate-y-2"
+                x-transition:enter-end="opacity-100 transform translate-y-0"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100 transform translate-y-0"
+                x-transition:leave-end="opacity-0 transform -translate-y-2">
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <p>{{ session('success') }}</p>
+                </div>
+                <button @click="show = false" class="text-green-600 hover:text-green-800">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        @endif
 
         {{-- Mobile Cards --}}
         <div class="md:hidden space-y-4">
@@ -116,15 +144,15 @@
                             {{-- Action Buttons --}}
                             <div class="flex justify-end gap-2 pt-3 border-t">
                                 <button @click="modalUser.openEdit({
-                                                                id: '{{ $account->user_id }}',
-                                                                nama: '{{ $account->name }}',
-                                                                email: '{{ $account->email }}',
-                                                                date: '{{ $account->date_of_birth }}',
-                                                                address: '{{ $account->address }}',
-                                                                nik: '{{ $account->nik }}',
-                                                                no_kk: '{{ $account->no_kk }}',
-                                                                role: '{{ $account->role }}'
-                                                            })"
+                                                                        id: '{{ $account->user_id }}',
+                                                                        nama: '{{ $account->name }}',
+                                                                        email: '{{ $account->email }}',
+                                                                        date: '{{ $account->date_of_birth }}',
+                                                                        address: '{{ $account->address }}',
+                                                                        nik: '{{ $account->nik }}',
+                                                                        no_kk: '{{ $account->no_kk }}',
+                                                                        role: '{{ $account->role }}'
+                                                                    })"
                                     class="inline-flex items-center px-3 py-1.5 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                         stroke="currentColor" class="w-4 h-4 mr-1.5">
@@ -177,14 +205,18 @@
                                 <td class="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
                                     {{ ($accountsDesktop->currentPage() - 1) * $accountsDesktop->perPage() + $loop->iteration }}
                                 </td>
-                                <td class="px-2 py-4 whitespace-nowrap max-w-[8rem] truncate">
-                                    <div class="text-sm font-medium text-gray-900">{{ $account->name }}</div>
+                                <td class="px-2 py-4 whitespace-normal break-words text-sm font-medium text-gray-900">
+                                    {{ $account->name }}
                                 </td>
-                                <td class="px-2 py-4 whitespace-nowrap max-w-[12rem] truncate text-sm text-gray-500">{{ $account->email }}</td>
-                                <td class="px-2 py-4 whitespace-nowrap text-sm text-gray-500">{{ $account->date_of_birth }}</td>
-                                <td class="px-2 py-4 whitespace-nowrap max-w-[14rem] truncate text-sm text-gray-500">{{ $account->address }}</td>
-                                <td class="px-2 py-4 whitespace-nowrap max-w-[10rem] truncate text-sm text-gray-500">{{ $account->no_kk }}</td>
-                                <td class="px-2 py-4 whitespace-nowrap max-w-[10rem] truncate text-sm text-gray-500">{{ $account->nik }}</td>
+                                <td class="px-2 py-4 whitespace-normal break-words text-sm text-gray-500">
+                                    {{ $account->email }}</td>
+                                <td class="px-2 py-4 whitespace-normal break-words text-sm text-gray-500">{{ $account->date_of_birth }}</td>
+                                <td class="px-2 py-4 whitespace-normal break-words text-sm text-gray-500">
+                                    {{ $account->address }}</td>
+                                <td class="px-2 py-4 whitespace-normal break-words text-sm text-gray-500">
+                                    {{ $account->no_kk }}</td>
+                                <td class="px-2 py-4 whitespace-normal break-words text-sm text-gray-500">
+                                    {{ $account->nik }}</td>
                                 <td class="px-2 py-4 whitespace-nowrap">
                                     <span
                                         class="px-2.5 py-0.5 rounded-full text-xs font-medium {{ $account->role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
@@ -193,15 +225,15 @@
                                 </td>
                                 <td class="px-2 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                                     <button @click="modalUser.openEdit({
-                                                                                id: '{{ $account->user_id }}',
-                                                                                nama: '{{ $account->name }}',
-                                                                                email: '{{ $account->email }}',
-                                                                                date: '{{ $account->date_of_birth }}',
-                                                                                address: '{{ $account->address }}',
-                                                                                nik: '{{ $account->nik }}',
-                                                                                no_kk: '{{ $account->no_kk }}',
-                                                                                role: '{{ $account->role }}'
-                                                                            })"
+                                                                                        id: '{{ $account->user_id }}',
+                                                                                        nama: '{{ $account->name }}',
+                                                                                        email: '{{ $account->email }}',
+                                                                                        date: '{{ $account->date_of_birth }}',
+                                                                                        address: '{{ $account->address }}',
+                                                                                        nik: '{{ $account->nik }}',
+                                                                                        no_kk: '{{ $account->no_kk }}',
+                                                                                        role: '{{ $account->role }}'
+                                                                                    })"
                                         class="inline-flex items-center px-3 py-1.5 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-200">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1.5">
@@ -236,3 +268,64 @@
     </div>
     <x-user-modal></x-user-modal>
 </x-layout>
+
+@push('scripts')
+    <script>
+        window.modalUser = function () {
+            return {
+                isOpen: false,
+                formData: {
+                    id: '',
+                    nama: '',
+                    email: '',
+                    date: '',
+                    address: '',
+                    nik: '',
+                    no_kk: '',
+                    role: ''
+                },
+
+                openAdd() {
+                    this.formData = {
+                        id: '',
+                        nama: '',
+                        email: '',
+                        date: '',
+                        address: '',
+                        nik: '',
+                        no_kk: '',
+                        role: ''
+                    };
+                    this.isOpen = true;
+                },
+
+                openEdit(data) {
+                    this.formData = { ...data };
+                    this.isOpen = true;
+                },
+
+                async submitAdd() {
+                    try {
+                        const response = await fetch('/accounts', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: JSON.stringify(this.formData)
+                        });
+
+                        const result = await response.json();
+
+                        if (result.success) {
+                            this.isOpen = false;
+                            window.location.reload();
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                }
+            }
+        }
+    </script>
+@endpush
