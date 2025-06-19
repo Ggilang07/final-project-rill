@@ -31,7 +31,7 @@ class ForgotPasswordController extends Controller
 
             $user->update([
                 'otp' => $otp,
-                'otp_expires_at' => now()->addMinutes(10), // sesuaikan dengan nama kolom di migration
+                'otp_expires_at' => now()->addMinutes(5), // OTP berlaku selama .. menit
             ]);
 
             Mail::to($user->email)->send(new SendOtpMail($otp)); // ganti queue() dengan send() untuk testing
