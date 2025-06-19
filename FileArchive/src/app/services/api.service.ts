@@ -59,6 +59,16 @@ export class ApiService {
       },
     });
   }
+
+  getLetterDetail(id: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.apiUrl}/status-letters/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+    });
+  }
 }
 
 export interface User {

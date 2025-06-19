@@ -168,4 +168,9 @@ export class LetterStatusPage implements OnInit {
     console.log('Row clicked:', request);
     // Bisa digunakan untuk navigasi ke detail surat
   }
+
+  goToDetail(request: any) {
+    // Misal menggunakan letter_number sebagai parameter, bisa diganti sesuai kebutuhan
+    this.navCtrl.navigateForward(['/letter-status/detail-status', request.letter_number]);
+  }
 }

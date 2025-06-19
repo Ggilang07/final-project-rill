@@ -26,7 +26,7 @@ export class BottomNavComponent implements OnInit {
   updateNavVisibility() {
     const url = this.router.url;
     // Hide nav in login and forgot-password pages
-    this.showNav = !url.includes('/login') && !url.includes('/forgot-password');
+    this.showNav = !url.includes('/login') && !url.includes('/forgot-password') && !url.includes('/letter-status/detail-status');
 
     if (url.includes('/home')) {
       this.activeTab = 'home';

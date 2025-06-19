@@ -1,0 +1,75 @@
+<!-- detail-status.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <!-- Icon panah kembali bawaan Ionic -->
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="text-center font-bold">Detail Status</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding bg-gray-50">
+  <div class="flex justify-center items-start min-h-full py-4">
+    <div class="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden p-6">
+      <div class="space-y-4">
+        <!-- Nomor Surat -->
+        <div class="flex flex-col">
+          <span class="text-sm font-medium text-gray-500">Nomor Surat</span>
+          <span class="text-base font-semibold text-gray-900">{{ detailStatus.nomorSurat }}</span>
+        </div>
+
+        <!-- Tanggal Surat -->
+        <div class="flex flex-col">
+          <span class="text-sm font-medium text-gray-500">Tanggal Surat</span>
+          <span class="text-base text-gray-700">{{ detailStatus.tanggalSurat }}</span>
+        </div>
+
+        <!-- Tanggal Dibuat -->
+        <div class="flex flex-col">
+          <span class="text-sm font-medium text-gray-500">Tanggal Dibuat</span>
+          <span class="text-base text-gray-700">{{ detailStatus.tanggalDibuat }}</span>
+        </div>
+
+        <!-- Jenis Surat -->
+        <div class="flex flex-col">
+          <span class="text-sm font-medium text-gray-500">Jenis Surat</span>
+          <span class="text-base text-gray-700">{{ detailStatus.jenisSurat }}</span>
+        </div>
+
+        <!-- Alasan -->
+        <div class="flex flex-col">
+          <span class="text-sm font-medium text-gray-500">Alasan</span>
+          <span class="text-base text-gray-700">{{ detailStatus.alasan }}</span>
+        </div>
+
+        <!-- Status -->
+        <div class="flex flex-col">
+          <span class="text-sm font-medium text-gray-500">Status</span>
+          <span [class]="'inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ' + getStatusBadge(detailStatus.status)">
+            {{ detailStatus.status }}
+          </span>
+        </div>
+
+        <!-- Menunggu Pemohon -->
+        <div class="flex flex-col">
+          <span class="text-sm font-medium text-gray-500">Menunggu Pemohon</span>
+          <span class="text-base text-gray-700">{{ detailStatus.menungguPemohon }}</span>
+        </div>
+
+        <!-- Karyawan -->
+        <div class="flex flex-col">
+          <span class="text-sm font-medium text-gray-500">Karyawan</span>
+          <span class="text-base text-gray-700">{{ detailStatus.karyawan }}</span>
+        </div>
+
+        <!-- Divalidasi Oleh -->
+        <div class="flex flex-col">
+          <span class="text-sm font-medium text-gray-500">Divalidasi Oleh</span>
+          <span class="text-base text-gray-700">{{ detailStatus.divalidasiOleh }}</span>
+        </div>
+      </div>
+      <!-- Tombol "Kembali" di bagian bawah telah dihapus -->
+    </div>
+  </div>
+</ion-content>

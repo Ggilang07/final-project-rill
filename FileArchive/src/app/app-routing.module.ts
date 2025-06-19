@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { DetailStatusPage } from './letter-status/detail-status/detail-status.page';
 
 const routes: Routes = [
   {
@@ -38,7 +39,10 @@ const routes: Routes = [
     path: 'letter-request',
     loadChildren: () => import('./letter-request/letter-request.module').then( m => m.LetterRequestPageModule)
   },
-
+  {
+    path: 'letter-status/detail-status/:id',
+    loadChildren: () => import('./letter-status/detail-status/detail-status.module').then(m => m.DetailStatusPageModule)
+  },
 
 
   

@@ -27,9 +27,8 @@
   <div class="table-container">
     <!-- Header Table -->
     <div class="table-header">
-      <div class="header-cell nomor-tanggal">Nomor & Tanggal surat</div>
+      <div class="header-cell nomor-tanggal">Nomor Surat</div>
       <div class="header-cell jenis-surat">Jenis Surat</div>
-      <div class="header-cell alasan">Validasi Oleh</div>
       <div class="header-cell status">Status</div>
     </div>
 
@@ -42,20 +41,18 @@
       </div>
     </div>
 
-    <div class="table-row" *ngFor="let request of getFilteredRequests()">
+    <div class="table-row" 
+         *ngFor="let request of getFilteredRequests()" 
+         (click)="goToDetail(request)"
+         style="cursor:pointer;">
       <div class="row-cell nomor-tanggal">
         <div class="nomor-surat">{{ request.letter_number }}</div>
         <div class="tanggal-surat">
-          {{ request.letter_date | date:'d MMMM y':'':'id' }}
+          {{ request.created_at | date:'d MMMM y':'':'id' }}
         </div>
       </div>
 
       <div class="row-cell jenis-surat">{{ formatCategory(request.category) }}</div>
-
-      <div class="row-cell nama">
-        {{ request.link_pdf }}
-          Divalidasi oleh: {{ request.validated_by }}
-      </div>
 
       <div class="row-cell status">
         <ion-icon

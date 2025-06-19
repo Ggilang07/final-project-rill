@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: LetterStatusPage
+  },  {
+    path: 'detail-status',
+    loadChildren: () => import('./detail-status/detail-status.module').then( m => m.DetailStatusPageModule)
   }
+
 ];
 
 @NgModule({
