@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>verfy-otp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="otp-container">
+    <h2>Masukkan Kode OTP</h2>
+    <p>Kami telah mengirimkan kode OTP ke email/nomor Anda.</p>
+    <form [formGroup]="otpForm" (ngSubmit)="onSubmit()">
+      <ion-item lines="none" class="otp-input">
+        <ion-input
+          type="text"
+          maxlength="6"
+          placeholder="Masukkan 6 digit OTP"
+          inputmode="numeric"
+          required
+          formControlName="otp"
+        ></ion-input>
+      </ion-item>
+      <div *ngIf="isSubmitted && otpForm.get('otp')?.invalid" class="error-message">
+        <ion-text color="danger">
+          <small *ngIf="otpForm.get('otp')?.errors?.['required']">OTP wajib diisi</small>
+          <small *ngIf="otpForm.get('otp')?.errors?.['pattern']">OTP harus 6 digit angka</small>
+        </ion-text>
+      </div>
+      <ion-button expand="block" color="primary" class="mt-2" type="submit">
+        Verifikasi
+      </ion-button>
+    </form>
+    <div class="resend-otp">
+      <span>Belum menerima kode?</span>
+      <ion-button fill="clear" size="small" (click)="resendOtp()">Kirim Ulang</ion-button>
+    </div>
+  </div>
+</ion-content>

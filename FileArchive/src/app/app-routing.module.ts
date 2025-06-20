@@ -43,6 +43,10 @@ const routes: Routes = [
     path: 'letter-status/detail-status/:id',
     loadChildren: () => import('./letter-status/detail-status/detail-status.module').then(m => m.DetailStatusPageModule)
   },
+  {
+    path: 'verfy-otp',
+    loadChildren: () => import('./forgot-password/verfy-otp/verfy-otp.module').then(m => m.VerfyOtpPageModule)
+  },
 
 
   

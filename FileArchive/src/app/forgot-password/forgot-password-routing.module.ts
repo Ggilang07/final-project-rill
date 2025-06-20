@@ -8,6 +8,11 @@ const routes: Routes = [
     path: '',
     component: ForgotPasswordPage
   },
+  {
+    path: 'verfy-otp',
+    loadChildren: () => import('./verfy-otp/verfy-otp.module').then( m => m.VerfyOtpPageModule)
+  },
+
 
 
 ];
