@@ -115,4 +115,28 @@ class StatusController extends Controller
         }
         return response()->json(['success' => false, 'message' => 'Surat tidak dapat dibatalkan'], 400);
     }
+
+    public function homeSummary()
+    {
+        $user = request()->user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        // Ambil semua permintaan surat yang dibuat oleh user ini
+        $letters = LetterRequest::query()
+            ->with(['requestedBy', 'validator', 'uploadedLetter'])
+            ->where('request_by', $user->user_id)
+            ->get();
+
+        $summary = [
+            'total_requests' => $letters->count(),
+            'pending_requests' => $letters->where('status', 'pending')->count(),
+            'approved_requests' => $letters->where('status', 'approved')->count(),
+            'rejected_requests' => $letters->where('status', 'rejected')->count(),
+            'cancelled_requests' => $letters->where('status', 'cancelled')->count(),
+        ];
+
+        return response()->json(['data' => $summary]);
+    }
 }

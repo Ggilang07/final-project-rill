@@ -48,7 +48,7 @@ ion-content {
   max-width: 360px;
   background-color: #8bb0ff;
   border-radius: 30px;
-  padding: 20px;
+  padding: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin: 10px auto 40px;
   z-index: 1;
@@ -117,7 +117,7 @@ ion-content {
   height: 45px;
   padding: 12px 15px;
   border: 1px solid #ddd;
-  border-radius: 25px;
+  border-radius: 12px;
   background-color: white;
   font-size: 14px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -155,8 +155,7 @@ ion-content {
 }
 
 .forgot-password span {
-  font-size: 12px;
-  cursor: pointer;
+  font-size: 17px;
   color: #ff4444;
 }
 

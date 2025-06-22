@@ -24,6 +24,8 @@ return new class extends Migration
             $table->enum('role', ['admin', 'karyawan']);
             $table->string('otp', 6)->nullable();
             $table->dateTime('otp_expires_at')->nullable();
+            $table->string('reset_token', 255)->nullable();
+            $table->timestamp('reset_token_expires_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

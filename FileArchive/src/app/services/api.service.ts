@@ -9,6 +9,16 @@ export class ApiService {
   private apiUrl = 'http://127.0.0.1:8000/api';
   constructor(private http: HttpClient) {}
 
+  getHomeStatus(): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.apiUrl}/home-summary`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+    });
+  }
+
   getStatusLetter(): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(`${this.apiUrl}/status-letters`, {
@@ -29,13 +39,6 @@ export class ApiService {
   requestLetter(): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(`${this.apiUrl}/letter-request`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-  }
-
-  getProfile(): Observable<any> {
-    const token = localStorage.getItem('token');
-    return this.http.get(`${this.apiUrl}/profile`, {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
@@ -83,7 +86,45 @@ export class ApiService {
       },
     );
   }
+
+  getProfile(): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.apiUrl}/profile`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
+
+  updateProfile(profileData: FormData): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.apiUrl}/profile/update`, profileData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
+
+  changePassword(
+    currentPassword: string,
+    newPassword: string,
+    confirmPassword: string,
+  ): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.post(
+      `${this.apiUrl}/profile/change-password`,
+      {
+        current_password: currentPassword,
+        new_password: newPassword,
+        new_password_confirmation: confirmPassword,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+        },
+      },
+    );
+  }
 }
+
+export const BASE_IMAGE_URL = 'http://127.0.0.1:8000/images/profiles/';
 
 export interface User {
   user_id: number;

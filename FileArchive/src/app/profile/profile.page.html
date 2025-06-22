@@ -1,18 +1,35 @@
 <ion-content>
-  <div class="profile-container">
+  <div class="profile-container" [ngClass]="{'is-edit': isEdit}">
     <!-- Blue curved header -->
     <div class="profile-header">
       <h1>Profil Saya</h1>
     </div>
 
-    <!-- Avatar circle -->
+    <!-- Avatar circle with profile photo and upload button -->
     <div class="avatar-circle">
-      <div class="avatar-icon"></div>
+      <img
+        [src]="photoPreview || getProfilePhotoUrl()"
+        class="avatar-img"
+        alt="Foto Profil"
+      />
+      <label *ngIf="isEdit" for="photo" class="avatar-upload-label">
+        <span class="avatar-upload-icon-bg">
+          <ion-icon name="camera-outline" class="avatar-upload-icon"></ion-icon>
+        </span>
+        Ganti
+        <input
+          type="file"
+          id="photo"
+          accept="image/*"
+          (change)="onPhotoSelected($event)"
+          style="display: none"
+        />
+      </label>
     </div>
 
     <!-- Form fields -->
     <div class="form-fields" *ngIf="user">
-      <div class="field-group">
+      <div class="field-group" style="position: relative">
         <label>Nama</label>
         <input
           type="text"
@@ -21,8 +38,13 @@
           [readonly]="!isEdit"
           (input)="handleInput('name', $event)"
         />
+        <ion-icon
+          *ngIf="isEdit"
+          name="pencil-outline"
+          class="edit-icon"
+        ></ion-icon>
       </div>
-      <div class="field-group">
+      <div class="field-group" style="position: relative">
         <label>Email</label>
         <input
           type="email"
@@ -30,6 +52,11 @@
           [readonly]="!isEdit"
           (input)="handleInput('email', $event)"
         />
+        <ion-icon
+          *ngIf="isEdit"
+          name="pencil-outline"
+          class="edit-icon"
+        ></ion-icon>
       </div>
       <div class="field-group">
         <label>Tanggal Lahir</label>
@@ -40,7 +67,7 @@
           readonly
         />
       </div>
-      <div class="field-group">
+      <div class="field-group" style="position: relative">
         <label>Alamat</label>
         <input
           type="text"
@@ -48,48 +75,35 @@
           [readonly]="!isEdit"
           (input)="handleInput('address', $event)"
         />
+        <ion-icon
+          *ngIf="isEdit"
+          name="pencil-outline"
+          class="edit-icon"
+        ></ion-icon>
       </div>
       <div class="field-group">
-        <label>NIK</label>
+        <label>Nomor Induk Keluarga</label>
         <input type="text" [value]="user?.nik" readonly />
       </div>
       <div class="field-group">
-        <label>No KK</label>
+        <label>Nomor Kartu Keluarga</label>
         <input type="text" [value]="user?.no_kk" readonly />
       </div>
     </div>
 
     <!-- Edit/Save button and Logout button -->
     <div class="button-container">
-      <button
-        class="edit-button"
-        *ngIf="!isEdit"
-        (click)="editProfile()"
-      >
+      <button class="edit-button" *ngIf="!isEdit" (click)="editProfile()">
         Edit Profil
       </button>
-      <button
-        class="save-button"
-        *ngIf="isEdit"
-        (click)="saveProfile()"
-      >
+      <button class="save-button" *ngIf="isEdit" (click)="updateProfile()">
         Simpan
       </button>
-      <button
-        class="cancel-button"
-        *ngIf="isEdit"
-        (click)="cancelEdit()"
-      >
+      <button class="cancel-button" *ngIf="isEdit" (click)="cancelEdit()">
         Batal
       </button>
-      
-      <!-- Tombol Logout di sebelah kanan -->
-      <button
-        class="logout-button"
-        (click)="logout()"
-      >
-        Logout
-      </button>
+      <button class="change-password-link" (click)="goToChangePassword()">Ganti Kata Sandi</button>
+      <button class="logout-button" (click)="logout()">Logout</button>
     </div>
   </div>
 </ion-content>

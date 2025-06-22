@@ -1,0 +1,36 @@
+<ion-content class="ion-padding">
+  <div class="otp-container">
+    <div class="otp-title">
+      <ion-icon name="shield-checkmark-outline" class="otp-icon"></ion-icon>
+      <h2>Verifikasi Kode OTP</h2>
+      <p class="otp-desc">
+        Masukkan 6 digit kode OTP yang telah dikirim ke email Anda.
+      </p>
+    </div>
+    <form (ngSubmit)="onSubmit()" #otpForm="ngForm">
+      <div class="otp-input-group">
+        <input
+          *ngFor="let digit of [0,1,2,3,4,5]; let i = index"
+          class="otp-input"
+          type="text"
+          maxlength="1"
+          pattern="[0-9]*"
+          inputmode="numeric"
+          [value]="otp[i] || ''"
+          (input)="onOtpInput($event, i)"
+          (keydown)="onOtpKeydown($event, i)"
+          (paste)="onOtpPaste($event)"
+          autocomplete="one-time-code"
+        />
+      </div>
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="otp.length !== 6 || otp.includes('')"
+        class="submit-button"
+      >
+        Verifikasi
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

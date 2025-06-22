@@ -31,6 +31,18 @@ ion-header {
 .logo-wrapper {
   position: relative;
   margin-bottom: 20px;
+  animation: popIn 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .logo-background {
@@ -62,12 +74,16 @@ ion-header {
   justify-content: center;
   border: 3px solid white;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  animation: badgePulse 1.5s infinite alternate;
 }
 
-.badge-icon {
-  font-size: 16px;
-  color: white;
-  font-weight: bold;
+@keyframes badgePulse {
+  0% {
+    box-shadow: 0 0 0 0 #3880ff44;
+  }
+  100% {
+    box-shadow: 0 0 12px 6px #3880ff22;
+  }
 }
 
 .logo-title {
@@ -76,31 +92,29 @@ ion-header {
   color: #1a1a1a;
   margin: 0;
   line-height: 1.2;
+  letter-spacing: 0.5px;
 }
 
 // Content Background
 .content-background {
-  --background: #f8f9fa;
+  --background: #f5f7fa;
 }
 
 // Form Container
 .form-container {
   padding: 0 16px;
+  margin-top: 10px;
 }
 
 // Form Items Styling
 .form-item {
   --background: white;
-  --border-radius: 12px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --border-radius: 14px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 10px rgba(91, 124, 250, 0.08);
   border: 1.5px solid #e0e7ef;
-  padding: 14px 18px; // Padding dalam box
+  padding: 16px 18px; // Padding dalam box
   --color: #222;
-  --inner-padding-top: 0;
-  --inner-padding-bottom: 0;
-  --inner-padding-start: 0;
-  --inner-padding-end: 0;
   transition:
     box-shadow 0.2s,
     border-color 0.2s;
@@ -109,6 +123,10 @@ ion-header {
 .form-item:focus-within {
   border-color: #5a7fcf;
   box-shadow: 0 0 0 2px #5a7fcf33;
+}
+
+ion-label h2 {
+  color: #222;
 }
 
 ion-item.form-item {
@@ -130,7 +148,8 @@ ion-item.form-item {
 .form-icon {
   color: #3880ff !important;
   margin-right: 12px;
-  font-size: 20px;
+  font-size: 22px;
+  animation: colorShift 2s ease-in-out infinite;
 }
 
 // Select styling
@@ -141,13 +160,20 @@ ion-select {
 }
 
 // Input styling
-ion-input {
-  --placeholder-color: #333;
-  --color: black;
+ion-input,
+ion-textarea {
+  --background: #f4f7fa;
+  --placeholder-color: #6366f1;
+  --color: #222;
+  --border-radius: 10px;
   font-size: 16px;
+  font-weight: 500;
+  min-height: 44px;
+  box-shadow: 0 1px 4px rgba(99, 102, 241, 0.07);
+  padding-left: 8px;
 }
 
-ion-input.readonly {
+ion-input[readonly] {
   --background: #f4f4f4;
   --color: #666;
 }
@@ -182,29 +208,6 @@ ion-datetime {
   animation: colorShift 2s ease-in-out infinite;
 }
 
-@keyframes colorShift {
-  0% {
-    color: #007bff;
-  }
-  16.66% {
-    color: #ff6b6b;
-  }
-  33.33% {
-    color: #4ecdc4;
-  }
-  50% {
-    color: #45b7d1;
-  }
-  66.66% {
-    color: #96ceb4;
-  }
-  83.33% {
-    color: #feca57;
-  }
-  100% {
-    color: #007bff;
-  }
-}
 
 // Helper text styling
 ion-note {
@@ -226,56 +229,30 @@ ion-note {
 .button-row {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .create-button {
-  flex: 2;
   font-weight: 600;
-  --border-radius: 12px;
-  height: 48px;
-  --background: #5a7fcf;
+  --border-radius: 14px;
+  height: 50px;
+  --background: linear-gradient(90deg, #5a7fcf 70%, #3880ff 100%);
   --background-activated: #4a6bb8;
-  --background-hover: #4a6bb8;
+  font-size: 17px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(56, 128, 255, 0.1);
 }
 
 .delete-button {
-  flex: 1;
   font-weight: 600;
-  --border-radius: 12px;
-  height: 48px;
+  --border-radius: 14px;
+  height: 50px;
   --border-color: #92949c;
   --color: #92949c;
-  padding-bottom: 40px;
-}
-
-.delete-button:hover {
-  --background: rgba(146, 148, 156, 0.04);
-}
-
-// Responsive Design
-@media (max-width: 576px) {
-  .form-container {
-    padding: 12px;
-  }
-
-  .form-item {
-    margin-bottom: 12px;
-  }
-
-  .button-container {
-    margin-top: 20px;
-  }
-
-  .button-row {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .create-button,
-  .delete-button {
-    flex: 1;
-  }
+  font-size: 17px;
+  letter-spacing: 0.5px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(146, 148, 156, 0.06);
 }
 
 .date-picker-modal {
@@ -286,10 +263,6 @@ ion-note {
 
 ion-datetime {
   --background: var(--ion-background-color);
-}
-
-ion-input {
-  cursor: pointer;
 }
 
 .custom-category-select {
@@ -315,37 +288,42 @@ ion-select.custom-category-select::part(icon) {
   font-size: 22px;
 }
 
-// Percantik popover kategori surat
-ion-popover {
-  --background: #f8fafc !important;
-  --width: 270px;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 24px rgba(99, 102, 241, 0.12);
+ion-modal {
+  --width: 95vw;
+  --max-width: 400px;
+  --border-radius: 18px;
+  --box-shadow: 0 4px 24px rgba(91, 124, 250, 0.13);
 }
 
-ion-select-popover {
-  background: #f8fafc !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 24px rgba(99, 102, 241, 0.12);
-  padding: 0.5rem 0;
+ion-toolbar {
+  --background: #5b7cfa;
+  --color: #fff;
+  border-radius: 18px 18px 0 0;
 }
 
-ion-select-popover .select-interface-option {
-  font-size: 15px;
-  color: #374151;
-  padding: 12px 18px;
-  border-radius: 8px;
-  margin: 4px 8px;
+ion-title {
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+ion-list {
+  margin-top: 0;
+}
+
+ion-item {
+  --background: #f8faff;
+  border-radius: 12px;
+  margin: 8px 12px;
+  box-shadow: 0 1px 4px rgba(91, 124, 250, 0.06);
   transition: background 0.15s;
 }
 
-ion-select-popover .select-interface-option.ion-focused,
-ion-select-popover .select-interface-option:hover {
-  background: #e0e7ff;
-  color: #4f46e5;
+ion-item:active {
+  --background: #e0e7ff;
 }
 
-ion-select-popover .select-interface-option[aria-selected="true"] {
-  background: #6366f1;
-  color: #fff;
+ion-avatar ion-icon {
+  font-size: 28px;
+  color: #5b7cfa;
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular'; // Hapus IonViewWillEnter
 import { ApiService } from '../services/api.service';
 
 @Component({
@@ -23,11 +23,15 @@ export class LetterStatusPage implements OnInit {
     private apiService: ApiService,
   ) {}
 
-  ngOnInit() {
-    this.loadStatus();
+  ionViewWillEnter() {
+    this.loadData(); // fungsi untuk ambil data surat
   }
 
-  loadStatus() {
+  ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
     this.isLoading = true;
     this.apiService.getStatusLetter().subscribe(
       (response) => {
@@ -48,22 +52,31 @@ export class LetterStatusPage implements OnInit {
     // Filter pencarian
     if (this.searchTerm && this.searchTerm.trim() !== '') {
       const searchLower = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(
-        (request) =>
+      filtered = filtered.filter((request) => {
+        const statusLabel = this.getStatusLabel(
+          request.status || '',
+        ).toLowerCase();
+        const bulanLabel = this.getMonthIndo(
+          request.tanggalDibuat || request.created_at || '',
+        ).toLowerCase();
+        return (
           (request.tanggalDibuat || request.created_at || '')
             .toLowerCase()
             .includes(searchLower) ||
           (request.jenisSurat || request.category || '')
             .toLowerCase()
             .includes(searchLower) ||
-          (request.nama || request.user?.name || '')
+          (request.nomorsurat || request.letter_number || '')
             .toLowerCase()
             .includes(searchLower) ||
           (request.status || '').toLowerCase().includes(searchLower) ||
+          statusLabel.includes(searchLower) || // cari label status indo
+          bulanLabel.includes(searchLower) || // cari nama bulan indo
           (request.tanggalSurat || request.created_at || '')
             .toLowerCase()
-            .includes(searchLower),
-      );
+            .includes(searchLower)
+        );
+      });
     }
 
     // Filter status (bisa multi)
@@ -139,6 +152,26 @@ export class LetterStatusPage implements OnInit {
     }
   }
 
+  getMonthIndo(dateStr: string): string {
+    if (!dateStr) return '';
+    const bulanIndo = [
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+    const date = new Date(dateStr);
+    return bulanIndo[date.getMonth()];
+  }
+
   // Fungsi untuk handle klik pada row tabel (opsional)
   onRowClick(request: any) {
     console.log('Row clicked:', request);
@@ -146,10 +179,9 @@ export class LetterStatusPage implements OnInit {
   }
 
   goToDetail(request: any) {
-    // Misal menggunakan letter_number sebagai parameter, bisa diganti sesuai kebutuhan
     this.navCtrl.navigateForward([
       '/letter-status/detail-status',
-      request.letter_number,
+      request.request_id, // <-- gunakan request_id
     ]);
   }
 

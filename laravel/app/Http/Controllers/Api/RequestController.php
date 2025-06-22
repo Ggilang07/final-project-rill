@@ -99,7 +99,7 @@ class RequestController extends Controller
             $validated = $request->validate([
                 'category' => 'required|string',
                 'letter_date' => 'required|date',
-                'reason' => 'required|string|min:10', // Add validation for reason
+                'reason' => 'required|string|min:5|max:255', 
             ]);
 
             $letterNumber = $this->generateLetterNumber(

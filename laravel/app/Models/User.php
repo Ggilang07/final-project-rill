@@ -27,7 +27,9 @@ class User extends Authenticatable
         'email',
         'password',
         'otp',
-        'otp_expires_at'  // sesuaikan dengan nama kolom di migration
+        'otp_expires_at',  
+        'reset_token',
+        'reset_token_expires_at',
     ];
 
     /**

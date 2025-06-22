@@ -19,7 +19,7 @@ class ForgotPasswordController extends Controller
     public function sendOtp(Request $request)
     {
         try {
-            $request->validate(['email' => 'required|email']);
+            $request->validate(['email' => 'required|email|max:100']);
 
             $user = User::where('email', $request->email)->first();
 
@@ -75,7 +75,7 @@ class ForgotPasswordController extends Controller
     public function resetPassword(Request $request)
     {
         $request->validate([
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|max:255',
             'password_confirmation' => 'required'
         ]);
 

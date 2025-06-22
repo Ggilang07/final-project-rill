@@ -176,7 +176,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->user_id . ',user_id',
+            'email' => 'required|email|unique:users,email,' . $user->user_id . ',user_id|max:100',
             'address' => 'nullable|string|max:255',
             'photo' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // 2MB
         ], [
@@ -219,9 +219,9 @@ class UserController extends Controller
     public function changePassword(Request $request)
     {
         $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required',
-            'new_password_confirmation' => 'required',
+            'current_password' => 'required|max:255',
+            'new_password' => 'required|max:255',
+            'new_password_confirmation' => 'required|max:255',
         ]);
 
         $user = auth()->user();

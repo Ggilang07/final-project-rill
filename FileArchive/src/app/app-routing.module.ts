@@ -24,17 +24,21 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'home',
-    loadChildren: () => import('./dashboard/home/home.module').then( m => m.HomePageModule)
-  },
-  {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
-  {
-    path: 'forgot-password',
-    loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
-  },
+{
+  path: 'forgot-password/verify-otp',
+  loadChildren: () => import('./forgot-password/verify-otp/verify-otp.module').then(m => m.VerifyOtpPageModule)
+},
+{
+  path: 'forgot-password/reset-password',
+  loadChildren: () => import('./forgot-password/reset-password/reset-password.module').then(m => m.ResetPasswordPageModule)
+},
+{
+  path: 'forgot-password',
+  loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+},
   {
     path: 'letter-request',
     loadChildren: () => import('./letter-request/letter-request.module').then( m => m.LetterRequestPageModule)

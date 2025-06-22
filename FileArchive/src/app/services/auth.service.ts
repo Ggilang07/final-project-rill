@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
+  private apiUrl = 'http://127.0.0.1:8000/api';
+
   constructor(private http: HttpClient) {}
 
   login(credentials: { email: string; password: string }): Observable<any> {
@@ -26,5 +28,28 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+  }
+
+  sendOtp(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/forgot-password`, { email });
+  }
+
+  verifyOtp(email: string, otp: string): Observable<any> {
+    // Ganti endpoint di sini:
+    return this.http.post(`${this.apiUrl}/auth/verify-otp`, { email, otp });
+  }
+
+  resetPassword(
+    email: string,
+    resetToken: string,
+    password: string,
+    passwordConfirmation: string,
+  ): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/reset-password`, {
+      email,
+      reset_token: resetToken,
+      password,
+      password_confirmation: passwordConfirmation,
+    });
   }
 }

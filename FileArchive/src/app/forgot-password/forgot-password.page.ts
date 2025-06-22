@@ -6,6 +6,8 @@ import {
   NavController, 
   ToastController 
 } from '@ionic/angular';
+import { AuthService } from '../services/auth.service'; // pastikan sudah di-import
+
 @Component({
   standalone: false, 
   selector: 'app-forgot-password',
@@ -22,10 +24,18 @@ export class ForgotPasswordPage implements OnInit {
     private alertController: AlertController,
     private loadingController: LoadingController,
     private navController: NavController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private authService: AuthService // tambahkan ini
   ) {
     this.forgotPasswordForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          this.atSignValidator // custom validator
+        ]
+      ]
     });
   }
 
@@ -59,35 +69,35 @@ export class ForgotPasswordPage implements OnInit {
   private async sendResetLink(email: string) {
     this.isLoading = true;
 
-    try {
-      // Simulate API call - replace with your actual service
-      await this.simulateApiCall();
-      
-      await this.showSuccessAlert(email);
-      
-      // Navigate back to login after success
-      setTimeout(() => {
-        this.navController.navigateBack('/login');
-      }, 1000);
-      
-    } catch (error) {
-      await this.showErrorAlert();
-    } finally {
-      this.isLoading = false;
-    }
-  }
+    this.authService.sendOtp(email).subscribe({
+      next: async (res) => {
+        if (res.success) {
+          // Tampilkan toast sukses
+          const toast = await this.toastController.create({
+            message: 'Kode OTP berhasil dikirim ke email Anda.',
+            duration: 1800,
+            color: 'success',
+            position: 'top'
+          });
+          await toast.present();
 
-  private simulateApiCall(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // Simulate success (90% chance) or failure (10% chance)
-        const success = Math.random() > 0.1;
-        if (success) {
-          resolve();
+          // Setelah toast selesai, redirect ke halaman verifikasi OTP
+          setTimeout(() => {
+            this.navController.navigateForward(['/forgot-password/verify-otp'], {
+              queryParams: { email }
+            });
+          }, 1800);
         } else {
-          reject(new Error('Network error'));
+          await this.showErrorAlert(res.message || 'Gagal mengirim OTP.');
         }
-      }, 2000);
+        this.isLoading = false;
+      },
+      error: async (err) => {
+        await this.showErrorAlert(
+          err?.error?.message || 'Terjadi kesalahan saat mengirim email reset password. Silakan coba lagi.'
+        );
+        this.isLoading = false;
+      }
     });
   }
 
@@ -108,10 +118,10 @@ export class ForgotPasswordPage implements OnInit {
     await alert.present();
   }
 
-  private async showErrorAlert() {
+  private async showErrorAlert(message: string) {
     const alert = await this.alertController.create({
       header: 'Gagal Mengirim',
-      message: 'Terjadi kesalahan saat mengirim email reset password. Silakan coba lagi.',
+      message: message,
       buttons: [
         {
           text: 'Coba Lagi',
@@ -121,7 +131,6 @@ export class ForgotPasswordPage implements OnInit {
       ],
       cssClass: 'error-alert'
     });
-    
     await alert.present();
   }
 
@@ -158,19 +167,12 @@ export class ForgotPasswordPage implements OnInit {
     return !!(field.invalid && (field.dirty || field.touched || this.isSubmitted));
   }
 
-  // Get error message for field
-  getErrorMessage(fieldName: string): string {
-    const field = this.forgotPasswordForm.get(fieldName);
-    if (!field?.errors) return '';
-    
-    if (field.errors['required']) {
-      return 'Email wajib diisi';
+  // real-time validation for email field
+  atSignValidator(control: import('@angular/forms').AbstractControl) {
+    const value = control.value;
+    if (value && !value.includes('@')) {
+      return { atSign: true };
     }
-    
-    if (field.errors['email']) {
-      return 'Format email tidak valid';
-    }
-    
-    return 'Input tidak valid';
+    return null;
   }
 }

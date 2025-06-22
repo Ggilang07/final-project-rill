@@ -1,0 +1,162 @@
+:root {
+  --otp-gradient: linear-gradient(90deg, #3880ff, #00ffb8, #ffb347, #ff5e62);
+}
+
+.otp-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 120px);
+  padding: 24px 0 0 0;
+}
+
+.otp-title {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.otp-icon {
+  font-size: 3.2rem;
+  color: #3880ff;
+  margin-bottom: 8px;
+}
+
+.otp-title h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: #222;
+}
+
+.otp-desc {
+  font-size: 1rem;
+  color: #666;
+  margin: 0 0 8px 0;
+}
+
+.otp-input-group {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin: 36px 0 32px 0;
+  padding: 18px 18px 14px 18px;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 22px;
+  box-shadow:
+    0 8px 32px 0 rgba(56, 128, 255, 0.1),
+    0 1.5px 0 0 #3880ff1a;
+  backdrop-filter: blur(6px);
+}
+
+.otp-input {
+  width: 54px;
+  height: 62px;
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #222;
+  background: rgba(255, 255, 255, 0.85);
+  border: 3px solid #3880ff;
+  border-radius: 18px;
+  box-shadow:
+    0 4px 24px 0 rgba(56, 128, 255, 0.18),
+    0 1.5px 0 0 #3880ff;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+  letter-spacing: 2px;
+  margin: 0 2px;
+  position: relative;
+}
+
+.otp-input:focus {
+  border-color: #00ffb8;
+  background: #e3f0ff;
+  box-shadow: 0 0 0 5px rgba(56, 128, 255, 0.18);
+}
+
+.otp-input::placeholder {
+  color: #b0b8c1;
+  opacity: 1;
+  font-size: 1.2rem;
+}
+
+@keyframes otpBorderAnim {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.otp-title,
+.otp-desc {
+  animation: fadeSlideUp 0.7s cubic-bezier(.4,2,.6,1) 0.1s both;
+}
+
+.otp-input-group {
+  animation: fadeSlideUp 0.8s cubic-bezier(.4,2,.6,1) 0.25s both;
+}
+
+.otp-input {
+  animation: fadeSlideUp 0.8s cubic-bezier(.4,2,.6,1) both;
+}
+
+.submit-button {
+  margin-top: 18px;
+  margin-left: 50px;
+  margin-right: 50px;
+  --border-radius: 14px;
+  height: 50px;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  opacity: 1;
+}
+
+ion-content {
+  --background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  ion-content {
+    --background: linear-gradient(135deg, #1a1a1a 0%, #2d3748 100%);
+  }
+  .otp-input-group {
+    background: rgba(34, 40, 49, 0.55);
+    box-shadow:
+      0 8px 32px 0 rgba(56, 128, 255, 0.08),
+      0 1.5px 0 0 #3880ff1a;
+  }
+  .otp-input {
+    background: #23272f;
+    color: #fff;
+    border-color: #3880ff;
+  }
+  .otp-input:focus {
+    background: #1a1a1a;
+    border-color: #00ffb8;
+  }
+  .otp-title h2 {
+    color: #fff;
+  }
+  .otp-desc {
+    color: #aaa;
+  }
+}

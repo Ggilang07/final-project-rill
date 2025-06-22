@@ -27,6 +27,8 @@ export class LetterRequestPage implements OnInit {
   userData: User | null = null;
   minDate: string;
 
+  isCategoryModalOpen = false;
+
   constructor(
     private apiService: ApiService,
     private router: Router,
@@ -110,13 +112,26 @@ export class LetterRequestPage implements OnInit {
       letter_date: today.toISOString(),
       reason: '',
       user_id: this.userData?.user_id || 0,
-      name: this.userData?.name || '',
     };
     this.formattedDate = ''; // Reset the displayed date
   }
 
-  async submitRequest() {
-    // Create request payload matching DB fields
+  submitRequest() {
+    // Validasi field wajib
+    if (
+      !this.letterRequest.category ||
+      !this.letterRequest.letter_date ||
+      !this.letterRequest.reason ||
+      !this.letterRequest.user_id
+    ) {
+      this.toastController.create({
+        message: 'Gagal mengisi surat: semua kolom wajib diisi.',
+        duration: 2000,
+        color: 'danger',
+      }).then(toast => toast.present());
+      return;
+    }
+
     const requestPayload = {
       category: this.letterRequest.category,
       letter_date: this.letterRequest.letter_date,
@@ -124,36 +139,51 @@ export class LetterRequestPage implements OnInit {
       user_id: this.letterRequest.user_id,
     };
 
-    try {
-      await this.apiService.createLetterRequest(requestPayload).toPromise();
+    this.apiService.createLetterRequest(requestPayload).subscribe({
+      next: async () => {
+        const toast = await this.toastController.create({
+          message: 'Surat berhasil dibuat!',
+          duration: 2000,
+          color: 'success',
+        });
+        toast.present();
 
-      const toast = await this.toastController.create({
-        message: 'Surat berhasil dibuat!',
-        duration: 2000,
-        color: 'success',
-      });
-      toast.present();
-
-      this.resetForm(); // Add this line to reset form
-      this.router.navigate(['/letter-status']);
-    } catch (error: any) {
-      const message = error.error?.message || 'Gagal membuat surat';
-      const toast = await this.toastController.create({
-        message: message,
-        duration: 2000,
-        color: 'danger',
-      });
-      toast.present();
-    }
+        this.resetForm();
+        this.router.navigate(['/letter-status']);
+      },
+      error: async (error) => {
+        const message = error.error?.message || 'Gagal membuat surat';
+        const toast = await this.toastController.create({
+          message: message,
+          duration: 2000,
+          color: 'danger',
+        });
+        toast.present();
+      }
+    });
   }
 
   toggleInformasi() {
     this.isInformasiOpen = !this.isInformasiOpen;
   }
 
+  openCategoryModal() {
+    this.isCategoryModalOpen = true;
+  }
+
+  closeCategoryModal() {
+    this.isCategoryModalOpen = false;
+  }
+
+  selectCategory(category: string) {
+    this.letterRequest.category = category;
+    this.closeCategoryModal();
+  }
+
   formatCategory(category: string): string {
-    return category.split('_').map(word => 
-      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-    ).join(' ');
+    return category
+      .split('_')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
   }
 }

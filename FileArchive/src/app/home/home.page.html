@@ -1,87 +1,142 @@
 <ion-content [fullscreen]="true">
-  <!-- Header Profile dengan Background Biru -->
+  <!-- Header Profile -->
   <div class="profile-header">
     <div class="profile-bg"></div>
     <div class="profile-avatar">
       <div class="avatar-placeholder">
-        <ion-icon name="person-outline"></ion-icon>
+        <img
+          [src]=" getProfilePhotoUrl()"
+          class="avatar-img"
+          alt="Foto Profil"
+        />
       </div>
     </div>
     <div class="profile-info">
-      <h2>{{ user?.name }}</h2>
-      <p>{{ user?.role }}</p>
+      <h2>Selamat Datang, {{ user?.name }}</h2>
+      <p>{{ today | date:'EEEE, d MMMM y':'':'id' }}</p>
     </div>
   </div>
 
-  <!-- Pratinjau Dokumen -->
-  <div class="document-preview">
+  <!-- Statistik Cepat -->
+  <div class="stats-container">
+    <ion-card
+      (click)="navigateTo('letter-status', 'pending')"
+      class="stat-card"
+    >
+      <ion-card-header>
+        <ion-card-title>{{ letterCounts?.pending || 0 }}</ion-card-title>
+        <ion-card-subtitle>Menunggu</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card
+      (click)="navigateTo('letter-status', 'approved')"
+      class="stat-card"
+    >
+      <ion-card-header>
+        <ion-card-title>{{ letterCounts?.approved || 0 }}</ion-card-title>
+        <ion-card-subtitle>Disetujui</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card
+      (click)="navigateTo('letter-status', 'rejected')"
+      class="stat-card"
+    >
+      <ion-card-header>
+        <ion-card-title>{{ letterCounts?.rejected || 0 }}</ion-card-title>
+        <ion-card-subtitle>Ditolak</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card
+      (click)="navigateTo('letter-status', 'rejected')"
+      class="stat-card"
+    >
+      <ion-card-header>
+        <ion-card-title>{{ letterCounts?.cancelled || 0 }}</ion-card-title>
+        <ion-card-subtitle>Dibatalkan</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+  </div>
+
+  <!-- Aksi Cepat -->
+  <div class="quick-actions">
+    <ion-button expand="block" (click)="navigateTo('letter-request')">
+      <ion-icon slot="start" name="add-outline"></ion-icon>
+      Ajukan Surat Baru
+    </ion-button>
+  </div>
+
+  <!-- Pratinjau Surat Terakhir -->
+  <div class="section-title">
+    <h3>Surat Terakhir Anda</h3>
+  </div>
+
+  <div class="document-preview" *ngIf="lastLetter; else noLetter">
     <div class="document-container">
       <div class="document-content">
         <div class="document-header">
-          <p class="doc-header-text">KETERANGAN</p>
+          <p class="doc-header-text">{{ lastLetter.type | uppercase }}</p>
+          <ion-badge [color]="getStatusColor(lastLetter.status)">
+            {{ getStatusLabel(lastLetter.status) | uppercase }}
+          </ion-badge>
         </div>
         <div class="document-body">
-          <div class="letter-content" *ngIf="lastLetter; else noLetter">
-            <p class="letter-subject">{{ lastLetter.category | titlecase }}</p>
-            <p class="letter-date">{{ lastLetter.letter_date | date:'d MMMM y':'':'id' }}</p>
-            <p class="letter-recipient">Kepada Yth,</p>
-            <p class="letter-text">Yang bertanda tangan di bawah ini:</p>
-            <p class="letter-content-text">Dengan ini menerangkan bahwa:</p>
-            <p class="letter-name">Nama: {{ user?.name }}</p>
-            <p class="letter-position" *ngIf="lastLetter.position">Jabatan: {{ lastLetter.position }}</p>
-            <p class="letter-status">Status: {{ lastLetter.status | titlecase }}</p>
-          </div>
-          <ng-template #noLetter>
-            <p style="text-align:center; color:#888;">Belum ada surat diajukan.</p>
-          </ng-template>
+          <p class="letter-subject">{{ lastLetter.title }}</p>
+          <p class="letter-date">
+            {{ lastLetter.created_at | date:'d MMMM y':'':'id' }}
+          </p>
+          <p class="letter-status">
+            Status: {{ getStatusLabel(lastLetter.status) | titlecase }}
+          </p>
         </div>
       </div>
     </div>
-    
-    <!-- Indikator Halaman -->
-    <div class="page-indicator">
-      <span class="indicator active"></span>
-      <span class="indicator"></span>
-      <span class="indicator"></span>
-    </div>
   </div>
 
-  <!-- Garis Pembatas -->
-  <div class="divider"></div>
-
-  <!-- Menu Navigasi -->
-  <div class="navigation-menu">
-    <ion-item button detail="true" class="menu-item">
-      <ion-label>Riwayat Surat Terakhir</ion-label>
-      <ion-icon name="chevron-forward" slot="end"></ion-icon>
-    </ion-item>
-    
-    <ion-item button detail="true" class="menu-item">
-      <ion-label>Status Pengajuan Surat Terakhir</ion-label>
-      <ion-icon name="chevron-forward" slot="end"></ion-icon>
-    </ion-item>
-  </div>
-
-  <!-- Tab Bar -->
-  <ion-tab-bar slot="bottom" class="custom-tabs">
-    <ion-tab-button tab="home">
-      <ion-icon name="home-outline"></ion-icon>
-    </ion-tab-button>
-    
-    <ion-tab-button tab="notifications">
-      <ion-icon name="notifications-outline"></ion-icon>
-    </ion-tab-button>
-    
-    <ion-tab-button tab="documents">
+  <ng-template #noLetter>
+    <div class="empty-state">
       <ion-icon name="document-text-outline"></ion-icon>
-    </ion-tab-button>
-    
-    <ion-tab-button tab="calendar">
-      <ion-icon name="calendar-outline"></ion-icon>
-    </ion-tab-button>
-    
-    <ion-tab-button tab="profile" selected>
-      <ion-icon name="person-outline"></ion-icon>
-    </ion-tab-button> 
-  </ion-tab-bar>
+      <p>Belum ada surat diajukan</p>
+    </div>
+  </ng-template>
+
+  <!-- Daftar Surat Terkini -->
+  <div class="section-title">
+    <h3>Surat Terkini</h3>
+    <ion-button fill="clear" size="small" (click)="navigateTo('letter-status')">
+      Lihat Semua
+    </ion-button>
+  </div>
+
+  <ion-list lines="none" class="recent-letters">
+    <ion-item
+      *ngFor="let letter of recentLetters"
+      (click)="viewLetterDetail(letter.id)"
+    >
+      <ion-icon
+        slot="start"
+        [name]="getLetterIcon(letter.type)"
+        [color]="getStatusColor(letter.status)"
+      >
+      </ion-icon>
+
+      <ion-label>
+        <h4>{{ letter.title }}</h4>
+        <p>
+          {{ letter.type | titlecase }} • {{ letter.created_at | date:'d MMM
+          y':'':'id' }}
+        </p>
+      </ion-label>
+
+      <ion-badge slot="end" [color]="getStatusColor(letter.status)">
+        {{ getStatusLabel(letter.status) | uppercase }}
+      </ion-badge>
+    </ion-item>
+
+    <ion-item *ngIf="recentLetters.length === 0">
+      <ion-label class="ion-text-center"> Tidak ada surat terkini </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

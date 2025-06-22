@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   standalone: false,
@@ -36,10 +37,13 @@ export class DetailStatusPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
+    private router: Router,
+    private alertController: AlertController, // tambahkan ini
   ) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+    // console.log('Route param id:', id); 
     if (id) {
       this.apiService.getLetterDetail(id).subscribe(
         (data) => {
@@ -122,22 +126,41 @@ export class DetailStatusPage implements OnInit {
     );
   }
 
-  batalkanSurat() {
-    if (!confirm('Yakin ingin membatalkan surat ini?')) return;
-    this.isLoading = true;
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.apiService.cancelLetter(id).subscribe(
-        (res) => {
-          // Update status di tampilan
-          this.detailStatus.status = 'Dibatalkan';
-          this.isLoading = false;
+  async batalkanSurat() {
+    const alert = await this.alertController.create({
+      header: 'Konfirmasi',
+      message: 'Yakin ingin membatalkan surat ini?',
+      buttons: [
+        {
+          text: 'Batal',
+          role: 'cancel',
+          cssClass: 'secondary'
         },
-        (err) => {
-          alert('Gagal membatalkan surat.');
-          this.isLoading = false;
-        },
-      );
-    }
+        {
+          text: 'Ya, Batalkan',
+          handler: () => {
+            this.isLoading = true;
+            const id = this.route.snapshot.paramMap.get('id');
+            if (id) {
+              this.apiService.cancelLetter(id).subscribe(
+                (res) => {
+                  this.detailStatus.status = 'Dibatalkan';
+                  this.isLoading = false;
+                },
+                (err) => {
+                  // Tampilkan toast jika gagal
+                  this.isLoading = false;
+                }
+              );
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  navigateToStatus(item: any) {
+    this.router.navigate(['/status', item.request_id]);
   }
 }
