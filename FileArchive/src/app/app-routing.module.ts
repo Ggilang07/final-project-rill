@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { DetailStatusPage } from './letter-status/detail-status/detail-status.page';
+import { SplashPage } from './splash/splash.page';
 
 const routes: Routes = [
   {
@@ -11,8 +12,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    component: SplashPage
   },
   {
     path: 'login',
@@ -51,6 +51,11 @@ const routes: Routes = [
     path: 'verfy-otp',
     loadChildren: () => import('./forgot-password/verfy-otp/verfy-otp.module').then(m => m.VerfyOtpPageModule)
   },
+  {
+    path: 'splash',
+    loadChildren: () => import('./splash/splash.module').then( m => m.SplashPageModule)
+  },
+
 
 
   

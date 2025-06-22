@@ -1,0 +1,237 @@
+.splash-bg {
+  --background: linear-gradient(135deg, #4a7bd1 60%, #a9c0e9 100%);
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden !important; 
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: linear-gradient(135deg, #4a7bd1 60%, #a9c0e9 100%);
+  position: fixed !important;
+}
+
+.splash-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 32px 20px 0 20px;
+}
+
+.splash-logo-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 16px;
+  padding: 10px 20px 10px 10px;
+  box-shadow: 0 4px 18px rgba(74, 123, 209, 0.13);
+  animation: logoDrop 1s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+.splash-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.splash-title {
+  color: #222;
+  font-weight: 900;
+  font-size: 19px;
+  margin: 0;
+  line-height: 22px;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(74, 123, 209, 0.1);
+}
+
+.splash-subtitle {
+  color: #1e40af;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin: 0;
+  line-height: 13px;
+  text-shadow: 0 2px 8px rgba(74, 123, 209, 0.08);
+}
+
+.splash-menu {
+  font-size: 28px;
+  color: #222;
+  margin-right: 2px;
+}
+
+.splash-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 38px;
+  padding: 0 20px;
+}
+
+.splash-headline {
+  color: #fff;
+  font-weight: 900;
+  font-size: 32px;
+  line-height: 38px;
+  margin: 0 0 18px 0;
+  width: 100%;
+  max-width: 320px;
+  text-shadow: 0 4px 18px rgba(74, 123, 209, 0.18);
+  letter-spacing: 1px;
+  text-align: center;
+  animation: headlineLeft 1.1s 0.2s cubic-bezier(.68,-0.55,.27,1.55) both;
+}
+
+.splash-headline-bold {
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.splash-headline-light {
+  color: #a9c0e9;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.splash-illustration-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 18px;
+  margin-bottom: 10px;
+  width: 100%;
+  animation: illusBounce 1.2s 0.5s cubic-bezier(.68,-0.55,.27,1.55) both;
+}
+
+.splash-illustration {
+  width: 220px;
+  max-width: 90vw;
+  height: auto;
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(74, 123, 209, 0.18);
+  display: block;
+}
+
+.splash-tagline {
+  margin-top: 18px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-shadow: 0 2px 8px rgba(74, 123, 209, 0.13);
+  background: rgba(74, 123, 209, 0.18);
+  padding: 6px 18px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(74, 123, 209, 0.1);
+  animation: taglineUp 1.1s 1.1s cubic-bezier(.68,-0.55,.27,1.55) both;
+}
+
+.splash-bottom-bg {
+  width: 100vw;
+  max-width: 400px;
+  margin: 100px 0 0 150px;
+  height: 300px;
+  background: #fff;
+  border-radius: 0 0 40px 0;
+  transform: rotate(-35deg);
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  box-shadow: 0 2px 16px rgba(74, 123, 209, 0.07);
+  animation: slideBounceLeft 1.3s 0.7s cubic-bezier(.60,-0.55,.27,1.55) both;
+}
+
+/* Tambahkan di styles.scss ATAU di splash.page.scss (paling bawah) */
+ion-content.splash-bg {
+  --overflow: hidden;
+  overflow: hidden !important;
+  touch-action: none;
+  overscroll-behavior: none;
+  position: fixed !important;
+  inset: 0;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: 100vh !important;
+}
+
+/* Animasi brutal */
+@keyframes pop {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.animate-pop {
+  animation: pop 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fadein {
+  animation: fadein 1.2s 0.3s both;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(100vw) rotate(-35deg);
+    opacity: 0.2;
+  }
+  to {
+    transform: translateX(0) rotate(-35deg);
+    opacity: 1;
+  }
+}
+
+/* Animasi logo masuk dari atas */
+@keyframes logoDrop {
+  0% { transform: translateY(-80px) scale(0.7); opacity: 0; }
+  70% { transform: translateY(10px) scale(1.1); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Animasi judul fade-in dari kiri */
+@keyframes headlineLeft {
+  0% { opacity: 0; transform: translateX(-60px) scale(0.9);}
+  80% { opacity: 1; transform: translateX(8px) scale(1.05);}
+  100% { opacity: 1; transform: translateX(0) scale(1);}
+}
+
+/* Animasi ilustrasi bounce dari bawah */
+@keyframes illusBounce {
+  0% { opacity: 0; transform: translateY(80px) scale(0.8);}
+  70% { opacity: 1; transform: translateY(-10px) scale(1.05);}
+  100% { opacity: 1; transform: translateY(0) scale(1);}
+}
+
+/* Animasi tagline fade-in dari bawah */
+@keyframes taglineUp {
+  0% { opacity: 0; transform: translateY(40px);}
+  100% { opacity: 1; transform: translateY(0);}
+}
+
+/* Animasi bottom-bg bounce dari kanan */
+@keyframes slideBounceLeft {
+  0% { transform: translateX(100vw) rotate(-35deg) scale(0.8); opacity: 0.2; }
+  70% { transform: translateX(1vw) rotate(-35deg) scale(1.05); opacity: 1; }
+  100% { transform: translateX(0) rotate(-35deg) scale(1); opacity: 1; }
+}
