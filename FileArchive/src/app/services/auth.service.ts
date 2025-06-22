@@ -6,12 +6,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:8000/api';
+  private apiUrl = 'https://filearchive.grandmutiara.my.id/api';
 
   constructor(private http: HttpClient) {}
 
   login(credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/api/login', credentials);
+    return this.http.post(
+      'https://filearchive.grandmutiara.my.id/api/login',
+      credentials,
+    );
   }
 
   setToken(token: string) {

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = 'http://127.0.0.1:8000/api';
+  private apiUrl = 'https://filearchive.grandmutiara.my.id/api';
   constructor(private http: HttpClient) {}
 
   getHomeStatus(): Observable<any> {
@@ -124,7 +124,7 @@ export class ApiService {
   }
 }
 
-export const BASE_IMAGE_URL = 'http://127.0.0.1:8000/images/profiles/';
+export const BASE_IMAGE_URL = 'https://filearchive.grandmutiara.my.id/images/profiles/';
 
 export interface User {
   user_id: number;
