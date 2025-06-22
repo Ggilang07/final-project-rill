@@ -27,13 +27,21 @@ export class HomePage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loadData();
+  }
+
+  ionViewWillEnter() {
+    this.loadData();
+  }
+
+  loadData() {
     this.api.getProfile().subscribe({
       next: (res) => {
         this.user = res;
       },
       error: (err) => {
         console.error('Gagal mengambil profil:', err);
-      }
+      },
     });
 
     this.api.getHomeStatus().subscribe({
@@ -48,7 +56,7 @@ export class HomePage implements OnInit {
       },
       error: (err) => {
         console.error('Gagal mengambil status surat:', err);
-      }
+      },
     });
 
     this.api.getStatusLetter().subscribe({
@@ -56,14 +64,14 @@ export class HomePage implements OnInit {
         let suratArr = res.data || [];
         suratArr = suratArr.sort(
           (a: any, b: any) =>
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
         );
         this.lastLetter = suratArr.length > 0 ? suratArr[0] : null;
         this.recentLetters = suratArr.slice(0, 5);
       },
       error: (err) => {
         console.error('Gagal mengambil daftar surat:', err);
-      }
+      },
     });
   }
 
