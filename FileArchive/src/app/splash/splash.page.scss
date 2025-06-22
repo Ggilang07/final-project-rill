@@ -133,10 +133,10 @@
 .splash-bottom-bg {
   width: 100vw;
   max-width: 400px;
-  margin: 100px 0 0 150px;
-  height: 300px;
+  margin: 100px 0 0 220px;
+  min-height: 500px;
+  height: auto;
   background: #fff;
-  border-radius: 0 0 40px 0;
   transform: rotate(-35deg);
   position: relative;
   top: 0;
