@@ -37,7 +37,8 @@ export class HomePage implements OnInit {
   loadData() {
     this.api.getProfile().subscribe({
       next: (res) => {
-        this.user = res;
+        // console.log('API home:', res);
+        this.user = res.user ?? res;
       },
       error: (err) => {
         console.error('Gagal mengambil profil:', err);

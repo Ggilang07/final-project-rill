@@ -76,17 +76,19 @@ export class LetterRequestPage implements OnInit {
   loadUserData() {
     this.apiService.getProfile().subscribe({
       next: (response: any) => {
-        if (response && response.data) {
-          this.userData = response.data;
-          if (this.userData) {
-            this.letterRequest.user_id = this.userData.user_id;
-            this.letterRequest.name = this.userData.name;
-          }
+        // console.log('API PROFILE RESPONSE:', response);
+
+        if (response && response.user) {
+          this.userData = response.user;
         } else {
           this.userData = response;
-          this.letterRequest.user_id = response.user_id;
-          this.letterRequest.name = response.name;
         }
+
+        this.letterRequest.user_id = this.userData?.user_id || 0;
+        this.letterRequest.name = this.userData?.name || '';
+
+        // console.log('userData:', this.userData);
+        // console.log('letterRequest:', this.letterRequest);
       },
       error: (error) => {
         console.error('Error loading user data:', error);
@@ -140,7 +142,8 @@ export class LetterRequestPage implements OnInit {
     };
 
     this.apiService.createLetterRequest(requestPayload).subscribe({
-      next: async () => {
+      next: async (res) => {
+        console.log('API RESPONSE:', res); // Tambahkan ini
         const toast = await this.toastController.create({
           message: 'Surat berhasil dibuat!',
           duration: 2000,
@@ -152,6 +155,7 @@ export class LetterRequestPage implements OnInit {
         this.router.navigate(['/letter-status']);
       },
       error: async (error) => {
+        console.error('API ERROR:', error); // Tambahkan ini
         const message = error.error?.message || 'Gagal membuat surat';
         const toast = await this.toastController.create({
           message: message,

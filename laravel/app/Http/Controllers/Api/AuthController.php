@@ -46,6 +46,10 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        $user = Auth::user();
+        return response()->json([
+            'user' => $user,
+            'is_using_default_password' => $user->isUsingDefaultPassword(),
+        ]);
     }
 }

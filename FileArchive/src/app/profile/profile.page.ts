@@ -12,6 +12,7 @@ import { ToastController, NavController } from '@ionic/angular';
 export class ProfilePage implements OnInit {
   user: any;
   isEdit = false;
+  isUsingDefaultPassword = false;
   backupUser: any;
   selectedPhoto: File | null = null;
   photoPreview: string | ArrayBuffer | null = null;
@@ -25,8 +26,14 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
     this.api.getProfile().subscribe((res) => {
-      this.user = res;
+      // console.log('API PROFILE:', res);
+      this.user = res.user ?? res;
+      this.isUsingDefaultPassword = res.is_using_default_password ?? false;
     });
+  }
+
+  ionViewWillEnter() {
+    this.ngOnInit();
   }
 
   editProfile() {
@@ -119,7 +126,7 @@ export class ProfilePage implements OnInit {
   goToChangePassword() {
     this.navCtrl.navigateForward('/profile/change-password', {
       animated: true,
-      animationDirection: 'forward'
+      animationDirection: 'forward',
     });
   }
 }

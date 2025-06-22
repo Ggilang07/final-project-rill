@@ -109,7 +109,7 @@
   background: #f8faff;
   border-radius: 18px;
   box-shadow: 0 2px 8px rgba(100, 149, 237, 0.07);
-  padding-bottom: 20px;
+  padding-bottom: -5px;
 }
 
 .field-group {
@@ -276,4 +276,26 @@ a[href*="change-password"]:hover {
   opacity: 0.7;
   pointer-events: none;
   background-color: transparent;
+}
+
+.default-password-warning {
+  background: #fffbe6;
+  border-left: 5px solid #ffc107;
+  color: #856404;
+  padding: 16px 18px;
+  margin: 18px 0 20px 0;
+  border-radius: 8px;
+  font-size: 15px;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.07);
+}
+
+.default-password-warning strong {
+  color: #b8860b;
+}
+
+.default-password-warning .change-link {
+  color: #0d6efd;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: bold;
 }

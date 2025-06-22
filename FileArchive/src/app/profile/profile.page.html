@@ -91,6 +91,13 @@
       </div>
     </div>
 
+    <div *ngIf="isUsingDefaultPassword" class="default-password-warning">
+      <strong>Perhatian!</strong> Anda masih menggunakan password default.<br />
+      <span class="change-link" (click)="goToChangePassword()"
+        >Ubah password sekarang</span
+      >
+    </div>
+
     <!-- Edit/Save button and Logout button -->
     <div class="button-container">
       <button class="edit-button" *ngIf="!isEdit" (click)="editProfile()">
@@ -102,7 +109,9 @@
       <button class="cancel-button" *ngIf="isEdit" (click)="cancelEdit()">
         Batal
       </button>
-      <button class="change-password-link" (click)="goToChangePassword()">Ganti Kata Sandi</button>
+      <button class="change-password-link" (click)="goToChangePassword()">
+        Ganti Kata Sandi
+      </button>
       <button class="logout-button" (click)="logout()">Logout</button>
     </div>
   </div>
