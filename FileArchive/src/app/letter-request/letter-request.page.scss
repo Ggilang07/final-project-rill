@@ -1,22 +1,6 @@
-// Header Styling
 ion-header {
-  ion-toolbar {
-    --background: #5a7fcf;
-    --color: white;
-  }
-
-  ion-title {
-    font-weight: 600;
-    color: #fff !important;
-    text-align: left; // Ubah dari center ke left
-    width: auto; // Ubah dari 100% ke auto
-    justify-content: flex-start; // Ubah dari center ke flex-start
-    display: block; // Ubah dari flex ke block
-  }
-
-  ion-back-button {
-    --color: white;
-  }
+  padding-top: 45px;
+  background-color: #545658;
 }
 
 // Logo Styles

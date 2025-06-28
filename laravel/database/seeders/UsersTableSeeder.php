@@ -16,10 +16,10 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'email' => 'admin1@gmail.com',
+                'email' => 'azaanul10@gmail.com',
                 'password' => Hash::make('admin123'),
                 'name' => 'Admin 1',
-                'p_profile' => 'alya.jpg',
+                'p_profile' => 'null',
                 'date_of_birth' => '2000-05-12',
                 'address' => 'Jl. Surotokuntu no.52 Karawang, Jawa Barat',
                 'no_kk' => '0003492344329843',
@@ -32,7 +32,7 @@ class UsersTableSeeder extends Seeder
                 'email' => 'admin2@gmail.com',
                 'password' => Hash::make('admin1234'),
                 'name' => 'Admin 2',
-                'p_profile' => 'stelle.jpg',
+                'p_profile' => 'null',
                 'date_of_birth' => '2000-12-17',
                 'address' => 'Jl. Ubuntu no.12',
                 'no_kk' => '000009438884343',

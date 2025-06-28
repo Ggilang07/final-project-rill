@@ -13,7 +13,7 @@ export class SplashPage implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      this.router.navigateByUrl('/login');
+      this.router.navigate(['/login'], { replaceUrl: true });
     }, 2000); // 2 detik
   }
 

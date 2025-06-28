@@ -1,5 +1,9 @@
+ion-header {
+  padding-top: 45px;
+  background-color: #365c96;
+}
+
 ion-toolbar {
-  --background: linear-gradient(90deg, #5b7cfa 70%, #3880ff 100%);
   box-shadow: 0 2px 12px rgba(91, 124, 250, 0.1);
   height: 70px !important;
   display: flex;
@@ -34,7 +38,7 @@ ion-content {
 }
 
 .search-container {
-  margin-top: 60px;
+  margin-top: 120px;
   margin-bottom: -10px;
   display: flex;
   align-items: center;

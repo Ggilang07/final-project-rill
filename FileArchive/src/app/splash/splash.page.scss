@@ -231,7 +231,7 @@ ion-content.splash-bg {
 
 /* Animasi bottom-bg bounce dari kanan */
 @keyframes slideBounceLeft {
-  0% { transform: translateX(100vw) rotate(-35deg) scale(0.8); opacity: 0.2; }
+  0% { transform: translateX(50vw) rotate(-35deg) scale(0.8); opacity: 0.2; }
   70% { transform: translateX(1vw) rotate(-35deg) scale(1.05); opacity: 1; }
   100% { transform: translateX(0) rotate(-35deg) scale(1); opacity: 1; }
 }

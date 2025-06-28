@@ -1,6 +1,5 @@
 * {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
   background-color: #f5f7fa;
   font-family: Arial, sans-serif;
@@ -29,6 +28,7 @@
 .profile-header h1 {
   color: rgb(255, 255, 255);
   font-size: 25px;
+  margin-top: 24px;
   font-weight: bold;
   background-color: transparent;
 }
@@ -105,11 +105,14 @@
 
 .form-fields {
   margin-top: 80px;
-  padding: 0 24px;
+  padding: 0 18px;         // Ubah dari 24px ke 18px (atau coba 16px jika ingin lebih lega)
   background: #f8faff;
   border-radius: 18px;
   box-shadow: 0 2px 8px rgba(100, 149, 237, 0.07);
-  padding-bottom: -5px;
+  max-width: 420px;        // Tambahkan max-width agar tidak terlalu lebar di device besar
+  margin-left: auto;       // Center di tengah
+  margin-right: auto;      // Center di tengah
+  width: 100%;
 }
 
 .field-group {
@@ -161,6 +164,7 @@
   gap: 12px;
   margin-top: 5px;
   padding: 0 10px;
+  margin-bottom: 20px;
 }
 
 .button-container button,

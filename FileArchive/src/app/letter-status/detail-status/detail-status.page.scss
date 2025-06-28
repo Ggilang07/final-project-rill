@@ -1,3 +1,8 @@
+ion-header {
+  padding-top: 45px;
+  background-color: #365c96;
+}
+
 ion-toolbar {
   --background: #5b7cfa;
   min-height: 70px !important;
@@ -14,7 +19,6 @@ ion-toolbar {
     margin-left: 0;
     letter-spacing: 0.5px;
     width: 100%;
-    text-align: center;
   }
 }
 

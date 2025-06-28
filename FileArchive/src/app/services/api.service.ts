@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = 'https://filearchive.grandmutiara.my.id/api';
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   getHomeStatus(): Observable<any> {
@@ -124,7 +125,8 @@ export class ApiService {
   }
 }
 
-export const BASE_IMAGE_URL = 'https://filearchive.grandmutiara.my.id/images/profiles/';
+export const BASE_IMAGE_URL =
+  'https://filearchive.grandmutiara.my.id/images/profiles/';
 
 export interface User {
   user_id: number;
